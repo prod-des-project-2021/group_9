@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import React from 'react'
 import Home from './components/pages/Home'
 import Recipes from './components/pages/Recipes'
+import Navbar from './components/Navbar';
 
 function App() {
 
@@ -10,6 +11,8 @@ function App() {
     }
     return (
         <Router>
+
+            <Navbar />
             {/* simple navbar for multiple pages for now... */}
             <div>
                 <Link style={padding} to="/">home</Link>
