@@ -2,11 +2,11 @@
 
 
 pipeline {
-    node {
 
-        agent none
+    agent none
 
-        stages {
+    stages {
+        node("myAgent") {
             stage('Build frontend') {
                 steps {
                     echo 'Building frontend...'
@@ -15,6 +15,8 @@ pipeline {
                     sh 'npm run buildnmove'
                 }
             }
+        }
+        node("myAgent") {
             stage('Build backend') {
                 steps {
                     echo 'Building backend...'
@@ -22,6 +24,8 @@ pipeline {
                     sh 'npm install'
                 }
             }
+        }
+        node("myAgent") {
             stage('Run express') {
                 steps {
                     echo 'Running server...'
