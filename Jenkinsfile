@@ -27,7 +27,7 @@ pipeline {
         stage('Run express') {
             steps {
                 echo 'Running server...'
-                sh 'cd ./backend && npm deploy'
+                sh 'cd ./backend && npm run deploy'
             }
         }
     }
