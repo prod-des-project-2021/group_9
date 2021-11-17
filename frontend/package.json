@@ -16,6 +16,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -38,3 +39,4 @@
     },
     "homepage": "."
 }
+
