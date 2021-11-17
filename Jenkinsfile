@@ -6,8 +6,8 @@ pipeline {
     agent none
 
     stages {
-        node("myAgent") {
-            stage('Build frontend') {
+        stage('Build frontend') {
+            node("myAgent") {
                 steps {
                     echo 'Building frontend...'
                     sh 'cd ./frontend'
@@ -16,8 +16,8 @@ pipeline {
                 }
             }
         }
-        node("myAgent") {
-            stage('Build backend') {
+        stage('Build backend') {
+            node("myAgent") {
                 steps {
                     echo 'Building backend...'
                     sh 'cd ../backend'
@@ -25,8 +25,8 @@ pipeline {
                 }
             }
         }
-        node("myAgent") {
-            stage('Run express') {
+        stage('Run express') {
+            node("myAgent") {
                 steps {
                     echo 'Running server...'
                     sh 'npm start'
