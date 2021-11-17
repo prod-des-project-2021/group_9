@@ -1,7 +1,8 @@
 #!/usr/bin/env groovy
 
-node {
-    pipeline {
+
+pipeline {
+    node {
 
         agent none
 
@@ -30,3 +31,4 @@ node {
         }
     }
 }
+
