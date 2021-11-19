@@ -3,11 +3,12 @@ const logger = require('./utils/logger')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
-
+const cloudinary = require('cloudinary').v2
 const recipesRouter = require('./controllers/recipes')
 // const usersRouter = require('./controllers/users')
-
 const mongoose = require('mongoose')
+
+cloudinary.config(config.cloudinaryConfig)
 
 mongoose.connect(config.MONGODB_URI)
     .then(() => {
