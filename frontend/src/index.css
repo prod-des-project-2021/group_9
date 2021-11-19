@@ -1,6 +1,4 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Mali:wght@200;300;400&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,3 +17,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }*/
+
+.card{
+    width: 100%;
+    height: 200px;
+    background: #D1D1D1;
+    color:  #fff;
+    font-size: 30px;
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
