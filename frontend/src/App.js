@@ -16,8 +16,6 @@ function App() {
     return (
         <Router>         
             <Navbar />
-                &nbsp; 
-                <Slideshow />
                     <Routes>
                         <Route exact path="/" element={<Home />} />
                         <Route exact path="/recipes" element={<Recipes />} />
