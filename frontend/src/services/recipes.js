@@ -1,5 +1,7 @@
 import axios from 'axios';
-const baseUrl = '/api/recipes';
+require("dotenv").config();
+
+const baseUrl = `${process.env.REACT_APP_PROXY}/api/recipes`;
 
 const getAll = () => {
     const request = axios.get(baseUrl);
