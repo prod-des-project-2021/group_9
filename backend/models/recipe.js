@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const recipeSchema = new mongoose.Schema({
     name: String,
-    ownerdId: String,
+    user: String,
     ratings: [],
     ingredients: [],
 
@@ -13,7 +13,6 @@ recipeSchema.set('toJSON', {
         res.id = res._id.toString()
         delete res._id
         delete res.__v
-        delete res.createdAt
         delete res.updatedAt
     }
 })
