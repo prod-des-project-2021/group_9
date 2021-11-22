@@ -1,166 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import recipeService from './../../services/recipes';
 
 const MyRecipes = () => {
-    const recipes = [
-        {   
-            id: 0,
-            name: "Spaghetti Bolognese",
-            ingredients: [
-                {
-                    id: 0,
-                    text: "olive oil",
-                    amount: "1",
-                    unit: "tbsp"
-                },
-                {
-                    id: 1,
-                    text: "smoked streaky bacon, finely chopped",
-                    amount: "4",
-                    unit: "rashers"
-                },
-                {
-                    id: 2,
-                    text: "medium onions, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 3,
-                    text: "carrots, trimmer and finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 4,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 5,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 6,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 7,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 8,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 9,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-                {
-                    id: 10,
-                    text: "celery sticks, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-            ]
-        },
-        {   
-            id: 1,
-            name: "Fried Chicken And Ketchup",
-            ingredients: [
-                {
-                    id: 0,
-                    text: "chicken",
-                    amount: "1",
-                    unit: ""
-                },
-                {
-                    id: 1,
-                    text: "ketchup",
-                    amount: "some",
-                    unit: ""
-                },
-            ]
-        },
-        {   
-            id: 2,
-            name: "Fried Chicken And Ketchup (again)",
-            ingredients: [
-                {
-                    id: 0,
-                    text: "chicken",
-                    amount: "1",
-                    unit: ""
-                },
-                {
-                    id: 1,
-                    text: "ketchup",
-                    amount: "some",
-                    unit: ""
-                },
-            ]
-        },
-        {   
-            id: 3,
-            name: "Potatoes, Ketchup And Onions",
-            ingredients: [
-                {
-                    id: 0,
-                    text: "potatoes",
-                    amount: "3",
-                    unit: ""
-                },
-                {
-                    id: 1,
-                    text: "ketchup",
-                    amount: "some",
-                    unit: ""
-                },
-                {
-                    id: 2,
-                    text: "medium onions, finely chopped",
-                    amount: "2",
-                    unit: ""
-                },
-            ]
-        }
-    ]
-
+    const [recipes, setRecipes] = useState(null);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [mode, setMode] = useState(0);
 
     const selectRecipeHandler = (recipe) => () => {
         setSelectedRecipe(recipe);
     }
 
+    const selectModeHandler = (mode) => () => {
+        setMode(mode);
+    }
+
+    useEffect(() =>
+    {
+        recipeService
+        .getAll()
+        .then(initialRecipes =>
+        {
+            //console.log(initialRecipes);
+            setRecipes(initialRecipes);
+        });
+    }, []);
+
     return (
         <div className="bg-yellow-100 font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
-                <Mode text="My Recipes" />
-                <Mode text="Favorites" />
-                <Mode text="Categories" />
+                <Mode text="My Recipes" clickHandler={selectModeHandler(0)} />
+                <Mode text="Favorites" clickHandler={selectModeHandler(1)} />
+                <Mode text="Categories" clickHandler={selectModeHandler(2)} />
             </div>
 
             <div className="lg:flex py-3 mx-4 space-x-4">
-                <RecipeList recipes={recipes} clickHandler={selectRecipeHandler}/>
+                <RecipeList recipes={recipes} clickHandler={selectRecipeHandler} />
                 <RecipeInfo recipe={selectedRecipe} />
             </div>
         </div>
     );
 };
 
-const Mode = ({text}) => {
+const Mode = ({text, clickHandler}) => {
     return(
-        <button className="hover:bg-yellow-50 w-full h-16">
+        <button
+        onClick={clickHandler}
+        className="hover:bg-yellow-50 w-full h-16">
             {text}
         </button>
     );
@@ -168,7 +53,9 @@ const Mode = ({text}) => {
 
 const RecipeList = ({recipes, clickHandler}) => {
     return(
-        <div className="w-full lg:w-1/4 space-y-2">
+        recipes === null
+        ? null
+        : <div className="w-full lg:w-1/4 space-y-2">
             {recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} clickHandler={clickHandler(recipe)} />)}
         </div>
     );
@@ -203,17 +90,20 @@ const RecipeInfo = ({recipe}) => {
 
 const IngredientList = ({recipe}) => {
     return(
-        <ul className="mx-6 mb-12 shadow-t-md">
-            {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} text={ingredient.text} amount={ingredient.amount} unit={ingredient.unit} />)}
-        </ul>
+        <table className="table-auto w-full mx-6 mb-12 shadow-t-md">
+            <tbody className="divide-y">
+                {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
+            </tbody>
+        </table>
     );
 }
 
-const Ingredient = ({text, amount, unit}) => {
+const Ingredient = ({ingredient}) => {
     return(
-        <li>
-            {amount} {unit} {text}
-        </li>
+        <tr>
+            <td className="w-24 py-2">{ingredient.amount} {ingredient.unit}</td>
+            <td className="py-2">{ingredient.name}</td>
+        </tr>
     );
 } 
 
