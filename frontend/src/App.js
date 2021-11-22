@@ -5,6 +5,7 @@ import Recipes from './components/pages/Recipes'
 import LogIn from './components/pages/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
+import Slideshow from './components/Slideshow';
 
 function App() {
 
@@ -13,14 +14,14 @@ function App() {
     }
     
     return (
-        <Router>
+        <Router>         
             <Navbar />
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route exact path="/recipes" element={<Recipes />} />
-                    <Route exact path="/login" element={<LogIn />} />
-                    <Route exact path="/myrecipes" element={<MyRecipes />} />
-                </Routes>
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/recipes" element={<Recipes />} />
+                        <Route exact path="/login" element={<LogIn />} />
+                        <Route exact path="/myrecipes" element={<MyRecipes />} />
+                    </Routes>
         </Router>
     )
 }
