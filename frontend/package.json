@@ -3,19 +3,24 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@craco/craco": "^6.4.0",
+        "@headlessui/react": "^1.4.2",
         "@testing-library/jest-dom": "^5.15.0",
         "@testing-library/react": "^11.2.7",
         "@testing-library/user-event": "^12.8.3",
+        "axios": "^0.24.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "react-elastic-carousel": "^0.11.5",
         "react-router-dom": "^6.0.2",
         "react-scripts": "4.0.3",
+        "styled-components": "^5.3.3",
         "web-vitals": "^1.1.2"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test",
         "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
@@ -37,6 +42,11 @@
             "last 1 safari version"
         ]
     },
-    "homepage": "."
+    "homepage": ".",
+    "devDependencies": {
+        "autoprefixer": "^9.8.8",
+        "postcss": "^7.0.39",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
+    }
 }
 
