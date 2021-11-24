@@ -4,6 +4,8 @@ import Slideshow from '../Slideshow';
 
 import Parallax from '../Parallax';
 
+import RecipeGrid from '../RecipeGrid';
+
 
 const Home = () => {
     return (
@@ -15,6 +17,7 @@ const Home = () => {
 
             <section className="p-40">
                 <p>Tänne reseptisisältöä</p>
+                <RecipeGrid />
             </section>
         </div>
 
