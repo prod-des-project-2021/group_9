@@ -1,51 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'tailwind-react-ui'
 import recipeService from '../services/recipes';
 
 export const RecipeGrid = ({ text }) => {
-    const [recipes, setRecipes] = useState(null);
-    const [columnList, setColumnList] = useState({columns:[ [],[],[] ]});
+    const [columnList, setColumnList] = useState({ columns: [] });
 
-    useEffect(() =>
-    {
+    const [columnNumber, setColumnNumber] = useState(4);
+    useEffect(() => {
         recipeService
-        .getAll()
-        .then(initialRecipes =>
-        {
-            let copy = {columns:[ [],[],[] ]};
+            .getAll()
+            .then(initialRecipes => {
+                let copy = { columns: [] };
 
-            for (let i = 0; i < initialRecipes.length; i++) {
+                for (let i = 0; i < columnNumber; i++) {
+                    copy.columns.push({id: i, recipes: [], currentHeight: 0});
+                }
 
-                copy.columns[i % 3].push(initialRecipes[i]);
-            }
-            console.log(copy);
-            setColumnList(copy);
-        });
+                for (let i = 0; i < initialRecipes.length; i++) {
+
+                    copy.columns[i % columnNumber].recipes.push(initialRecipes[i]);
+                }
+                
+                console.log(copy.columns[0]);
+                setColumnList(copy);
+            });
     }, []);
 
-    const RecipeListing = ({text, clickHandler}) => {
-        return(
-                <button
-                onClick={clickHandler}
-                className="bg-gray-50 hover:bg-yellow-200 p-6 border-gray-400 shadow-md w-full rounded-xl">
-                    {text}
-                </button>
-        );
-    }
-
     return (
-        <div className="flex space-x-4">
-                <div className="w-1/3 space-y-5">
-                        {columnList.columns[0] === null ? null : columnList.columns[0].map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
-                </div>
-                <div className="w-1/3 space-y-5">
-                        {columnList.columns[1] === null ? null : columnList.columns[1].map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
-                </div>
-                <div className="w-1/3 space-y-5">
-                        {columnList.columns[2] === null ? null : columnList.columns[2].map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
-                </div>
+        <div className="flex space-x-4 px-6">
+            {columnList.columns === null ? null : columnList.columns.map(column => <Column key={column.id} recipes={column.recipes} />)}     
         </div>
     );
+}
+
+const RecipeListing = ({ text, clickHandler }) => {
+    return (
+        <button
+            onClick={clickHandler}
+            className="bg-gray-50 hover:bg-yellow-200 p-6 border-gray-400 shadow-md w-full rounded-xl">
+            {text}
+        </button>
+    );
+}
+
+const Column = ({ recipes }) => {
+    return (
+        <div className="w-1/3 space-y-5">
+            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
+        </div>
+    )
 }
 
 export default RecipeGrid;
