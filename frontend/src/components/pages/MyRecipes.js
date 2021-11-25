@@ -2,119 +2,118 @@ import React, { useState, useEffect } from 'react';
 import recipeService from './../../services/recipes';
 
 const MyRecipes = () => {
-    const [recipes, setRecipes] = useState(null);
+    const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
-    const [mode, setMode] = useState("ingredients");
     const [filter, setFilter] = useState("myRecipes");
-    const [columnList, setColumnList] = useState({columns: []});
 
-    const addRecipeToColumn = (i, recipe) => {
-        const copy = columnList;
-        copy.columns[i].push(recipe);
-
-        setColumnList(copy);
-    }
-
-    const selectRecipeHandler = (recipe) => () => {
-        setSelectedRecipe(recipe);
-        setMode("ingredients");
-    }
-
-    const deleteRecipeHandler = (recipe) => () => {
-        recipeService
-        .deleteRecipe(recipe.id)
-        .then(initialRecipes => {
-            const copy = recipes.filter(r => r.id !== recipe.id);
-            setRecipes(copy);
-
-            setSelectedRecipe(null);
-        });
-    }
-
-    const selectModeHandler = (mode) => () => {
-        setMode(mode);
-    }
-
-    const selectFilterHandler = (filter) => () => {
-        setFilter(filter);
-    }
-
+    // Use recipes.js service to fetch recipes from the database.
+    // Currently every recipe is returned from the database, only recipes of the current user should be returned in the future...
     useEffect(() => {
         recipeService
         .getAll()
         .then(initialRecipes => {
-            //console.log(initialRecipes);
             setRecipes(initialRecipes);
         });
     }, []);
 
+    // Use recipes.js service to delete the given recipe from the database.
+    const deleteRecipeHandler = (recipe) => () => {
+        recipeService
+        .deleteRecipe(recipe.id)
+        .then(initialRecipes => { // If deleteion was successful, then update the local list of recipes.
+            const copy = recipes.filter(r => r.id !== recipe.id); // Filter out the recipe which was deleted.
+            setRecipes(copy);
+
+            setSelectedRecipe(null); // Set selection to null, so the current recipe (which was deleted) isn't selected anymore.
+        });
+    }
+
+    // This function is called when one of the buttons (RecipeButton) on the left side of the screen is pressed.
+    const selectRecipeHandler = (recipe) => () => {
+        setSelectedRecipe(recipe); // The given recipe is now selected.
+    }
+
+    // This functions is called when on the filter buttons is pressed.
+    // WIP (doesn't do anything, since all of the recipes are currently fetched form the database).
+    const selectFilterHandler = (filter) => () => {
+        setFilter(filter);
+    }
+
     return (
         <div className="bg-yellow-100 font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
-                <Mode text="My Recipes" clickHandler={selectFilterHandler("myRecipes")} />
-                <Mode text="Favorites" clickHandler={selectFilterHandler("favorites")} />
-                <Mode text="Categories" clickHandler={selectFilterHandler("categories")} />
+                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler("myRecipes")} />
+                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler("favorites")} />
+                <FilterButton text="Categories" selectFilterHandler={selectFilterHandler("categories")} />
             </div>
 
             <div className="lg:flex py-3 mx-4 space-x-4">
-                <RecipeList recipes={recipes} clickHandler={selectRecipeHandler} />
+                <RecipeList recipes={recipes} selectRecipeHandler={selectRecipeHandler} />
                 <div className="w-3/4">
-                    <RecipeInfo recipe={selectedRecipe} mode={mode} clickHandler={selectModeHandler} deleteHandler={deleteRecipeHandler} />
+                    <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div>
         </div>
     );
 };
 
-const Mode = ({text, clickHandler}) => {
+// A button used to select the filter.
+const FilterButton = ({text, selectFilterHandler}) => {
     return(
         <button
-        onClick={clickHandler}
+        onClick={selectFilterHandler}
         className="hover:bg-yellow-50 w-full h-16">
             {text}
         </button>
     );
 }
 
-const RecipeList = ({recipes, clickHandler, deleteHandler}) => {
+// Shows a list of all the given recipes
+const RecipeList = ({recipes, selectRecipeHandler}) => {
     return(
         recipes === null
         ? null
         : <div className="w-full lg:w-1/4 space-y-2">
-            {recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} clickHandler={clickHandler(recipe)} />)}
+            {recipes.map(recipe => <RecipeButton key={recipe.id} text={recipe.name} selectRecipeHandler={selectRecipeHandler(recipe)} />)}
         </div>
     );
 }
 
-const RecipeListing = ({text, clickHandler}) => {
+// A single button representing the givne recipe.
+const RecipeButton = ({text, selectRecipeHandler}) => {
     return(
         <button
-        onClick={clickHandler}
+        onClick={selectRecipeHandler} // Call selectRecipeHandler when clicked.
         className="bg-gray-50 hover:bg-yellow-200 p-6 shadow-md w-full text-left">
             {text}
         </button>
     );
 }
 
-const RecipeInfo = ({recipe, mode, clickHandler, deleteHandler}) => {
-    if(recipe !== null) {
+// A big box on the right side of the screen.
+// The name, Ingredints and instuctions of the given recipe are shown.
+const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
+    if(recipe === null) { // If the given recipe is null, then show a placeholder box.
         return(
-            <div className="relative bg-gray-50 w-full p-12 pb-24 shadow-md">
+            <div className="bg-gray-50 w-full p-8 shadow-md">
+                NOTHING
+            </div>
+        );
+    }
+    else { // if the given recipe is NOT null, then show it's info.
+        return(
+            <div className="sticky top-0 bg-gray-50 w-full p-12 pb-24 shadow-md field">
+                
+                {/* The DELETE button. */}
                 <button
-                onClick={deleteHandler(recipe)}
+                onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
                 className="absolute top-4 right-4 bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
                     DELETE
                 </button>
 
-                <div>
-                    <h1>{recipe.name}</h1>
-                </div>
+                <h1>{recipe.name}</h1>
 
-                <div className="flex mx-6 mb-4 space-x-1">
-                    <ModeButton text="Ingredients" clickHandler={clickHandler("ingredients")} isSelected={mode === "ingredients"} />
-                    <ModeButton text="Instructions" clickHandler={clickHandler("instructions")} isSelected={mode === "instructions"} />
-                </div>
-
+                {/* Show ingredients and instructions side by side (for now). */}
                 <div className="lg:flex">
                     <IngredientList recipe={recipe} />
                     <Instructions recipe={recipe} />
@@ -122,25 +121,24 @@ const RecipeInfo = ({recipe, mode, clickHandler, deleteHandler}) => {
             </div>
         );
     }
-    else {
-        return(
-            <div className="bg-gray-50 w-full p-8 shadow-md">
-                NOTHING
-            </div>
-        );
-    }
 }
 
+// Ingredients of the given recipe are listed.
 const IngredientList = ({recipe}) => {
     return(
-        <table className="table-auto w-1/2 mx-6 shadow-t-md">
-            <tbody className="divide-y">
-                {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
-            </tbody>
-        </table>
+        <div className="w-1/2 mx-6 shadow-t-md">
+            <ModeButton text="Ingredients" />
+            <table className="table-auto"> {/* Table and tbody are used to display a nice looking list */}
+                <tbody className="divide-y">
+                    {/* Map function is used to display a list of ingredients. */}
+                    {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
+                </tbody>
+            </table>
+        </div>
     );
 }
 
+// A single ingredient. Consists of amount, unit and the name of the ingredient.
 const Ingredient = ({ingredient}) => {
     return(
         <tr>
@@ -150,36 +148,32 @@ const Ingredient = ({ingredient}) => {
     );
 } 
 
+// Instructions of the given recipe are listed.
+// WIP (recipes don't have instructions yet).
 const Instructions = ({recipe}) => {
     return(
-        <table className="table-auto w-1/2 mx-6 shadow-t-md">
-            <tbody className="divide-y">
-                {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
-            </tbody>
-        </table>
+        <div className="table-auto w-1/2 mx-6 shadow-t-md">
+            <ModeButton text="Instructions" />
+            <div>STEP 1</div>
+            <div>asdasdasdasd</div>
+            <div>STEP 2</div>
+            <div>asdasdasdasd</div>
+            <div>STEP 3</div>
+            <div>asdasdasdasd</div>
+        </div>
     );
 }
 
-const ModeButton = ({text, clickHandler, isSelected}) => {
+// This button is used to display ingredients/instructions on the RecipeInfo box.
+// WIP (currently both are visible side by side, only one should be visible at a time).
+const ModeButton = ({text}) => {
     
-    if(isSelected) {
-        return(
-            <button
-            onClick={clickHandler}
-            className="bg-yellow-200 rounded-t-xl px-4 text-black">
-                {text}
-            </button>
-        );
-    }
-    else {
-        return(
-            <button
-            onClick={clickHandler}
-            className="bg-gray-400 rounded-t-xl px-4 text-white">
-                {text}
-            </button>
-        );
-    }
+    return(
+        <button
+        className="bg-yellow-200 rounded-t-xl px-4 text-black">
+            {text}
+        </button>
+    );
 }
 
 export default MyRecipes;
