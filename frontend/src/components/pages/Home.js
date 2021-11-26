@@ -1,4 +1,6 @@
 import React from 'react';
+import ImageUpload from '../ImageUpload'
+
 
 import Slideshow from '../Slideshow';
 
@@ -13,9 +15,8 @@ const Home = () => {
             <Slideshow />
             <Parallax text={"Welcome to ReseptiApp"} />
             <RecipeGrid/>
-            
+            <ImageUpload/>
         </div>
-
     );
 };
 

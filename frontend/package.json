@@ -21,6 +21,7 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
+        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -48,3 +49,4 @@
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
     }
 }
+
