@@ -13,6 +13,7 @@ const Home = () => {
             <Slideshow />
             <Parallax text={"Welcome to ReseptiApp"} />
             <RecipeGrid/>
+            
         </div>
 
     );
