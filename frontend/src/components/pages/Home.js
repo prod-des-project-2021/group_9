@@ -6,26 +6,17 @@ import Slideshow from '../Slideshow';
 
 import Parallax from '../Parallax';
 
+import RecipeGrid from '../RecipeGrid';
+
 
 const Home = () => {
     return (
-        <div>
-
-            <br />
-            
+        <div>          
             <Slideshow />
             <Parallax text={"Welcome to ReseptiApp"} />
-
-            <section className="p-40">
-                <p>Tänne reseptisisältöä</p>
-            </section>
-
-            <h1>Hello World</h1>
-            <p>This is the beginning of our ReseptiApp, let's goooooo 8)</p>
+            <RecipeGrid/>
             <ImageUpload/>
-
         </div>
-
     );
 };
 
