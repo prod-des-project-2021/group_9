@@ -47,9 +47,9 @@ const MyRecipes = () => {
                 <FilterButton text="Categories" selectFilterHandler={selectFilterHandler("categories")} />
             </div>
 
-            <div className="lg:flex py-3 mx-4 space-x-4">
+            <div className="md:flex py-3 mx-4 md:space-x-4">
                 <RecipeList recipes={recipes} selectRecipeHandler={selectRecipeHandler} />
-                <div className="w-3/4">
+                <div className="w-full md:w-3/4">
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div>
@@ -73,10 +73,18 @@ const RecipeList = ({recipes, selectRecipeHandler}) => {
     return(
         recipes === null
         ? null
-        : <div className="w-full lg:w-1/4 space-y-2">
+        : <div className="w-full md:w-1/4 space-y-2">
             {recipes.map(recipe => <RecipeButton key={recipe.id} text={recipe.name} selectRecipeHandler={selectRecipeHandler(recipe)} />)}
         </div>
-    );
+    ); 
+
+    /* return(
+        <div className="w-full md:w-1/3">
+            <div className="grid items-start grid-cols-2 gap-2">
+                {recipes.map(recipe => <RecipeButton key={recipe.id} text={recipe.name} selectRecipeHandler={selectRecipeHandler(recipe)} />)}
+            </div>
+        </div>
+    ); */
 }
 
 // A single button representing the givne recipe.
@@ -100,21 +108,23 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
             </div>
         );
     }
-    else { // if the given recipe is NOT null, then show it's info.
+    else { // if the given recipe is NOT null, then show its info.
         return(
-            <div className="sticky top-0 bg-gray-50 w-full p-12 pb-24 shadow-md field">
+            <div className="relative bg-gray-50 w-full p-12 pb-24 shadow-md field">
                 
                 {/* The DELETE button. */}
-                <button
-                onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                className="absolute top-4 right-4 bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
-                    DELETE
-                </button>
+                <div className="flex absolute md:top-4 right-4 space-x-2">
+                    <button
+                    onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                    className="bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
+                        DELETE
+                    </button>
+                </div>
 
                 <h1>{recipe.name}</h1>
 
                 {/* Show ingredients and instructions side by side (for now). */}
-                <div className="lg:flex">
+                <div className="md:flex md:mx-6 space-y-6 md:space-x-6 md:space-y-0">
                     <IngredientList recipe={recipe} />
                     <Instructions recipe={recipe} />
                 </div>
@@ -126,11 +136,10 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
 // Ingredients of the given recipe are listed.
 const IngredientList = ({recipe}) => {
     return(
-        <div className="w-1/2 mx-6 shadow-t-md">
+        <div className="md:w-1/2 shadow-t-md">
             <ModeButton text="Ingredients" />
-            <table className="table-auto"> {/* Table and tbody are used to display a nice looking list */}
+            <table className="table-auto w-full">
                 <tbody className="divide-y">
-                    {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
                 </tbody>
             </table>
@@ -141,9 +150,9 @@ const IngredientList = ({recipe}) => {
 // A single ingredient. Consists of amount, unit and the name of the ingredient.
 const Ingredient = ({ingredient}) => {
     return(
-        <tr>
-            <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
-            <td className="p-2">{ingredient.name}</td>
+        <tr className="w-full">
+            <td className="w-1/5 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
+            <td className="w-4/5 p-2">{ingredient.name}</td>
         </tr>
     );
 } 
@@ -152,14 +161,14 @@ const Ingredient = ({ingredient}) => {
 // WIP (recipes don't have instructions yet).
 const Instructions = ({recipe}) => {
     return(
-        <div className="table-auto w-1/2 mx-6 shadow-t-md">
+        <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
-            <div>STEP 1</div>
-            <div>asdasdasdasd</div>
-            <div>STEP 2</div>
-            <div>asdasdasdasd</div>
-            <div>STEP 3</div>
-            <div>asdasdasdasd</div>
+            <ul className="list-disc m-4 space-y-2">
+                <li>asdasdasdasd</li>
+                <li>asdasdasdasd</li>
+                <li>asdasdasdasd</li>
+                <li>asdasdasdasd</li>
+            </ul>
         </div>
     );
 }
