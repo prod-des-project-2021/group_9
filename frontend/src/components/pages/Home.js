@@ -1,10 +1,8 @@
 import React from 'react';
 import ImageUpload from '../ImageUpload'
-
-
 import Slideshow from '../Slideshow';
-
 import Parallax from '../Parallax';
+import RecipeGrid from '../RecipeGrid';
 
 import RecipeGrid from '../RecipeGrid';
 
