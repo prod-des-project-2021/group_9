@@ -21,7 +21,6 @@ export const Footer = () => {
                             className="hover:bg-nav-dark text-white sm:px-3 sm:py-1 rounded-md text-sm sm:text-lg" >
                             Privacy policy</NavLink>
                     </div>
-                    
                 </div>
                 <div className="flex pt-3 justify-center">
                     <p>2021, Team 9, OUAS</p>
