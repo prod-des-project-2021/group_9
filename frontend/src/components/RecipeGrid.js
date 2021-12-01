@@ -4,33 +4,116 @@ import recipeService from '../services/recipes';
 export const RecipeGrid = ({ text }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
 
-    const [columnNumber, setColumnNumber] = useState(4);
+    const [columnNumber, setColumnNumber] = useState(1);
+
+    const [screenDimensions, setScreenDimensions] = useState(getWindowDimensions());
+    
+    //const [allRecipes, setAllRecipes] = useState(null); 
+    let allRecipes = null;
+
     useEffect(() => {
         recipeService
             .getAll()
             .then(initialRecipes => {
-                let copy = { columns: [] };
-
-                for (let i = 0; i < columnNumber; i++) {
-                    copy.columns.push({id: i, recipes: [], currentHeight: 0});
-                }
-
-                for (let i = 0; i < initialRecipes.length; i++) {
-
-                    copy.columns[i % columnNumber].recipes.push(initialRecipes[i]);
-                }
-                
-                console.log(copy.columns[0]);
-                setColumnList(copy);
+                //setAllRecipes(initialRecipes);
+                allRecipes = initialRecipes;
+                handleResize();
             });
     }, []);
 
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const populateColumns = (recipes) => {
+        console.log(recipes);
+
+        let copy = { columns: [] };
+
+        for (let i = 0; i < columnNumber; i++) {
+            copy.columns.push({ id: i, recipes: [], currentHeight: 0 });
+        }
+
+        if (recipes !== null) {
+            for (let i = 0; i < recipes.length; i++) {
+                copy.columns[i % columnNumber].recipes.push(recipes[i]);
+            }
+
+        } else {
+            for (let i = 0; i < columnNumber; i++) {
+                copy.columns[i].recipes.push({name: "testi"});
+            }
+        }
+        
+
+        setColumnList(copy);
+    }
+
+    function handleResize() {
+        const width = getWindowDimensions().width;
+        setScreenDimensions(getWindowDimensions());
+        
+        switch (true) {
+            case (width <= 640):
+                console.log("sm");
+                setColumnNumber(2);
+                break;
+    
+            case (width <= 768):
+                console.log("md");
+                setColumnNumber(3);
+                break;
+    
+            case (width <= 1024):
+                console.log("lg");
+                setColumnNumber(3);
+                break;
+    
+            case (width <= 1280):
+                console.log("xl");
+                setColumnNumber(4);
+                break;
+    
+            case (width <= 1536):
+                console.log("2xl");
+                setColumnNumber(4);
+                break;
+        }
+        console.log(columnNumber)
+        populateColumns(allRecipes);
+    }
+    
     return (
         <div className="flex space-x-4 px-6">
-            {columnList.columns === null ? null : columnList.columns.map(column => <Column key={column.id} recipes={column.recipes} />)}     
+            {columnList.columns === null ? null : columnList.columns.map(column => <Column key={column.id} recipes={column.recipes} />)}
         </div>
     );
 }
+
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height
+    };
+}
+
+/* export default function useWindowDimensions() {
+
+    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return windowDimensions;
+} */
 
 const RecipeListing = ({ text, clickHandler }) => {
     return (
