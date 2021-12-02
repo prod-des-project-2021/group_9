@@ -2,10 +2,10 @@ import axios from 'axios';
 require("dotenv").config();
 
 // url not final...
-const baseUrl = `${process.env.REACT_APP_PROXY}/api/auth/`;
+const baseUrl = `${process.env.REACT_APP_PROXY}/api/users`;
 
 const register = (username, email, password) => {
-    return axios.post(baseUrl + 'signup', {
+    return axios.post(baseUrl, {
         username,
         email,
         password,
@@ -13,7 +13,7 @@ const register = (username, email, password) => {
 }
 
 const login = (username, password) => {
-    return axios.post(baseUrl + 'login', {
+    return axios.post(baseUrl + '/login', {
         username,
         password,
     })
