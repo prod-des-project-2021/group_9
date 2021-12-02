@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 const LogIn = () => {
     const [register, setRegister] = useState(false);
 
-    const switchFormHandler = (value) => () => {
-        setRegister(value);
+    const switchFormHandler = () => {
+        setRegister(!register);
     }
 
     return (
@@ -14,24 +14,24 @@ const LogIn = () => {
                     <button className="absolute top-2 right-2 bg-gray-50 rounded-full w-6">.</button>
 
                     {!register
-                    ? <LoginForm switchFormHandler={switchFormHandler(true)} />
-                    : <RegisterForm switchFormHandler={switchFormHandler(false)} />
+                        ? <LoginForm switchFormHandler={switchFormHandler} />
+                        : <RegisterForm switchFormHandler={switchFormHandler} />
                     }
-                    
+
                 </div>
             </div>
         </div>
     );
 }
 
-const LoginForm = ({switchFormHandler}) => {
-    return(
+const LoginForm = ({ switchFormHandler }) => {
+    return (
         <div>
             <div className="px-6 pt-4">
                 <h1>Login</h1>
             </div>
 
-            <hr className="border-0 bg-yellow-400 h-px mb-4"/>
+            <hr className="border-0 bg-yellow-400 h-px mb-4" />
 
             <div className="flex-row justify-center space-y-2 px-6">
                 <form className="flex-row justify-center space-y-2">
@@ -41,8 +41,8 @@ const LoginForm = ({switchFormHandler}) => {
                 </form>
 
                 <button
-                onClick={switchFormHandler}
-                className="bg-gray-50 hover:bg-yellow-200 rounded-xl p-2 w-full text-center shadow-md">
+                    onClick={switchFormHandler}
+                    className="bg-gray-50 hover:bg-yellow-200 rounded-xl p-2 w-full text-center shadow-md">
                     Register
                 </button>
             </div>
@@ -50,14 +50,14 @@ const LoginForm = ({switchFormHandler}) => {
     );
 }
 
-const RegisterForm = ({switchFormHandler}) => {
-    return(
+const RegisterForm = ({ switchFormHandler }) => {
+    return (
         <div>
             <div className="px-6 pt-4">
                 <h1>Register</h1>
             </div>
 
-            <hr className="border-0 bg-yellow-400 h-px mb-4"/>
+            <hr className="border-0 bg-yellow-400 h-px mb-4" />
 
             <div className="flex-row justify-center space-y-2 px-6">
                 <form className="flex-row justify-center space-y-2">
@@ -69,8 +69,8 @@ const RegisterForm = ({switchFormHandler}) => {
                 </form>
 
                 <button
-                onClick={switchFormHandler}
-                className="bg-gray-50 hover:bg-yellow-200 rounded-xl p-2 w-full text-center shadow-md">
+                    onClick={switchFormHandler}
+                    className="bg-gray-50 hover:bg-yellow-200 rounded-xl p-2 w-full text-center shadow-md">
                     Login
                 </button>
             </div>
@@ -78,8 +78,8 @@ const RegisterForm = ({switchFormHandler}) => {
     );
 }
 
-const Input = ({type, placeholder}) => {
-    return(
+const Input = ({ type, placeholder }) => {
+    return (
         <input
             type={type}
             placeholder={placeholder}
