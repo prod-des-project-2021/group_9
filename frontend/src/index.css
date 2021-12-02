@@ -11,6 +11,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-img {
+  background-image: url('components/img/parallax/spaghetti.jpg');
+  max-height: 720px;
+}
+
 /*body {
 body {
   margin: 0;

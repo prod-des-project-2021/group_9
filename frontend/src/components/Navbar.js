@@ -37,11 +37,13 @@ export const Nav = () => {
                   >
                     Log in
                   </NavLink>
+                  <NavLink
+                    to="/myrecipes"
+                    className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                  >
+                    My Recipes
+                  </NavLink>
                 </div>
-              </div>
-
-              <div>
-
               </div>
             </div>
 

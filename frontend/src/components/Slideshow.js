@@ -13,7 +13,7 @@ export function Slideshow() {
     ];
 
     return(
-        <div className="App">
+        <div className="App px-4 py-4">
             <Carousel breakPoints={breakPoints}>
                 <Card number = ""/>
                 <Card number = ""/>
