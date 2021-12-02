@@ -7,7 +7,7 @@ import {
     SET_MESSAGE,
 } from './types'
 
-import AuthService from '../../auth'
+import AuthService from '../../services/auth'
 
 export const register = (username, email, password) => (dispatch) => {
     return AuthService.register(username, email, password).then(
