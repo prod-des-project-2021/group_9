@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Transition } from "@headlessui/react";
 import logo from './img/reseptiapp.png';
 
-export const Nav = ({ handleLogout, isLoggedIn }) => {
+export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <div>
@@ -46,11 +46,21 @@ export const Nav = ({ handleLogout, isLoggedIn }) => {
                                 </div>
                             </div>
                         </div>
-                        <div hidden={!isLoggedIn}>
-                            <button onClick={handleLogout}>
-                                LOGOUT
-                            </button>
-                        </div>
+                        {isLoggedIn ?
+                            (
+                                <div>
+                                    <button onClick={handleLogout}>
+                                        LOGOUT
+                                    </button>
+                                </div>
+                            ) :
+                            (
+                                <div>
+                                    <button onClick={mountLogin}>
+                                        LOGIN
+                                    </button>
+                                </div>
+                            )}
 
                         {/* Compact navigation */}
                         <div className="-mr-2 flex md:hidden">
