@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import React from 'react'
+import React, { useState } from 'react'
 import Home from './components/pages/Home'
 import Recipes from './components/pages/Recipes'
 import LogIn from './components/LogIn'
@@ -13,18 +13,25 @@ import { logout } from './redux/actions/auth'
 
 function App() {
 
-    const { isLoggedIn, user } = useSelector(state => state.auth)
+    const { isLoggedIn } = useSelector(state => state.auth)
     const dispatch = useDispatch()
+    const [renderLogin, setRenderLogin] = useState(false)
 
     const handleLogout = () => {
+        handleRemoveWindow()
         dispatch(logout())
+    }
+    const handleRemoveWindow = () => {
+        setRenderLogin(false)
+    }
+    const handleAddWindow = () => {
+        setRenderLogin(true)
     }
 
     return (
         <Router>
-            {!isLoggedIn && <LogIn />}
-            {console.log(user)}
-            <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} />
+            {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
+            <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/recipes" element={<Recipes />} />
