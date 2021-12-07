@@ -22,7 +22,7 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
+        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && CI=false npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
