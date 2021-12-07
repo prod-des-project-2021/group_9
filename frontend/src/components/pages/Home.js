@@ -2,11 +2,19 @@ import React from 'react';
 import ImageUpload from '../ImageUpload'
 
 
+import Slideshow from '../Slideshow';
+
+import Parallax from '../Parallax';
+
+import RecipeGrid from '../RecipeGrid';
+
+
 const Home = () => {
     return (
-        <div>
-            <h1>Hello World</h1>
-            <p>This is the beginning of our ReseptiApp, let's goooooo 8)</p>
+        <div>          
+            <Slideshow />
+            <Parallax text={"Welcome to ReseptiApp"} />
+            <RecipeGrid/>
             <ImageUpload/>
         </div>
     );

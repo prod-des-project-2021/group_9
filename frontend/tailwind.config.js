@@ -13,13 +13,13 @@ module.exports = {
 
         'nav2': '#FBEDB6',
 
-        'bg1': '#FFFFE6',
+        'bg1': '#FFFFE6'
       }),
 
       fontFamily: {
 
         'Mali' : ['Mali', 'cursive']
-      }
+      },
     }
   },
 
