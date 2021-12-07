@@ -19,7 +19,11 @@ const ImageUpload = ({ text, clickHandler, style }) => {
 
     const upload = () => {
         setProgress(0)
-        axios.post("https://www.ipt.oamk.fi/linux193/api/recipes/image", currentFile, {headers: {}}, (event) => {
+
+        let formData = new FormData();
+        formData.append("file", currentFile);
+
+        axios.post("https://www.ipt.oamk.fi/linux193/api/recipes/image", formData, {headers: {"Content-Type": "multipart/form-data"}}, (event) => {
             setProgress(Math.round((100 * event.loaded) / event.total))
         }).then((response) => {
             setMessage(response.data.message)
@@ -33,7 +37,17 @@ const ImageUpload = ({ text, clickHandler, style }) => {
             setMessage("Could not upload the image")
             setCurrentFile(undefined)
         })
-    }
+
+        
+
+        
+
+
+
+        }
+    
+
+
 
     
     return (

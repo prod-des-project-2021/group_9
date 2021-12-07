@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import recipeService from './../../services/recipes';
+import ShoppingList from '../ShoppingList';
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [filter, setFilter] = useState("myRecipes");
+    const [showShoppingList,setShowShoppingList] = useState(false);
 
     // Use recipes.js service to fetch recipes from the database.
     // Currently every recipe is returned from the database, only recipes of the current user should be returned in the future...
@@ -39,12 +41,20 @@ const MyRecipes = () => {
         setFilter(filter);
     }
 
+    const openShoppingList = () => {
+        setShowShoppingList(!showShoppingList) 
+    }
+
     return (
         <div className="bg-yellow-100 font-Mali">
+            {
+                showShoppingList===true?<ShoppingList/>:null
+            }
             <div className="bg-yellow-200 flex items-center h-16">
                 <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler("myRecipes")} />
                 <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler("favorites")} />
                 <FilterButton text="Categories" selectFilterHandler={selectFilterHandler("categories")} />
+                <FilterButton text="Shopping List"selectFilterHandler={openShoppingList}/>
             </div>
 
             <div className="md:flex py-3 mx-4 md:space-x-4">
@@ -135,12 +145,21 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
 
 // Ingredients of the given recipe are listed.
 const IngredientList = ({recipe}) => {
+
+    const clickHandler = (ingredient) => () => {
+        //send ingredient to shopping list
+        console.log(ingredient)
+
+    }
     return(
         <div className="md:w-1/2 shadow-t-md">
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
-                    {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
+
+                    {/* Map function is used to display a list of ingredients. */}
+                    {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
+
                 </tbody>
             </table>
         </div>
@@ -148,11 +167,16 @@ const IngredientList = ({recipe}) => {
 }
 
 // A single ingredient. Consists of amount, unit and the name of the ingredient.
-const Ingredient = ({ingredient}) => {
+const Ingredient = ({ingredient, clickHandler}) => {
+
+    
     return(
-        <tr className="w-full">
-            <td className="w-1/5 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
-            <td className="w-4/5 p-2">{ingredient.name}</td>
+
+        <tr>
+            <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
+            <td className="p-2">{ingredient.name}</td>
+            <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
+
         </tr>
     );
 } 
