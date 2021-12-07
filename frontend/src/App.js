@@ -6,7 +6,6 @@ import LogIn from './components/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
 import Footer from './components/Footer';
-
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'

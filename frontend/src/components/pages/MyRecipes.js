@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
+import Form from '../Form'
+
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
@@ -53,6 +56,9 @@ const MyRecipes = () => {
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div>
+            <CustomizedDialogs>
+                <Form/>
+            </CustomizedDialogs>
         </div>
     );
 };
