@@ -9,6 +9,7 @@ const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer = require('multer')
 const basicAuth = require('express-basic-auth')
+const jwtAuth = require('../middleware/jwt')
 // const { body } = require('express-validator')
 
 cloudinary.config(config.cloudinaryConfig)
@@ -60,7 +61,7 @@ recipesRouter.get('/:id', async (req, res) => {
 })
 
 // Create
-recipesRouter.post('/', [basicAuth(authOptions), upload.single("file")], async (req, res) => {
+recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
     const url = req.file ? req.file.path : ''
     const newRecipe = new Recipe({
         ...req.body,
