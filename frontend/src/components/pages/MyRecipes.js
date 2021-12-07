@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
+import Form from '../Form'
+
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState(null);
@@ -37,6 +40,9 @@ const MyRecipes = () => {
                 <RecipeList recipes={recipes} clickHandler={selectRecipeHandler} />
                 <RecipeInfo recipe={selectedRecipe} />
             </div>
+            <CustomizedDialogs>
+                <Form/>
+            </CustomizedDialogs>
         </div>
     );
 };

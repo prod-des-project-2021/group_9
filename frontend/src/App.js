@@ -5,7 +5,6 @@ import Recipes from './components/pages/Recipes'
 import LogIn from './components/pages/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
-import Slideshow from './components/Slideshow';
 
 function App() {
 
