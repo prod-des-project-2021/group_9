@@ -5,12 +5,16 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
+        "deploy": "PORT=80 node index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "cloudinary": "^1.27.1",
         "dotenv": "^10.0.0",
-        "express": "^4.17.1"
+        "express": "^4.17.1",
+        "mongoose": "^6.0.13",
+        "morgan": "^1.10.0"
     }
 }
