@@ -10,7 +10,6 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer = require('multer')
 const basicAuth = require('express-basic-auth')
 const jwtAuth = require('../middleware/jwt')
-// const { body } = require('express-validator')
 
 cloudinary.config(config.cloudinaryConfig)
 const storage = new CloudinaryStorage({
@@ -49,7 +48,7 @@ const authOptions = {
 
 // Get all recipes
 recipesRouter.get('/', async (req, res) => {
-    const recipes = await Recipe.find({})
+    const recipes = await Recipe.find({}).populate('user')
     res.status(200).json(recipes)
 })
 
@@ -72,7 +71,7 @@ recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
 })
 
 // Update
-recipesRouter.put('/:id', async (req, res) => {
+recipesRouter.put('/:id', jwtAuth, async (req, res) => {
     const id = req.params.id
     const updatedRecipe = req.body
     const savedRecipe = await Recipe.findByIdAndUpdate(id, updatedRecipe, { new: true })
@@ -80,14 +79,14 @@ recipesRouter.put('/:id', async (req, res) => {
 })
 
 // Delete
-recipesRouter.delete('/:id', async (req, res) => {
+recipesRouter.delete('/:id', jwtAuth, async (req, res) => {
     const id = req.params.id
     const result = await Recipe.findByIdAndRemove(id)
     res.status(200).json(result)
 })
 
 // Generate recipes
-recipesRouter.get('/create', async (req, res) => {
+recipesRouter.get('/create', jwtAuth, async (req, res) => {
     for (let i = 0; i < 4; i++) {
         const newRecipe = new Recipe(createRecipe())
         await newRecipe.save()
