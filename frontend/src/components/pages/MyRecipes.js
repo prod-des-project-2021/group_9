@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import recipes from './../../services/recipes';
 import recipeService from './../../services/recipes';
 
 const MyRecipes = () => {
@@ -126,7 +127,7 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
                 {/* Show ingredients and instructions side by side (for now). */}
                 <div className="md:flex md:mx-6 space-y-6 md:space-x-6 md:space-y-0">
                     <IngredientList recipe={recipe} />
-                    <Instructions recipe={recipe} />
+                    {recipe.steps !== null ? <Instructions recipe={recipe} /> : null}
                 </div>
             </div>
         );
@@ -164,10 +165,7 @@ const Instructions = ({recipe}) => {
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
             <ul className="list-disc m-4 space-y-2">
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
+                {recipe.steps.map(step => <li>{step}</li>)}
             </ul>
         </div>
     );
