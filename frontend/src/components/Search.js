@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
-import SearchList from '../components/SearchList'
+import React, { useState, useEffect } from 'react';
+import SearchDropdown from './SearchDropdown'
+import recipeService from '../services/recipes';
 
-function Search({ details }) {
+function Search() {
   const [searchField, setSearchField] = useState("");
+  const [recipes, setRecipes] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(null);
 
-  const filteredRecipes = details.filter(
-    recipe => {
-      return (
-        recipe
-          .name
-          .toLowerCase()
-          .includes(searchField.toLowerCase())
-      );
-    }
-  );
+  useEffect(() => {
+    recipeService
+      .getAll()
+      .then(initialRecipes => {
+        setRecipes(initialRecipes);
+        console.log(initialRecipes);
+      });
+  }, []);
+
+  const filteredRecipes = (searchField.length <= 0 || recipes === null) ? null : recipes.filter(
+      recipe => {
+        return (
+          recipe
+            .name
+            .toLowerCase()
+            .includes(searchField.toLowerCase())
+        );
+      }
+    ).sort((a, b) => (a.name > b.name) ? 1 : -1);
 
   const handleChange = e => {
     setSearchField(e.target.value);
+  }
+
+  const onFocusHandler = () => {
+    setShowDropdown(true);
+  }
+
+  const onBlurHandler = () => {
+    setShowDropdown(false);
   }
 
   return (
@@ -32,8 +52,8 @@ function Search({ details }) {
             </svg>
           </button>
           <div className="w-80 relative">
-            <input type="text" class="px-4 py-2 w-full" placeholder="Search..." onChange={handleChange} />
-            <SearchList filteredRecipes={filteredRecipes} />
+            <input type="text" class="px-4 py-2 w-full" placeholder="Search..." onChange={handleChange} onBlur={onBlurHandler} onFocus={onFocusHandler} />
+            {showDropdown ? <SearchDropdown filteredRecipes={filteredRecipes} /> : null}
           </div>
         </div>
       </div>
