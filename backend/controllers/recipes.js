@@ -48,7 +48,7 @@ const authOptions = {
 
 // Get all recipes
 recipesRouter.get('/', async (req, res) => {
-    const recipes = await Recipe.find({}).populate('user')
+    const recipes = await Recipe.find({}).populate('user', { username: 1 })
     res.status(200).json(recipes)
 })
 
