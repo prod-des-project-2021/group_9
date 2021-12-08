@@ -49,7 +49,6 @@ const ImageUpload = () => {
             })
     }
 
-
     return (
         <div>
             <input type="file" accept="image/*" onChange={selectFile} />
