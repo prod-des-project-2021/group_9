@@ -6,7 +6,7 @@ export const RecipeGrid = ({ text }) => {
 
     const [columnNumber, setColumnNumber] = useState(1);
 
-    const screenDimensions = useWindowSize();
+    const screenSize = useWindowSize();
 
     const [allRecipes, setAllRecipes] = useState(null); 
 
@@ -21,9 +21,9 @@ export const RecipeGrid = ({ text }) => {
 
     return (
         <div className="flex space-x-4 px-6"> 
-            {populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns === null 
+            {populateColumns(allRecipes, calculateColumnNumber(screenSize.width)).columns === null 
             ? null 
-            : populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns.map(column => 
+            : populateColumns(allRecipes, calculateColumnNumber(screenSize.width)).columns.map(column => 
             <Column key={column.id} recipes={column.recipes} />
             )}
         </div>
@@ -72,8 +72,6 @@ function populateColumns(recipes, columnNumber) {
 }
 
 function useWindowSize() {
-    // Initialize state with undefined width/height so server and client renders match
-    // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
     const [windowSize, setWindowSize] = useState({
         width: undefined,
         height: undefined,

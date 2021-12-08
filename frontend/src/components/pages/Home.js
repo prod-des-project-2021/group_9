@@ -9,7 +9,7 @@ import RecipeGrid from '../RecipeGrid';
 const Home = () => {
     return (
         <div>          
-            <Slideshow />
+            {/* <Slideshow /> */}
             <Parallax text={"Welcome to ReseptiApp"} />
             <RecipeGrid/>
         </div>

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
 import { Transition } from "@headlessui/react";
 import logo from './img/reseptiapp.png';
+import Search from './Search';
+import initialDetails from '../data/initialDetails';
 
 export const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +45,8 @@ export const Nav = () => {
                   >
                     My Recipes
                   </NavLink>
+
+                  <Search details={initialDetails}/>
                 </div>
               </div>
             </div>

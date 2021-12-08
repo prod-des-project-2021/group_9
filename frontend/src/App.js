@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
 import Slideshow from './components/Slideshow';
 
+
 function App() {
 
     const padding = {
