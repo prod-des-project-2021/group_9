@@ -4,24 +4,37 @@
     "private": true,
     "dependencies": {
         "@craco/craco": "^6.4.0",
+        "@emotion/core": "^11.0.0",
+        "@emotion/react": "^11.7.0",
+        "@emotion/styled": "^11.6.0",
         "@headlessui/react": "^1.4.2",
+        "@material-ui/core": "^4.12.3",
+        "@material-ui/icons": "^4.11.2",
+        "@mui/icons-material": "^5.2.0",
+        "@mui/material": "^5.2.1",
         "@testing-library/jest-dom": "^5.15.0",
         "@testing-library/react": "^11.2.7",
         "@testing-library/user-event": "^12.8.3",
         "axios": "^0.24.0",
+        "emotion-styled-utils": "^2.3.2",
+        "material-ui-icons": "^1.0.0-beta.36",
+        "form-data": "^4.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-elastic-carousel": "^0.11.5",
+        "react-redux": "^7.2.6",
         "react-router-dom": "^6.0.2",
         "react-scripts": "4.0.3",
+        "redux-thunk": "^2.4.1",
         "styled-components": "^5.3.3",
+        "validator": "^13.7.0",
         "web-vitals": "^1.1.2"
     },
     "scripts": {
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
+        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && CI=false npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -46,7 +59,7 @@
     "devDependencies": {
         "autoprefixer": "^9.8.8",
         "postcss": "^7.0.39",
+        "redux-devtools-extension": "^2.13.9",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
     }
 }
-
