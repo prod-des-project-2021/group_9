@@ -8,6 +8,7 @@ const recipeSchema = new mongoose.Schema({
     },
     ratings: [],
     ingredients: [],
+    steps: [],
     image: String,
 
 }, { timestamps: true })
