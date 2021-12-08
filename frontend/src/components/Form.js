@@ -25,7 +25,7 @@ function Form() {
   const classes = useStyles()
 
   const [recipe, setRecipe] = useState({
-    name: '',
+    name: [{ id: uuidv4(), text: '' }],
     ingredients: [{ id: uuidv4(), name: '', amount: '', unit: '' }],
     steps: [{ id: uuidv4(), text: '' }]
   });
@@ -50,6 +50,17 @@ function Form() {
   const handleChangeInput2 = (id, event) => {
     const newRecipe = {...recipe}
     newRecipe.steps = recipe.steps.map(i => {
+      if (id === i.id) {
+        i.text = event.target.value
+      }
+      return i;
+    })
+    setRecipe(newRecipe)
+  }
+
+  const handleChangeInput3 = (id, event) => {
+    const newRecipe = {...recipe}
+    newRecipe.name = recipe.name.map(i => {
       if (id === i.id) {
         i.text = event.target.value
       }
@@ -89,8 +100,20 @@ function Form() {
 
   return (
     <Container>
-      <h1>Add ingredients</h1>
+      
       <form className={classes.root} onSubmit={handleSubmit}>
+        {recipe.name.map(name => (
+          <div key={name.id}>
+            <TextField          
+              name="name"
+              label="Recipe name"
+              variant="filled"
+              value={name.text}
+              onChange={event => handleChangeInput3(name.id, event)}
+            />
+          </div>
+        ))}
+        <h1>Add ingredients</h1>
         {recipe.ingredients.map(ingredient => (
           <div key={ingredient.id}>
             <TextField
@@ -129,6 +152,7 @@ function Form() {
         {recipe.steps.map(step => (
           <div key={step.id}>
             <TextField
+              fullWidth = "90%"
               name="step"
               label="Step"
               variant="filled"
