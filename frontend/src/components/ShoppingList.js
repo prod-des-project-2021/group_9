@@ -1,11 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import service from "../services/shoppinglist";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const ShoppingList = () => {
 
     //lisää tänne lista statemuuttuja kato mallia myrecipes
-    const [shopperList, setShopperList] = useState([{id:0, amount:1, unit:"tbsp", name:"test"}, {id:0, amount:1, unit:"", name:"laakerinlehti"}]);
-    
+    const [shopperList, setShopperList] = useState([{id:0, amount:1, unit:"tbsp", name:"test"}, {id:2, amount:1, unit:"", name:"laakerinlehti"}]);
+    const formRef = useRef()
 
     const fetchData = async() => {
     
@@ -21,51 +24,50 @@ const ShoppingList = () => {
 
 //fetch data
 
-    const addToShoppingList = async(name, amount, unit) => {
-        try {
+    const addToShoppingList = async(e) => {
 
-        const response= await fetch("", { 
-            method:"POST", 
-            body: JSON.stringify({
-                name: name,
-                amount: amount,
-                unit: unit,
-            }),
+        e.preventDefault();
+        const elements = formRef.current.elements
+        const newIngredient = {
 
-            headers: {
-                "Content-type": "application/json",
-            },
-        });
- 
-        let data = await response.json();
-        alert("Ingredient added to shopping list");
-        } catch (err) {
-            alert("Something went wrong.")
+            id: uuidv4(),
+            amount: elements[0].value,
+            unit: elements[1].value, 
+            name: elements[2].value
         }
+
+        console.log(newIngredient)
+
+        setShopperList(shopperList.concat(newIngredient))
+        elements[0].value = ""
+        elements[1].value = ""
+        elements[2].value = ""
     }
 
-   /*  const removeFromShoppingList = async(name, amount, unit) => {
-        try {
-            const response = await fetch("", {
-                method: "DELETE",
-                /* body: JSON.stringify({ 
-                    name:name,
-                    amount:amount,
-                    unit:unit, */
-            /* });
+   
 
-            await response.json()
-            fetchData();
-            props.history.push("/");
-            } catch (err) {
-            alert("Error: somethingwent wrong");
-        }
-    }  */
-
-    const deleteIngredient = (ingredient) => () => {
+    const deleteIngredient = ({id}) => () => {
         //delete ingredient
-        console.log(ingredient)
+        const newList = shopperList.filter((ingredient) => ingredient.id !== id)   
+
+        setShopperList(newList);
     } //then litania jossa poistetaan ingredient frontendista.
+
+
+
+
+    const clearShoppingList = () => {
+
+        setShopperList([]);
+        updateShoppingList();
+
+    }
+
+    const updateShoppingList = () => {
+
+        service.clear();
+
+    }
 
 
     return(
@@ -76,15 +78,30 @@ const ShoppingList = () => {
                 <tbody className="divide-y">
                 {shopperList.map((ingredient)=>(
                         
-                        <tr className="w-full bg-blue-200" key={ingredient.id}>
+                    <tr className="w-full bg-blue-200" key={ingredient.id}>
                         <td className="w-1/5 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
                         <td className="w-3/5 p-2">{ingredient.name}</td>
                         <td className="w-1/5"> <button className="text-right" type="submit" onClick={deleteIngredient(ingredient)}> Remove </button></td>
-                        </tr>
+                    </tr>
                 
                 ))}
-                </tbody>s
+                
+                </tbody>
+                
+                
             </table>
+
+                <div className="flex-row justify-center space-y-2 px-6">
+                    <form className="flex-row text-right" onSubmit={addToShoppingList} ref={formRef}>
+        
+                        <input type= "text" placeholder="amount" />
+                        <input type= "text" placeholder="unit" />
+                        <input type= "text" placeholder="name" />
+                        <button className="w-1/5"> + </button>
+                    </form>
+                </div>
+
+                <button className="w-1/2" onClick={clearShoppingList}> Clear </button>
             </div>
         </div>
     );
