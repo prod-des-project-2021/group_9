@@ -185,11 +185,14 @@ const Ingredient = ({ingredient, clickHandler}) => {
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
 const Instructions = ({recipe}) => {
+    if (recipe.steps === null)
+        return;
+    
     return(
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
             <ul className="list-disc m-4 space-y-2">
-                {recipe.steps.map(step => <li>{step}</li>)}
+                {recipe.steps.map(step => <li key={step.id}>{step.text}</li>)}
             </ul>
         </div>
     );
