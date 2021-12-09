@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import recipes from './../../services/recipes';
 import recipeService from './../../services/recipes';
 import ShoppingList from '../ShoppingList';
+import RecipeGrid from '../RecipeGrid';
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
@@ -103,7 +104,7 @@ const RecipeButton = ({text, selectRecipeHandler}) => {
     return(
         <button
         onClick={selectRecipeHandler} // Call selectRecipeHandler when clicked.
-        className="bg-gray-50 hover:bg-yellow-200 p-6 shadow-md w-full text-left">
+        className="bg-white hover:bg-yellow-200 p-6 rounded-lg shadow-md w-full text-left">
             {text}
         </button>
     );
@@ -114,14 +115,14 @@ const RecipeButton = ({text, selectRecipeHandler}) => {
 const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
     if(recipe === null) { // If the given recipe is null, then show a placeholder box.
         return(
-            <div className="bg-gray-50 w-full p-8 shadow-md">
+            <div className="bg-white w-full p-8 shadow-md">
                 NOTHING
             </div>
         );
     }
     else { // if the given recipe is NOT null, then show its info.
         return(
-            <div className="relative bg-gray-50 w-full p-12 pb-24 shadow-md field">
+            <div className="relative bg-white w-full p-12 pb-24 shadow-md field">
                 
                 {/* The DELETE button. */}
                 <div className="flex absolute md:top-4 right-4 space-x-2">
@@ -137,7 +138,7 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
                 {/* Show ingredients and instructions side by side (for now). */}
                 <div className="md:flex md:mx-6 space-y-6 md:space-x-6 md:space-y-0">
                     <IngredientList recipe={recipe} />
-                    {recipe.steps !== null ? <Instructions recipe={recipe} /> : null}
+                    <Instructions recipe={recipe} />
                 </div>
             </div>
         );
@@ -185,10 +186,10 @@ const Ingredient = ({ingredient, clickHandler}) => {
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
 const Instructions = ({recipe}) => {
-    if (recipe.steps === null)
-        return;
+    if (!recipe.steps)
+        return null;
     
-    return(
+    return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
             <ul className="list-disc m-4 space-y-2">
