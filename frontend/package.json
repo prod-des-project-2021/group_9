@@ -18,6 +18,7 @@
         "axios": "^0.24.0",
         "emotion-styled-utils": "^2.3.2",
         "material-ui-icons": "^1.0.0-beta.36",
+        "form-data": "^4.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-elastic-carousel": "^0.11.5",
@@ -33,7 +34,7 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && npm run build && mv build/ ../backend",
+        "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && CI=false npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
