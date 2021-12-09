@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const jwtAuth = require('../middleware/jwt')
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
@@ -51,6 +52,26 @@ usersRouter.post('/', async (req, res) => {
     })
     const savedUser = await newUser.save()
     res.status(201).json(savedUser)
+})
+
+
+
+usersRouter.get('/:id/shoppinglist', jwtAuth, async (req, res) => {
+    const id = req.params.id
+    const user = req.user
+    if (id !== user.id) res.sendStatus(403)
+
+    const savedUser = await User.findById(id)
+    res.status(200).json(savedUser)
+})
+
+usersRouter.put('/:id/shoppinglist', jwtAuth, async (req, res) => {
+    const id = req.params.id
+    const user = req.user
+    if (id !== user.id) res.sendStatus(403)
+    const shoppingList = req.body.shoppingList
+    const savedUser = await User.findByIdAndUpdate(id, { shoppingList }, { new: true })
+    res.status(200).json(savedUser)
 })
 
 // which properties are allowed to be updated?
