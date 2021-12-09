@@ -2,27 +2,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import service from "../services/shoppinglist";
 import { v4 as uuidv4 } from 'uuid';
-
+import { useSelector } from 'react-redux'
 
 const ShoppingList = () => {
 
     //lisää tänne lista statemuuttuja kato mallia myrecipes
-    const [shopperList, setShopperList] = useState([{id:0, amount:1, unit:"tbsp", name:"test"}, {id:2, amount:1, unit:"", name:"laakerinlehti"}]);
+    const [shopperList, setShopperList] = useState([]);
     const formRef = useRef()
 
+    const { user } = useSelector(state => state.auth)
+
     const fetchData = async() => {
-    
-        const response = await fetch("");
-        response
-            .json();
+        
+        const response = await service.getShoppingLIst(user.id);
+        setShopperList(response.shoppingList)
+      
+        
+        console.log(response)
+        
     }
 
     useEffect(() => {
         fetchData();
         }, []);
-//useeffect
 
-//fetch data
 
     const addToShoppingList = async(e) => {
 
@@ -38,10 +41,12 @@ const ShoppingList = () => {
 
         console.log(newIngredient)
 
-        setShopperList(shopperList.concat(newIngredient))
+        
         elements[0].value = ""
         elements[1].value = ""
         elements[2].value = ""
+
+        updateShoppingList(shopperList.concat(newIngredient))
     }
 
    
@@ -51,6 +56,7 @@ const ShoppingList = () => {
         const newList = shopperList.filter((ingredient) => ingredient.id !== id)   
 
         setShopperList(newList);
+        updateShoppingList(newList);
     } //then litania jossa poistetaan ingredient frontendista.
 
 
@@ -58,15 +64,17 @@ const ShoppingList = () => {
 
     const clearShoppingList = () => {
 
-        setShopperList([]);
-        updateShoppingList();
+        
+        updateShoppingList([]);
 
     }
 
-    const updateShoppingList = () => {
+    const updateShoppingList = (shoppinglist) => {
+        
+        if (user)
+            service.update(user.id, shoppinglist);
 
-        service.clear();
-
+        setShopperList(shoppinglist)
     }
 
 
