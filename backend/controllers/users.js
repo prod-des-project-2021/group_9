@@ -74,6 +74,17 @@ usersRouter.put('/:id/shoppinglist', jwtAuth, async (req, res) => {
     res.status(200).json(savedUser)
 })
 
+usersRouter.put('/:id/shoppinglist/add', jwtAuth, async (req, res) => {
+    const id = req.params.id
+    const user = req.user
+    if (id !== user.id) res.sendStatus(403)
+    const newIngredient = req.body.ingredient
+    const userDoc = await User.findById(id)
+    const shoppingList = userDoc.shoppingList.concat(newIngredient)
+    const savedUser = await User.findByIdAndUpdate(id, { shoppingList }, { new: true })
+    res.status(200).json(savedUser)
+})
+
 // which properties are allowed to be updated?
 /* // Update
 usersRouter.put('/:id', async (req, res) => {
