@@ -12,7 +12,7 @@ const shoppingList = (state = initialState, action) => {
 
             const newList = state.localUser.shoppingList.concat(payload)
             const user = { ...state.localUser, shoppingList: newList }
-            return { 
+            return {
                 ...state,
                 user
             }
@@ -25,4 +25,4 @@ const shoppingList = (state = initialState, action) => {
     }
 }
 
-export default message
+export default shoppingList
