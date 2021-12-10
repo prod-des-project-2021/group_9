@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import recipeService from '../services/recipes';
 
-export const RecipeGrid = ({ text }) => {
+
+export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
 
     const [columnNumber, setColumnNumber] = useState(1);
 
     const screenDimensions = useWindowSize();
 
-    const [allRecipes, setAllRecipes] = useState(null); 
-
-    useEffect(() => {
-        recipeService
-            .getAll()
-            .then(initialRecipes => {
-                setAllRecipes(initialRecipes);
-                console.log(initialRecipes);
-            });
-    }, []);
-
     return (
         <div className="flex space-x-4 px-6"> 
+<<<<<<< Updated upstream
             {populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns === null 
             ? null 
             : populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns.map(column => 
+=======
+            {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
+            ? null 
+            : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column => 
+>>>>>>> Stashed changes
             <Column key={column.id} recipes={column.recipes} />
             )}
         </div>
