@@ -2,24 +2,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import service from "../services/shoppinglist";
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../redux/actions/auth'
+import { useNavigate } from 'react-router-dom'
 
-const ShoppingList = () => {
+
+const ShoppingList = (props) => {
 
     //lisää tänne lista statemuuttuja kato mallia myrecipes
     const [shopperList, setShopperList] = useState([]);
     const formRef = useRef()
+    const navigate = useNavigate()
 
     const { user } = useSelector(state => state.auth)
 
+    const dispatch = useDispatch()
+
     const fetchData = async() => {
+
+        try {
         
-        const response = await service.getShoppingLIst(user.id);
-        setShopperList(response.shoppingList)
+            const response = await service.getShoppingLIst(user.id);
+            setShopperList(response.shoppingList)
       
         
-        console.log(response)
-        
+            console.log(response)
+        }
+        catch (err){
+            dispatch(logout())
+            navigate('/')
+            console.log(err)
+
+        }
     }
 
     useEffect(() => {

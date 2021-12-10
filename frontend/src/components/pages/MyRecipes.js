@@ -3,6 +3,8 @@ import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
 import Form from '../Form'
 import ShoppingList from '../ShoppingList';
+import { setShoppingList } from '../../redux/actions/shoppinglist'
+import { useDispatch } from 'react-redux'
 
 
 const MyRecipes = () => {
@@ -10,6 +12,7 @@ const MyRecipes = () => {
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [filter, setFilter] = useState("myRecipes");
     const [showShoppingList,setShowShoppingList] = useState(false);
+    
 
     // Use recipes.js service to fetch recipes from the database.
     // Currently every recipe is returned from the database, only recipes of the current user should be returned in the future...
@@ -152,11 +155,13 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
 // Ingredients of the given recipe are listed.
 const IngredientList = ({recipe}) => {
 
-    const clickHandler = (ingredient) => () => {
-        //send ingredient to shopping list
-        console.log(ingredient)
+    const dispatch = useDispatch() 
 
+    const clickHandler = (ingredient) => () => {
+       
+        dispatch(setShoppingList(ingredient))
     }
+
     return(
         <div className="md:w-1/2 shadow-t-md">
             <ModeButton text="Ingredients" />
