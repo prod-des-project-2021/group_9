@@ -46,9 +46,14 @@ const authOptions = {
     challenge: true
 }
 
-// Get all recipes
+// Get recipes
 recipesRouter.get('/', async (req, res) => {
-    const recipes = await Recipe.find({}).populate('user', { username: 1 })
+    let filter = {};
+    if (req.query.name) {
+        filter = { name: new RegExp(`${req.query.name}i`) }
+    }
+    console.log(filter)
+    const recipes = await Recipe.find(filter).populate('user', { username: 1 })
     res.status(200).json(recipes)
 })
 
