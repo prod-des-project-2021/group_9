@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import recipeService from '../services/recipes';
 
-export const RecipeGrid = ({ text }) => {
+
+export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
 
     const [columnNumber, setColumnNumber] = useState(1);

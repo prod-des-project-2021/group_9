@@ -5,7 +5,7 @@ import Recipes from './components/pages/Recipes'
 import LogIn from './components/pages/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
-import Slideshow from './components/Slideshow';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
                 <Route exact path="/login" element={<LogIn />} />
                 <Route exact path="/myrecipes" element={<MyRecipes />} />
             </Routes>
+            <Footer />
         </Router>
     )
 }
