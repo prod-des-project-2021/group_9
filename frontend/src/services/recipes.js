@@ -1,4 +1,5 @@
 import axios from 'axios';
+import user from '../utils/localUser'
 require("dotenv").config();
 
 const baseUrl = `${process.env.REACT_APP_PROXY}/api/recipes`;
@@ -8,13 +9,13 @@ const getAll = () => {
     return request.then(response => response.data);
 }
 
-const getRecipes = (params) => {
-    const request = axios.get(baseUrl, {params} );
+const get = (params) => {
+    const request = axios.get(baseUrl, { params });
     return request.then(response => response.data);
 }
 
 const create = (newObject) => {
-    const request = axios.post(baseUrl, newObject);
+    const request = axios.post(baseUrl, { ...newObject, user: user.getUserId() }, { headers: user.authHeader() });
     return request.then(response => response.data);
 }
 
