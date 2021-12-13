@@ -9,7 +9,7 @@ const getAll = () => {
     return request.then(response => response.data);
 }
 
-const get = (params) => {
+const getRecipes = (params) => {
     const request = axios.get(baseUrl, { params });
     return request.then(response => response.data);
 }
