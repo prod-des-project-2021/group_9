@@ -9,12 +9,14 @@ import Footer from './components/Footer';
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'
+import Button from './components/Button'
 
 function App() {
 
     const { isLoggedIn } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [renderLogin, setRenderLogin] = useState(false)
+    const [showShoppingList, setShowShoppingList] = useState(false);
 
     const handleLogout = () => {
         handleRemoveWindow()
@@ -27,6 +29,8 @@ function App() {
         setRenderLogin(true)
     }
 
+
+    //navigate to shopping list is Slnavigate
     return (
         <Router>
             {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
@@ -36,6 +40,9 @@ function App() {
                 <Route exact path="/recipes" element={<Recipes />} />
                 <Route exact path="/myrecipes" element={<MyRecipes />} />
             </Routes>
+            <div className="relative h-32 w-32" >
+                <Button className="absolute bottom-0 right-0 h-16 w-16" onClick={() => setShowShoppingList(!showShoppingList)} />
+            </div>
             <Footer />
         </Router>
     )
