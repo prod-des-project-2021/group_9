@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
+
 import Form from '../Form'
 import ShoppingList from '../ShoppingList';
 
@@ -162,6 +163,7 @@ const IngredientList = ({recipe}) => {
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
+                    {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
                 </tbody>
             </table>
