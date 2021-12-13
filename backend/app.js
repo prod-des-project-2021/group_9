@@ -10,6 +10,7 @@ const expressValidator = require('express-validator')
 // middleware
 const cors = require('cors')
 const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
 // routes
 const recipesRouter = require('./controllers/recipes')
@@ -32,7 +33,8 @@ mongoose.connect(config.MONGODB_URI)
     })
 app.use(cors({ origin: "*" }))
 app.use(express.static('build'))
-app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 morgan.token('data', (req) => {
     if (req.method === 'POST')
