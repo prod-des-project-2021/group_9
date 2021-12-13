@@ -68,6 +68,7 @@ recipesRouter.get('/:id', async (req, res) => {
 // Create
 recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
     const url = req.file ? req.file.path : ''
+    logger.log(req.body)
     const newRecipe = new Recipe({
         ...req.body,
         url
