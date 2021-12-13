@@ -15,7 +15,7 @@ const getRecipes = (params) => {
 }
 
 const create = (newObject) => {
-    const request = axios.post(baseUrl, { ...newObject, user: user.getUserId() }, { headers: user.authHeader() });
+    const request = axios.post(baseUrl, { ...newObject, user: user.getUserId() }, { headers: user.authHeader(), "Content-Type": "multipart/form-data"});
     return request.then(response => response.data);
 }
 

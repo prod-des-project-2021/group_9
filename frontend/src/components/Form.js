@@ -9,6 +9,7 @@ import Icon from '@material-ui/core/Icon';
 import { v4 as uuidv4 } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
 import recipeService from '../services/recipes';
+import ImageUpload from './ImageUpload'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,19 +22,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+
+
 function Form() {
   const classes = useStyles()
 
+  
   const [recipe, setRecipe] = useState({
-    name: '',
+    name: '' ,
     ingredients: [{ id: uuidv4(), name: '', amount: '', unit: '' }],
     steps: [{ id: uuidv4(), text: '' }]
   });
 
+  const [image, setImage] = useState(null)
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    let formData = new FormData()
+    formData.append("file", image)
+    formData.append('recipe', recipe)
+
     console.log(recipe);
-    recipeService.create(recipe)
+    recipeService.create(formData).then()
+
   };
 
   const handleChangeInput = (id, event) => {
@@ -55,6 +66,12 @@ function Form() {
       }
       return i;
     })
+    setRecipe(newRecipe)
+  }
+
+  const handleChangeInput3 = (event) => {
+    const newRecipe = {...recipe}
+    newRecipe.name = event.target.value 
     setRecipe(newRecipe)
   }
 
@@ -87,10 +104,27 @@ function Form() {
 
 
 
+  const imageCallback = (image) => {
+    setImage(image)
+  }
+
+
+
   return (
     <Container>
-      <h1>Add ingredients</h1>
+      
       <form className={classes.root} onSubmit={handleSubmit}>
+          <div>
+            <TextField          
+              name="name"
+              label="Recipe name"
+              variant="filled"
+              value={recipe.name}
+              onChange={handleChangeInput3}
+            />
+            <div>{recipe.name}</div>
+          </div>
+        <h1>Add ingredients</h1>
         {recipe.ingredients.map(ingredient => (
           <div key={ingredient.id}>
             <TextField
@@ -129,6 +163,7 @@ function Form() {
         {recipe.steps.map(step => (
           <div key={step.id}>
             <TextField
+              fullWidth = "90%"
               name="step"
               label="Step"
               variant="filled"
@@ -143,7 +178,8 @@ function Form() {
             >
               <AddIcon />
             </IconButton>
-
+            <h1>Upload picture of the food</h1>
+            <ImageUpload callback={imageCallback} />
           </div>
         ))}
         <Button

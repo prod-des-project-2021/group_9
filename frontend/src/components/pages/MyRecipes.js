@@ -163,10 +163,8 @@ const IngredientList = ({recipe}) => {
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
-
                     {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
-
                 </tbody>
             </table>
         </div>
@@ -178,12 +176,10 @@ const Ingredient = ({ingredient, clickHandler}) => {
 
     
     return(
-
         <tr>
             <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
             <td className="p-2">{ingredient.name}</td>
             <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
-
         </tr>
     );
 } 
