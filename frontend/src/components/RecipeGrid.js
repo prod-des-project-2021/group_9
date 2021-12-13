@@ -6,19 +6,13 @@ export const RecipeGrid = ({ recipes }) => {
 
     const [columnNumber, setColumnNumber] = useState(1);
 
-    const screenDimensions = useWindowSize();
+    const screenSize = useWindowSize();
 
     return (
         <div className="flex space-x-4 px-6"> 
-<<<<<<< Updated upstream
-            {populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns === null 
-            ? null 
-            : populateColumns(allRecipes, calculateColumnNumber(screenDimensions.width)).columns.map(column => 
-=======
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
             ? null 
             : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column => 
->>>>>>> Stashed changes
             <Column key={column.id} recipes={column.recipes} />
             )}
         </div>
