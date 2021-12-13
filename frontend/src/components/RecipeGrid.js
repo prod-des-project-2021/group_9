@@ -10,15 +10,6 @@ export const RecipeGrid = ({ recipes }) => {
 
     const [allRecipes, setAllRecipes] = useState(null); 
 
-    useEffect(() => {
-        recipeService
-            .getAll()
-            .then(initialRecipes => {
-                setAllRecipes(initialRecipes);
-                console.log(initialRecipes);
-            });
-    }, []);
-
     return (
         <div className="flex space-x-4 px-6"> 
             {populateColumns(allRecipes, calculateColumnNumber(screenSize.width)).columns === null 
