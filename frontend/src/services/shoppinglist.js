@@ -5,25 +5,31 @@ require("dotenv").config();
 
 const baseUrl = `${process.env.REACT_APP_PROXY}/api/users`;
 
-const config = {
-    headers:  user.authHeader()
 
-}
 
-const getShoppingLIst = (id) => {
-
-    console.log(user.authHeader())
+const getShoppingList = () => {
+    const [id, config] = getUser()
     const request = axios.get(`${baseUrl}/${id}/shoppinglist`, config);
     return request.then(response => response.data);
     
 }
 
-const update = (id, newObject) => {
-  
+const update = (newObject) => {
+    const [id, config] = getUser()
     const request = axios.put(`${baseUrl}/${id}/shoppinglist`, { shoppingList: newObject }, config );
     return request.then(response => response.data); 
 }
 
+const addToList = (ingredient) => {
+    const [id, config] = getUser()
+    const request = axios.put(`${baseUrl}/${id}/shoppinglist/add`, { ingredient }, config);
+    return request.then(response => response.data);
+}
 
+const getUser = () => {
+    return [user.getUserId(), user.authHeader()] 
+}
 
-export default { getShoppingLIst, update }
+const slService = { getShoppingList, update, addToList }
+
+export default slService
