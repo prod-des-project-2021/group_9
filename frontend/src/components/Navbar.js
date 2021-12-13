@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
 import { Transition } from "@headlessui/react";
 import logo from './img/reseptiapp.png';
+import Search from './Search';
+import initialDetails from '../data/initialDetails';
 
 export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +63,6 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                                     </button>
                                 </div>
                             )}
-
                         {/* Compact navigation */}
                         <div className="-mr-2 flex md:hidden">
                             <button

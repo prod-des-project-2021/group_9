@@ -28,4 +28,4 @@ const deleteRecipe = (id) => {
     return axios.delete(`${baseUrl}/${id}`);
 }
 
-export default { getAll, create, update, deleteRecipe }
+export default { getAll, getRecipes, create, update, deleteRecipe }
