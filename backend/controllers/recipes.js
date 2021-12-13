@@ -10,6 +10,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer = require('multer')
 const basicAuth = require('express-basic-auth')
 const jwtAuth = require('../middleware/jwt')
+const uuidv4 = require('uuid').v4;
 
 cloudinary.config(config.cloudinaryConfig)
 const storage = new CloudinaryStorage({
@@ -50,7 +51,7 @@ const authOptions = {
 recipesRouter.get('/', async (req, res) => {
     let filter = {};
     if (req.query.name) {
-        filter = { name: new RegExp(`${req.query.name}i`) }
+        filter = { name: { $regex: req.query.name, $options: 'i'} }
     }
     console.log(filter)
     const recipes = await Recipe.find(filter).populate('user', { username: 1 })
@@ -99,6 +100,20 @@ recipesRouter.get('/create', jwtAuth, async (req, res) => {
     const recipes = await Recipe.find({})
     res.json(recipes)
 })
+
+/* recipesRouter.post('/generateIds', jwtAuth, async (req, res) => {
+    const recipes = await Recipe.find({})
+    for (const recipe of recipes) {
+        const ingredients = [...recipe.ingredients]
+        // ingredients = [{name: "blaa", amount: 2, unit: "kg"}, {}]
+        for (const ingredient of ingredients) {
+            ingredient.id = uuidv4()
+        }
+        const updatedRecipe = { ...recipe, ingredients }
+        await Recipe.findByIdAndUpdate(recipe.id, updatedRecipe)
+    }
+    res.sendStatus(200)
+}) */
 
 /* // placeholder imageupload route for testing!
 recipesRouter.post('/image', upload.single("file"), async (req, res) => {
