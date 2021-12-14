@@ -61,6 +61,7 @@ recipesRouter.get('/:id', async (req, res) => {
 })
 
 // Create
+// can this be upload.single() ????
 recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
     const url = req.files[0] ? req.files[0].path : ''
     logger.print("URL:", url)
