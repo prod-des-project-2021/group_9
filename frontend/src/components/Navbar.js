@@ -10,9 +10,10 @@ export const Nav = () => {
   return (
     <div>
       <nav className="bg-nav font-Mali">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
+        <div>
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:mx-24">
+            <div className="flex items-center w-full">
               <div className="flex-shrink-0">
                 {/* Logo tähän */}
                 <img src={logo} alt="Logo" className="h-8" />
@@ -45,12 +46,14 @@ export const Nav = () => {
                   >
                     My Recipes
                   </NavLink>
-
-                  <Search details={initialDetails}/>
                 </div>
+                
               </div>
             </div>
-
+            <div className="justify-self-end">
+              <Search details={initialDetails} />
+            </div>
+            </div>
             {/* Compact navigation */}
             <div className="-mr-2 flex md:hidden">
               <button

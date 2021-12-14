@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SearchDropdown from './SearchDropdown'
 import recipeService from '../services/recipes';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 function Search() {
   const [searchField, setSearchField] = useState("");
@@ -36,13 +36,11 @@ function Search() {
   }
 
   const onClickRecipe = (id) => () => {
-    console.log(id);
     searchInputRef.current.blur();
     navigate(`/recipe?id=${id}`);
   }
  
   const onClickSearch = () => {
-    console.log(searchField);
     searchInputRef.current.blur();
     navigate(`/recipes?name=${searchField}`);
 

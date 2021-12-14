@@ -26,14 +26,14 @@ const Recipe = () => {
 const RecipeInfo = ({ recipe }) => {
     if (recipe === null) { // If the given recipe is null, then show a placeholder box.
         return (
-            <div className="bg-gray-50 w-full p-8">
+            <div className="w-full p-8">
                 NOTHING
             </div>
         );
     }
     else { // if the given recipe is NOT null, then show its info.
         return (
-            <div className="relative bg-gray-50 w-full p-12 pb-24 field">
+            <div className="relative w-full p-12 pb-24 field">
                 <h1>{recipe.name}</h1>
 
                 {/* Show ingredients and instructions side by side (for now). */}
