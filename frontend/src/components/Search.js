@@ -38,7 +38,7 @@ function Search() {
   const onClickRecipe = (id) => () => {
     console.log(id);
     searchInputRef.current.blur();
-    navigate(`/recipes?id=${id}`);
+    navigate(`/recipe?id=${id}`);
   }
  
   const onClickSearch = () => {

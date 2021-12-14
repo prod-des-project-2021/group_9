@@ -9,22 +9,21 @@ import Footer from './components/Footer';
 
 
 function App() {
-
-    const padding = {
-        padding: 5
-    }
-
     return (
-        <Router>
-            <Navbar />
-            <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/recipes" element={<Recipes />} />
-                <Route exact path="/login" element={<LogIn />} />
-                <Route exact path="/myrecipes" element={<MyRecipes />} />
-            </Routes>
-            <Footer />
-        </Router>
+        <div className="flex flex-col h-screen justify-between">
+            <Router>
+                <Navbar />
+                <div className="mb-auto justify-self-start">
+                    <Routes >
+                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/recipes" element={<Recipes />} />
+                        <Route exact path="/login" element={<LogIn />} />
+                        <Route exact path="/myrecipes" element={<MyRecipes />} />
+                    </Routes>
+                </div>
+                <Footer/>
+            </Router>
+        </div>
     )
 }
 
