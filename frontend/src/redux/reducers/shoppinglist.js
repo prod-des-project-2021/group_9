@@ -15,7 +15,7 @@ const shoppingList = (state = initialState, action) => {
 
             const newList = state.user.shoppingList.concat(payload)
             const user = { ...state.user, shoppingList: newList }
-            return { 
+            return {
                 ...state,
                 user
             }
