@@ -8,8 +8,8 @@ const getAll = () => {
     return request.then(response => response.data);
 }
 
-const get = (params) => {
-    const request = axios.get(baseUrl, {params});
+const getRecipes = (params) => {
+    const request = axios.get(baseUrl, {params} );
     return request.then(response => response.data);
 }
 
@@ -27,4 +27,4 @@ const deleteRecipe = (id) => {
     return axios.delete(`${baseUrl}/${id}`);
 }
 
-export default { getAll, create, update, deleteRecipe }
+export default { getAll, getRecipes, create, update, deleteRecipe }

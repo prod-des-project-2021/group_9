@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
 import Footer from './components/Footer';
 
+
 function App() {
 
     const padding = {
