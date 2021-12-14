@@ -6,6 +6,7 @@ const logger = require('./utils/logger')
 const express = require('express')
 const app = express()
 const expressValidator = require('express-validator')
+require('express-async-errors')
 
 // middleware
 const cors = require('cors')
