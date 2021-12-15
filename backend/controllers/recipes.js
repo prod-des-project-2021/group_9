@@ -1,5 +1,6 @@
 const recipesRouter = require('express').Router()
 const Recipe = require('../models/recipe')
+const User = require('../models/user')
 
 const config = require('../utils/config')
 const logger = require('../utils/logger')
@@ -69,7 +70,11 @@ recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
         steps: JSON.parse(body.steps),
         url
     })
-    const savedRecipe = await newRecipe.save()
+    const savedRecipe = await newRecipe.save().then(async () => {
+        // update users 'recipes' field
+        await User.findByIdAndUpdate(body.name, {$push: {"recipes": savedRecipe.id}})
+    })
+
     res.status(201).json(savedRecipe)
 })
 
