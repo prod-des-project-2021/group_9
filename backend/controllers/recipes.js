@@ -64,6 +64,7 @@ recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
     const body = req.body
     const newRecipe = new Recipe({
         name: body.name,
+        user: body.user,
         ingredients: JSON.parse(body.ingredients),
         steps: JSON.parse(body.steps),
         url
