@@ -43,7 +43,7 @@ morgan.token('data', (req) => {
     else
         return
 })
-app.use(morgan(':method :remote-addr :url :status :response-time ms :data'))
+app.use(morgan(':method :remote-addr :url :status :date :data'))
 
 app.use('/api/recipes', recipesRouter)
 app.use('/api/users', usersRouter)
