@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
+
+import Form from '../Form'
 import ShoppingList from '../ShoppingList';
+import RecipeGrid from '../RecipeGrid';
+
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
@@ -63,6 +68,9 @@ const MyRecipes = () => {
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div>
+            <CustomizedDialogs>
+                <Form/>
+            </CustomizedDialogs>
         </div>
     );
 };
@@ -102,7 +110,7 @@ const RecipeButton = ({text, selectRecipeHandler}) => {
     return(
         <button
         onClick={selectRecipeHandler} // Call selectRecipeHandler when clicked.
-        className="bg-gray-50 hover:bg-yellow-200 p-6 shadow-md w-full text-left">
+        className="bg-white hover:bg-yellow-200 p-6 rounded-lg shadow-md w-full text-left">
             {text}
         </button>
     );
@@ -113,14 +121,14 @@ const RecipeButton = ({text, selectRecipeHandler}) => {
 const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
     if(recipe === null) { // If the given recipe is null, then show a placeholder box.
         return(
-            <div className="bg-gray-50 w-full p-8 shadow-md">
+            <div className="bg-white w-full p-8 shadow-md">
                 NOTHING
             </div>
         );
     }
     else { // if the given recipe is NOT null, then show its info.
         return(
-            <div className="relative bg-gray-50 w-full p-12 pb-24 shadow-md field">
+            <div className="relative bg-white w-full p-12 pb-24 shadow-md field">
                 
                 {/* The DELETE button. */}
                 <div className="flex absolute md:top-4 right-4 space-x-2">
@@ -156,10 +164,8 @@ const IngredientList = ({recipe}) => {
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
-
                     {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
-
                 </tbody>
             </table>
         </div>
@@ -171,12 +177,10 @@ const Ingredient = ({ingredient, clickHandler}) => {
 
     
     return(
-
         <tr>
             <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
             <td className="p-2">{ingredient.name}</td>
             <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
-
         </tr>
     );
 } 
@@ -184,14 +188,14 @@ const Ingredient = ({ingredient, clickHandler}) => {
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
 const Instructions = ({recipe}) => {
-    return(
+    if (!recipe.steps)
+        return null;
+    
+    return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
             <ul className="list-disc m-4 space-y-2">
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
+                {recipe.steps.map(step => <li key={step.id}>{step.text}</li>)}
             </ul>
         </div>
     );

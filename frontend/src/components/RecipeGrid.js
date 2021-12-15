@@ -7,7 +7,6 @@ export const RecipeGrid = ({ recipes }) => {
     const [columnNumber, setColumnNumber] = useState(1);
 
     const screenSize = useWindowSize();
-
     return (
         <div className="flex space-x-4 px-6"> 
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
@@ -61,8 +60,6 @@ function populateColumns(recipes, columnNumber) {
 }
 
 function useWindowSize() {
-    // Initialize state with undefined width/height so server and client renders match
-    // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
     const [windowSize, setWindowSize] = useState({
         width: undefined,
         height: undefined,
