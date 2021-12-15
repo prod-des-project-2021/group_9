@@ -115,6 +115,7 @@ function Form() {
       
       <form className={classes.root} onSubmit={handleSubmit}>
           <div>
+          <h1>Add name</h1>
             <TextField          
               name="name"
               label="Recipe name"
