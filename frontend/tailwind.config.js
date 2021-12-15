@@ -16,6 +16,8 @@ module.exports = {
         'bg1': '#FFFFE6'
       }),
 
+      blur: {        xs: '2px',      },
+
       fontFamily: {
 
         'Mali' : ['Mali', 'cursive']

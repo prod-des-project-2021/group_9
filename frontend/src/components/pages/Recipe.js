@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import recipeService from '../../services/recipes';
 import { useLocation } from "react-router-dom";
+import Parallax from '../Parallax'
 
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
@@ -33,11 +34,21 @@ const RecipeInfo = ({ recipe }) => {
     }
     else { // if the given recipe is NOT null, then show its info.
         return (
-            <div className="relative p-12 pb-24 field lg:mx-24">
-                <h1>{recipe.name}</h1>
+            <div className="relative pb-24 field lg:mx-24">
+                <div className='pb-6 '>
+                    <div className='relative bg-gradient-to-r  flex items-end justify-center'>
+                        <img src={recipe.url ? recipe.url : ""}
+                            className="object-cover h-96 w-5/6 border-gray-400 bg-center shadow-md " />
+
+                        <div className='absolute text-center px-6 py-4 text-5xl text-white drop-shadow-xl text-center' >
+                            <h1>{recipe.name}</h1>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Show ingredients and instructions side by side (for now). */}
                 <div className="md:flex md:mx-6 space-y-6 md:space-x-6 md:space-y-0">
+
                     <IngredientList recipe={recipe} />
                     <Instructions recipe={recipe} />
                 </div>
@@ -86,10 +97,10 @@ const Ingredient = ({ ingredient, clickHandler }) => {
 
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
-const Instructions = ({recipe}) => {
+const Instructions = ({ recipe }) => {
     if (!recipe.steps)
         return null;
-    
+
     return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
