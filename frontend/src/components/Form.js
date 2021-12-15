@@ -46,6 +46,7 @@ function Form() {
     /* formData.append('recipe', recipe) */
 
     console.log(recipe);
+    // add functionality inside 'then'
     recipeService.create(formData).then()
 
   };
