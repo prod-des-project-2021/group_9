@@ -6,15 +6,27 @@
     "scripts": {
         "start": "node index.js",
         "deploy": "PORT=80 node index.js",
+        "dev": "nodemon index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.19.1",
         "cloudinary": "^1.27.1",
+        "cors": "^2.8.5",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
+        "express-basic-auth": "^1.2.0",
+        "express-validator": "^6.13.0",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.0.13",
-        "morgan": "^1.10.0"
+        "mongoose-unique-validator": "^3.0.0",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.3",
+        "multer-storage-cloudinary": "^4.0.0",
+        "uuid": "^8.3.2"
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 const SearchDropdown = ({ filteredRecipes, onItemClickHandler }) => {
     return (
-        <div className="absolute bg-white rounded-bl-md rounded-br-md w-full">
+        <div className="absolute bg-white rounded-bl-md rounded-br-md w-full z-50">
             <SearchList recipes={filteredRecipes} onItemClickHandler={onItemClickHandler} />
         </div>
     )
