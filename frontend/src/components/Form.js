@@ -182,10 +182,10 @@ function Form() {
             >
               <AddIcon />
             </IconButton>
-            <h1>Upload picture of the food</h1>
-            <ImageUpload callback={imageCallback} />
           </div>
         ))}
+        <h1>Upload picture of the food</h1>
+        <ImageUpload callback={imageCallback} />
         <Button
           className={classes.button}
           variant="contained"
