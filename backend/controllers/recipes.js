@@ -45,7 +45,6 @@ recipesRouter.get('/', async (req, res) => {
     } else if (req.query.user) {
         filter = { user: req.query.user }
     }
-    console.log(filter)
     const recipes = await Recipe.find(filter).populate('user', { username: 1 })
     res.status(200).json(recipes)
 })
