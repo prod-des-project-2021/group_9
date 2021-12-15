@@ -40,7 +40,10 @@ function Form() {
     e.preventDefault();
     let formData = new FormData()
     formData.append("file", image)
-    formData.append('recipe', recipe)
+    formData.append("name", recipe.name)
+    formData.append("ingredients", JSON.stringify(recipe.ingredients))
+    formData.append("steps", JSON.stringify(recipe.steps))
+    /* formData.append('recipe', recipe) */
 
     console.log(recipe);
     recipeService.create(formData).then()

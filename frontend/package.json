@@ -34,6 +34,7 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
+        "local": "REACT_APP_PROXY=http://localhost:3001 craco start",
         "buildnmove": "cd ../backend && rm -rf build && cd ../frontend && CI=false npm run build && mv build/ ../backend",
         "eject": "react-scripts eject"
     },

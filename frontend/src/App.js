@@ -10,6 +10,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'
 
+
 function App() {
 
     const { isLoggedIn } = useSelector(state => state.auth)

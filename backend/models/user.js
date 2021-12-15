@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Email required"]
     },
     passwordHash: String,
-    pantry: [],
+    shoppingList: [],
     recipes: [
         {
             type: mongoose.Schema.Types.ObjectId,
