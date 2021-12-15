@@ -10,6 +10,8 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'
 import Button from './components/Button'
+import ShoppingList from './components/ShoppingList'
+import CustomizedDialogs from './components/Popup'
 
 function App() {
 
@@ -40,10 +42,17 @@ function App() {
                 <Route exact path="/recipes" element={<Recipes />} />
                 <Route exact path="/myrecipes" element={<MyRecipes />} />
             </Routes>
-            <div className="relative h-32 w-32" >
-                <Button className="absolute bottom-0 right-0 h-16 w-16" onClick={() => setShowShoppingList(!showShoppingList)} />
+            <div className="relative" >
+                <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" clickHandler={() => {
+                    console.log(showShoppingList)
+                    setShowShoppingList(!showShoppingList)
+                }} />
             </div>
             <Footer />
+            {
+                showShoppingList === true ? <ShoppingList /> : null
+            }
+
         </Router>
     )
 }

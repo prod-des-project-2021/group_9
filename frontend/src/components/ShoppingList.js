@@ -18,17 +18,17 @@ const ShoppingList = (props) => {
 
     const dispatch = useDispatch()
 
-    const fetchData = async() => {
+    const fetchData = async () => {
 
         try {
-        
-            const response = await service.getShoppingLIst(user.id);
+
+            const response = await service.getShoppingList(user.id);
             setShopperList(response.shoppingList)
-      
-        
+
+
             console.log(response)
         }
-        catch (err){
+        catch (err) {
             dispatch(logout())
             navigate('/')
             console.log(err)
@@ -38,10 +38,10 @@ const ShoppingList = (props) => {
 
     useEffect(() => {
         fetchData();
-        }, []);
+    }, []);
 
 
-    const addToShoppingList = async(e) => {
+    const addToShoppingList = async (e) => {
 
         e.preventDefault();
         const elements = formRef.current.elements
@@ -49,13 +49,13 @@ const ShoppingList = (props) => {
 
             id: uuidv4(),
             amount: elements[0].value,
-            unit: elements[1].value, 
+            unit: elements[1].value,
             name: elements[2].value
         }
 
         console.log(newIngredient)
 
-        
+
         elements[0].value = ""
         elements[1].value = ""
         elements[2].value = ""
@@ -63,11 +63,11 @@ const ShoppingList = (props) => {
         updateShoppingList(shopperList.concat(newIngredient))
     }
 
-   
 
-    const deleteIngredient = ({id}) => () => {
+
+    const deleteIngredient = ({ id }) => () => {
         //delete ingredient
-        const newList = shopperList.filter((ingredient) => ingredient.id !== id)   
+        const newList = shopperList.filter((ingredient) => ingredient.id !== id)
 
         setShopperList(newList);
         updateShoppingList(newList);
@@ -78,47 +78,47 @@ const ShoppingList = (props) => {
 
     const clearShoppingList = () => {
 
-        
+
         updateShoppingList([]);
 
     }
 
     const updateShoppingList = (shoppinglist) => {
-        
+
         if (user)
-            service.update(user.id, shoppinglist);
+            service.update(shoppinglist);
 
         setShopperList(shoppinglist)
     }
 
 
-    return(
+    return (
         <div>
-            <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-auto bg-yellow-100 shadow-xl ">
-            
-            <table className="table-auto w-full">
-                <tbody className="divide-y">
-                {shopperList.map((ingredient)=>(
-                        
-                    <tr className="w-full bg-blue-200" key={ingredient.id}>
-                        <td className="w-1/5 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
-                        <td className="w-3/5 p-2">{ingredient.name}</td>
-                        <td className="w-1/5"> <button className="text-right" type="submit" onClick={deleteIngredient(ingredient)}> Remove </button></td>
-                    </tr>
-                
-                ))}
-                
-                </tbody>
-                
-                
-            </table>
+            <div className="transition-all ease-in-out delay-150 duration-300 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-9/12 h-auto bg-yellow-100 shadow-xl ">
+
+                <table className="table-auto w-full">
+                    <tbody className="divide-y">
+                        {shopperList.map((ingredient) => (
+
+                            <tr className="w-full bg-blue-200 px-0.5 py-0.5" key={ingredient.id}>
+                                <td className="w-1/5 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
+                                <td className="w-3/5 p-2">{ingredient.name}</td>
+                                <td className="w-1/5"> <button className="text-right" type="submit" onClick={deleteIngredient(ingredient)}> Remove </button></td>
+                            </tr>
+
+                        ))}
+
+                    </tbody>
+
+
+                </table>
 
                 <div className="flex-row justify-center space-y-2 px-6">
                     <form className="flex-row text-right" onSubmit={addToShoppingList} ref={formRef}>
-        
-                        <input type= "text" placeholder="amount" />
-                        <input type= "text" placeholder="unit" />
-                        <input type= "text" placeholder="name" />
+
+                        <input type="text" placeholder="amount" />
+                        <input type="text" placeholder="unit" />
+                        <input type="text" placeholder="name" />
                         <button className="w-1/5"> + </button>
                     </form>
                 </div>
