@@ -5,6 +5,7 @@ import Recipes from './components/pages/Recipes'
 import LogIn from './components/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
+import Recipe from './components/pages/Recipe'
 import Footer from './components/Footer';
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
@@ -37,6 +38,7 @@ function App() {
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/recipes" element={<Recipes />} />
                     <Route exact path="/myrecipes" element={<MyRecipes />} />
+                    <Route exact path="/recipe" element={<Recipe />} />
                 </Routes>
               </div>
             <Footer />

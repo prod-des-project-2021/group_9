@@ -22,7 +22,6 @@ const Recipes = () => {
 
     return (
         <div>
-            <h1>Recipes page</h1>
             <RecipeGrid recipes={recipes} />
         </div>
     );
