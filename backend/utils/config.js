@@ -3,6 +3,7 @@ require('dotenv').config()
 
 const PORT = process.env.PORT
 const MONGODB_URI = process.env.MONGODB_URI
+const JWT_SECRET = process.env.SECRET
 
 
 
@@ -14,6 +15,7 @@ cloudinaryConfig = {
 
 module.exports = {
     PORT,
+    JWT_SECRET,
     MONGODB_URI,
     cloudinaryConfig
 }
