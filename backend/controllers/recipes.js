@@ -22,25 +22,20 @@ const storage = new CloudinaryStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fields: 1,
+        fields: 4,
         fileSize: 1000000000
     },
-    fileFilter: function (_req, file, cb) {
-        checkFileType(file, cb)
+    fileFilter: async (req, file, cb) => {
+        const filetypes = ["image/jpeg", "image/jpg", "image/png"]
+        if (filetypes.includes(file.mimetype)) {
+            try {
+                cb(null, true)
+            } catch (err) {
+                cb(err, false)
+            }
+        }
     }
 })
-
-const checkFileType = (file, cb) => {
-    const filetypes = /jpeg|jpg|png|gif/
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-    const mimetype = filetypes.test(file.mimetype)
-
-    if (mimetype && extname) {
-        return cb(null, true)
-    } else {
-        cb('Error: Images Only!')
-    }
-}
 
 const authOptions = {
     users: { 'admin': process.env.AUTH_PW },
@@ -66,11 +61,15 @@ recipesRouter.get('/:id', async (req, res) => {
 })
 
 // Create
-recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
-    const url = req.file ? req.file.path : ''
-    logger.log(req.body)
+// can this be upload.single() ????
+recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
+    const url = req.files[0] ? req.files[0].path : ''
+    logger.print("URL:", url)
+    const body = req.body
     const newRecipe = new Recipe({
-        ...req.body,
+        name: body.name,
+        ingredients: JSON.parse(body.ingredients),
+        steps: JSON.parse(body.steps),
         url
     })
     const savedRecipe = await newRecipe.save()

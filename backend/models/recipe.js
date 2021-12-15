@@ -10,6 +10,7 @@ const recipeSchema = new mongoose.Schema({
     ingredients: [],
     steps: [],
     image: String,
+    url: String
 
 }, { timestamps: true })
 
