@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomizedDialogs from '../Popup';
-import recipeService from './../../services/recipes';
+import recipeService from '../../services/recipes';
+import userService from '../../services/users';
 
 import Form from '../Form'
 import ShoppingList from '../ShoppingList';
@@ -15,14 +16,13 @@ const MyRecipes = () => {
     const [filter, setFilter] = useState("myRecipes");
     const [showShoppingList, setShowShoppingList] = useState(false);
 
-    // Use recipes.js service to fetch recipes from the database.
-    // Currently every recipe is returned from the database, only recipes of the current user should be returned in the future...
-    const params = new URLSearchParams([['user', localUser.getUserId()]])
+    //const params = new URLSearchParams([['user', localUser.getUserId()]])
     useEffect(() => {
-        recipeService
-            .getRecipes(params)
-            .then(initialRecipes => {
-                setRecipes(initialRecipes);
+        userService
+            .getUser("61b73da37d055ccfc08be5a8")
+            .then(initialUser => {
+                console.log(initialUser);
+                //setRecipes(initialUser.recipes);
             });
     }, []);
 
@@ -65,6 +65,10 @@ const MyRecipes = () => {
                 <FilterButton text="Shopping List" selectFilterHandler={openShoppingList} />
             </div>
 
+            <CustomizedDialogs>
+                <Form />
+            </CustomizedDialogs>
+
             <RecipeGrid recipes={recipes} />
             {/* <div className="md:flex py-3 mx-4 md:space-x-4">
                 <RecipeList recipes={recipes} selectRecipeHandler={selectRecipeHandler} />
@@ -72,9 +76,7 @@ const MyRecipes = () => {
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div> */}
-            <CustomizedDialogs>
-                <Form />
-            </CustomizedDialogs>
+
         </div>
     );
 };
@@ -160,7 +162,7 @@ const IngredientList = ({ recipe }) => {
 
     const clickHandler = (ingredient) => () => {
         //send ingredient to shopping list
-        console.log(ingredient)
+        //console.log(ingredient)
 
     }
     return (
