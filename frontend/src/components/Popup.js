@@ -69,9 +69,8 @@ export default function CustomizedDialogs({children}) {
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          New recipe
         </BootstrapDialogTitle>
-        <DialogContent dividers>
+        <DialogContent>
         {children}
         </DialogContent>
       </BootstrapDialog>

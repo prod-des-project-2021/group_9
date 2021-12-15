@@ -46,6 +46,7 @@ function Form() {
     /* formData.append('recipe', recipe) */
 
     console.log(recipe);
+    // add functionality inside 'then'
     recipeService.create(formData).then()
 
   };
@@ -118,6 +119,7 @@ function Form() {
       
       <form className={classes.root} onSubmit={handleSubmit}>
           <div>
+          <h1>Add name</h1>
             <TextField          
               name="name"
               label="Recipe name"
