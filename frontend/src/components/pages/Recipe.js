@@ -26,14 +26,14 @@ const Recipe = () => {
 const RecipeInfo = ({ recipe }) => {
     if (recipe === null) { // If the given recipe is null, then show a placeholder box.
         return (
-            <div className="w-full p-8">
+            <div className="p-8 lg:mx-24">
                 NOTHING
             </div>
         );
     }
     else { // if the given recipe is NOT null, then show its info.
         return (
-            <div className="relative w-full p-12 pb-24 field">
+            <div className="relative p-12 pb-24 field lg:mx-24">
                 <h1>{recipe.name}</h1>
 
                 {/* Show ingredients and instructions side by side (for now). */}
@@ -86,15 +86,15 @@ const Ingredient = ({ ingredient, clickHandler }) => {
 
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
-const Instructions = ({ recipe }) => {
+const Instructions = ({recipe}) => {
+    if (!recipe.steps)
+        return null;
+    
     return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
             <ul className="list-disc m-4 space-y-2">
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
-                <li>asdasdasdasd</li>
+                {recipe.steps.map(step => <li key={step.id}>{step.text}</li>)}
             </ul>
         </div>
     );
@@ -109,5 +109,7 @@ const ModeButton = ({ text }) => {
         </button>
     );
 }
+
+
 
 export default Recipe;

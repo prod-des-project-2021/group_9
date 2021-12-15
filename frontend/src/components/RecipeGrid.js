@@ -15,7 +15,7 @@ export const RecipeGrid = ({ recipes }) => {
     }
 
     return (
-        <div className="flex space-x-4 px-6 pb-16 lg:mx-24"> 
+        <div className="flex space-x-4 px-6 pb-16 pt-10 lg:mx-24"> 
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
             ? null 
             : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column => 

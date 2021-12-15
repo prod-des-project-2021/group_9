@@ -22,27 +22,27 @@ export const Nav = () => {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <NavLink
                     to="/"
-                    className="hover:bg-nav-dark text-white px-3 py-1 rounded-md text-sm font-medium"
+                    className="hover:bg-nav-dark focus:bg-nav-dark text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Home
                   </NavLink>
 
                   <NavLink
                     to="/recipes"
-                    className="text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                    className="text-white hover:bg-nav-dark focus:bg-nav-dark hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Recipes
                   </NavLink>
 
                   <NavLink
                     to="/login"
-                    className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                    className="text-right items-end text-white hover:bg-nav-dark hover:text-white focus:bg-nav-dark px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Log in
                   </NavLink>
                   <NavLink
                     to="/myrecipes"
-                    className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                    className="text-right items-end text-white hover:bg-nav-dark hover:text-white focus:bg-nav-dark px-3 py-2 rounded-md text-sm font-medium"
                   >
                     My Recipes
                   </NavLink>
@@ -54,6 +54,7 @@ export const Nav = () => {
               <Search details={initialDetails} />
             </div>
             </div>
+            
             {/* Compact navigation */}
             <div className="-mr-2 flex md:hidden">
               <button
@@ -117,22 +118,22 @@ export const Nav = () => {
               <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <NavLink
                   to="/"
-                  className="hover:bg-nav-dark text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
+                  className="hover:bg-nav-dark focus:bg-nav-dark text-white block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsOpen(false)} >
                   Home
                 </NavLink>
 
                 <NavLink
                   to="/recipes"
-                  className="text-white hover:bg-nav-dark hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
+                  className="text-white hover:bg-nav-dark hover:text-white focus:bg-nav-dark block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsOpen(false)} >
                   Recipes
                 </NavLink>
 
                 <NavLink
                   to="/login"
-                  className="text-white hover:bg-nav-dark hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
+                  className="text-white hover:bg-nav-dark hover:text-white focus:bg-nav-dark block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsOpen(false)}>
                   Log in
                 </NavLink>
               </div>
