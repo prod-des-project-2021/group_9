@@ -14,9 +14,15 @@ const getRecipes = (params) => {
     return request.then(response => response.data);
 }
 
-const create = (newObject) => {
+const getRecipe = (id) => {
+    const request = axios.get(`${baseUrl}/${id}`);
+    return request.then(response => response.data);
+}  
+
+const create = (recipeForm) => {
     const config = { headers: user.authHeader() }
-    const request = axios.post(baseUrl, newObject, config);
+    recipeForm.append('user', user.getUserId())
+    const request = axios.post(baseUrl, recipeForm, config);
     return request.then(response => response.data);
 }
 /* 
@@ -37,4 +43,4 @@ const deleteRecipe = (id) => {
     return axios.delete(`${baseUrl}/${id}`, config);
 }
 
-export default { getAll, getRecipes, create, update, deleteRecipe }
+export default { getAll, getRecipes, getRecipe, create, update, deleteRecipe }

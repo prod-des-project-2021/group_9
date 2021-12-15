@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
@@ -7,12 +7,19 @@ export const RecipeGrid = ({ recipes }) => {
     const [columnNumber, setColumnNumber] = useState(1);
 
     const screenSize = useWindowSize();
+
+    const navigate = useNavigate();
+
+    const onClickRecipe = (id) => () => {
+        navigate(`/recipe?id=${id}`);
+    }
+
     return (
-        <div className="flex space-x-4 px-6"> 
+        <div className="flex space-x-4 px-6 pb-16 pt-10 lg:mx-24"> 
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
             ? null 
             : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column => 
-            <Column key={column.id} recipes={column.recipes} />
+            <Column key={column.id} recipes={column.recipes} onItemClickHandler={onClickRecipe} />
             )}
         </div>
     );
@@ -93,10 +100,11 @@ const RecipeListing = ({ text, clickHandler }) => {
     );
 }
 
-const Column = ({ recipes }) => {
+const Column = ({ recipes, onItemClickHandler }) => {
     return (
         <div className="w-full space-y-5">
-            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
+            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id} 
+            text={recipe.name} clickHandler={onItemClickHandler(recipe.id)}/>)}
         </div>
     )
 }
