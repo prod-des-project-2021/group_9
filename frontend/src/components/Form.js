@@ -43,11 +43,15 @@ function Form() {
     formData.append("name", recipe.name)
     formData.append("ingredients", JSON.stringify(recipe.ingredients))
     formData.append("steps", JSON.stringify(recipe.steps))
-    /* formData.append('recipe', recipe) */
 
-    console.log(recipe);
-    recipeService.create(formData).then()
+    recipeService.create(formData)
+    .then(() => {
+        // close the form window and reload the page?
 
+    })
+    .catch(() => {
+        // print error message as global notification window??
+    })
   };
 
   const handleChangeInput = (id, event) => {
