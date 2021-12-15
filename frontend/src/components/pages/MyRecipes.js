@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import recipes from './../../services/recipes';
+import CustomizedDialogs from '../Popup';
 import recipeService from './../../services/recipes';
+
+import Form from '../Form'
 import ShoppingList from '../ShoppingList';
 import RecipeGrid from '../RecipeGrid';
+
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([{id:0, name:"PLACEHOLDER", ingredients:[{amount:1, unit:"tbsp", name:"test"},{amount:3, unit:"qt", name:"more test"}]}]);
@@ -65,6 +68,9 @@ const MyRecipes = () => {
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div>
+            <CustomizedDialogs>
+                <Form/>
+            </CustomizedDialogs>
         </div>
     );
 };
@@ -158,10 +164,8 @@ const IngredientList = ({recipe}) => {
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
-
                     {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
-
                 </tbody>
             </table>
         </div>
@@ -173,12 +177,10 @@ const Ingredient = ({ingredient, clickHandler}) => {
 
     
     return(
-
         <tr>
             <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
             <td className="p-2">{ingredient.name}</td>
             <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
-
         </tr>
     );
 } 
