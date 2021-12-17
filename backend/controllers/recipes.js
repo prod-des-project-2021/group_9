@@ -136,6 +136,14 @@ recipesRouter.get('/create', jwtAuth, async (req, res) => {
 ]
 
 recipesRouter.post('/generateOwnership', async (req, res) => {
+    // reset every users 'recipes' list
+    const usersDoc = await User.find({})
+    for (const userDoc of usersDoc) {
+        const oldUser = userDoc._doc
+        const updatedUser = { ...oldUser, recipes: []}
+        await User.findByIdAndUpdate(oldUser._id, updatedUser)
+    }
+
     // get all recipes
     const recipes = await Recipe.find({})
     for (const recipeDoc of recipes) {
