@@ -9,23 +9,38 @@ const getAll = () => {
     return request.then(response => response.data);
 }
 
-const get = (params) => {
+const getRecipes = (params) => {
     const request = axios.get(baseUrl, { params });
     return request.then(response => response.data);
 }
 
-const create = (newObject) => {
-    const request = axios.post(baseUrl, { ...newObject, user: user.getUseId() }, { headers: user.authHeader() });
+const getRecipe = (id) => {
+    const request = axios.get(`${baseUrl}/${id}`);
+    return request.then(response => response.data);
+}  
+
+const create = (recipeForm) => {
+    const config = { headers: user.authHeader() }
+    recipeForm.append('user', user.getUserId())
+    const request = axios.post(baseUrl, recipeForm, config);
     return request.then(response => response.data);
 }
-
+/* 
+{
+    headers: {
+        Authorization: {},
+        Content-Type: {}
+    }
+}
+ */
 const update = (id, newObject) => {
     const request = axios.put(`${baseUrl}/${id}`, newObject);
     return request.then(response => response.data);
 }
 
 const deleteRecipe = (id) => {
-    return axios.delete(`${baseUrl}/${id}`);
+    const config = { headers: user.authHeader() }
+    return axios.delete(`${baseUrl}/${id}`, config);
 }
 
-export default { getAll, create, update, deleteRecipe }
+export default { getAll, getRecipes, getRecipe, create, update, deleteRecipe }

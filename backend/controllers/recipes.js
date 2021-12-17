@@ -10,7 +10,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer = require('multer')
 const basicAuth = require('express-basic-auth')
 const jwtAuth = require('../middleware/jwt')
-// const { body } = require('express-validator')
+const uuidv4 = require('uuid').v4;
 
 cloudinary.config(config.cloudinaryConfig)
 const storage = new CloudinaryStorage({
@@ -22,34 +22,34 @@ const storage = new CloudinaryStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fields: 1,
+        fields: 4,
         fileSize: 1000000000
     },
-    fileFilter: function (_req, file, cb) {
-        checkFileType(file, cb)
+    fileFilter: async (req, file, cb) => {
+        const filetypes = ["image/jpeg", "image/jpg", "image/png"]
+        if (filetypes.includes(file.mimetype)) {
+            try {
+                cb(null, true)
+            } catch (err) {
+                cb(err, false)
+            }
+        }
     }
 })
-
-const checkFileType = (file, cb) => {
-    const filetypes = /jpeg|jpg|png|gif/
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-    const mimetype = filetypes.test(file.mimetype)
-
-    if (mimetype && extname) {
-        return cb(null, true)
-    } else {
-        cb('Error: Images Only!')
-    }
-}
 
 const authOptions = {
     users: { 'admin': process.env.AUTH_PW },
     challenge: true
 }
 
-// Get all recipes
+// Get recipes
 recipesRouter.get('/', async (req, res) => {
-    const recipes = await Recipe.find({})
+    let filter = {};
+    if (req.query.name) {
+        filter = { name: { $regex: req.query.name, $options: 'i'} }
+    }
+    console.log(filter)
+    const recipes = await Recipe.find(filter).populate('user', { username: 1 })
     res.status(200).json(recipes)
 })
 
@@ -61,10 +61,15 @@ recipesRouter.get('/:id', async (req, res) => {
 })
 
 // Create
-recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
-    const url = req.file ? req.file.path : ''
+// can this be upload.single() ????
+recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
+    const url = req.files[0] ? req.files[0].path : ''
+    logger.print("URL:", url)
+    const body = req.body
     const newRecipe = new Recipe({
-        ...req.body,
+        name: body.name,
+        ingredients: JSON.parse(body.ingredients),
+        steps: JSON.parse(body.steps),
         url
     })
     const savedRecipe = await newRecipe.save()
@@ -72,7 +77,7 @@ recipesRouter.post('/', [jwtAuth, upload.single("file")], async (req, res) => {
 })
 
 // Update
-recipesRouter.put('/:id', async (req, res) => {
+recipesRouter.put('/:id', jwtAuth, async (req, res) => {
     const id = req.params.id
     const updatedRecipe = req.body
     const savedRecipe = await Recipe.findByIdAndUpdate(id, updatedRecipe, { new: true })
@@ -80,14 +85,14 @@ recipesRouter.put('/:id', async (req, res) => {
 })
 
 // Delete
-recipesRouter.delete('/:id', async (req, res) => {
+recipesRouter.delete('/:id', jwtAuth, async (req, res) => {
     const id = req.params.id
     const result = await Recipe.findByIdAndRemove(id)
     res.status(200).json(result)
 })
 
 // Generate recipes
-recipesRouter.get('/create', async (req, res) => {
+recipesRouter.get('/create', jwtAuth, async (req, res) => {
     for (let i = 0; i < 4; i++) {
         const newRecipe = new Recipe(createRecipe())
         await newRecipe.save()
@@ -95,6 +100,20 @@ recipesRouter.get('/create', async (req, res) => {
     const recipes = await Recipe.find({})
     res.json(recipes)
 })
+
+/* recipesRouter.post('/generateIds', jwtAuth, async (req, res) => {
+    const recipes = await Recipe.find({})
+    for (const recipe of recipes) {
+        const ingredients = [...recipe.ingredients]
+        // ingredients = [{name: "blaa", amount: 2, unit: "kg"}, {}]
+        for (const ingredient of ingredients) {
+            ingredient.id = uuidv4()
+        }
+        const updatedRecipe = { ...recipe, ingredients }
+        await Recipe.findByIdAndUpdate(recipe.id, updatedRecipe)
+    }
+    res.sendStatus(200)
+}) */
 
 /* // placeholder imageupload route for testing!
 recipesRouter.post('/image', upload.single("file"), async (req, res) => {

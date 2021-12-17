@@ -13,9 +13,35 @@
 
 .custom-img {
   background-image: url('components/img/parallax/spaghetti.jpg');
-  max-height: 720px;
+  max-height: 700px;
 }
 
+/*
+* Phone screens
+*/
+@media only screen and (max-height: 800px) {
+  .custom-img {
+    max-height: 350px;
+  }
+}
+
+/*
+* Tablets & small laptops
+*/
+@media only screen and (max-height: 920px) {
+  .custom-img {
+    max-height: 500px;
+  }
+}
+
+/*
+* Desktops
+*/
+@media only screen and (min-height: 920px) {
+  .custom-img {
+    max-height: 700px;
+  }
+}
 /*body {
 body {
   margin: 0;
@@ -43,3 +69,4 @@ code {
     align-items: center;
 
 }
+

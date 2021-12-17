@@ -2,10 +2,15 @@ const mongoose = require('mongoose')
 
 const recipeSchema = new mongoose.Schema({
     name: String,
-    user: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     ratings: [],
     ingredients: [],
+    steps: [],
     image: String,
+    url: String
 
 }, { timestamps: true })
 

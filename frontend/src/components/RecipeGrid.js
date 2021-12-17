@@ -1,51 +1,118 @@
 import React, { useState, useEffect } from 'react';
-import recipeService from '../services/recipes';
+import { useNavigate } from 'react-router-dom';
 
-export const RecipeGrid = ({ text }) => {
+export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
 
-    const [columnNumber, setColumnNumber] = useState(4);
-    useEffect(() => {
-        recipeService
-            .getAll()
-            .then(initialRecipes => {
-                let copy = { columns: [] };
+    const [columnNumber, setColumnNumber] = useState(1);
 
-                for (let i = 0; i < columnNumber; i++) {
-                    copy.columns.push({id: i, recipes: [], currentHeight: 0});
-                }
+    const screenSize = useWindowSize();
 
-                for (let i = 0; i < initialRecipes.length; i++) {
+    const navigate = useNavigate();
 
-                    copy.columns[i % columnNumber].recipes.push(initialRecipes[i]);
-                }
-                
-                console.log(copy.columns[0]);
-                setColumnList(copy);
-            });
-    }, []);
+    const onClickRecipe = (id) => () => {
+        navigate(`/recipe?id=${id}`);
+    }
 
     return (
-        <div className="flex space-x-4 px-6">
-            {columnList.columns === null ? null : columnList.columns.map(column => <Column key={column.id} recipes={column.recipes} />)}     
+        <div className="flex space-x-4 px-6 pb-16 pt-10 lg:mx-24">
+            {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null
+                ? null
+                : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column =>
+                    <Column key={column.id} recipes={column.recipes} onItemClickHandler={onClickRecipe} />
+                )}
         </div>
     );
 }
 
-const RecipeListing = ({ text, clickHandler }) => {
+function calculateColumnNumber(width) {
+    switch (true) {
+        case (width <= 640):
+            return 2;
+
+        case (width <= 768):
+            return 3;
+
+        case (width <= 1024):
+            return 3;
+
+        case (width <= 1280):
+            return 4;
+
+        case (width <= 1536):
+            return 5;
+    }
+    return 5;
+}
+
+function populateColumns(recipes, columnNumber) {
+    let copy = { columns: [] };
+
+    for (let i = 0; i < columnNumber; i++) {
+        copy.columns.push({ id: i, recipes: [], currentHeight: 0 });
+    }
+
+    if (recipes !== null) {
+        for (let i = 0; i < recipes.length; i++) {
+            copy.columns[i % columnNumber].recipes.push(recipes[i]);
+        }
+
+    } else {
+        for (let i = 0; i < columnNumber; i++) {
+            copy.columns[i].recipes.push({ name: "testi" });
+        }
+    }
+
+    return copy;
+}
+
+function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+        width: undefined,
+        height: undefined,
+    });
+    useEffect(() => {
+        // Handler to call on window resize
+        function handleResize() {
+            // Set window width/height to state
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+        }
+        // Add event listener
+        window.addEventListener("resize", handleResize);
+        // Call handler right away so state gets updated with initial window size
+        handleResize();
+        // Remove event listener on cleanup
+        return () => window.removeEventListener("resize", handleResize);
+    }, []); // Empty array ensures that effect is only run on mount
+    return windowSize;
+}
+
+const RecipeListing = ({ recipe, clickHandler }) => {
     return (
-        <button
-            onClick={clickHandler}
-            className="bg-gray-50 hover:bg-yellow-200 p-6 border-gray-400 shadow-md w-full rounded-xl">
-            {text}
-        </button>
+        <div className='relative bg-gray-50 '>
+            <img src={recipe.url ? recipe.url : ""}
+                className="border-gray-400 shadow-md w-full rounded-t-xl"></img>
+
+            <div className="border-gray-400 shadow-md w-full p-4 rounded-b-xl">
+                {recipe.name}
+            </div>
+
+            <button
+                onClick={clickHandler}
+                className='absolute top-0 left-0 hover:bg-white hover:opacity-20 w-full h-full rounded-xl'>
+            </button>
+        </div>
     );
 }
 
-const Column = ({ recipes }) => {
+const Column = ({ recipes, onItemClickHandler }) => {
     return (
-        <div className="w-1/3 space-y-5">
-            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
+        <div className="w-full space-y-5">
+            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id}
+                recipe={recipe} clickHandler={onItemClickHandler(recipe.id)} />)}
         </div>
     )
 }

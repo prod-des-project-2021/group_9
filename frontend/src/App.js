@@ -5,6 +5,7 @@ import Recipes from './components/pages/Recipes'
 import LogIn from './components/LogIn'
 import Navbar from './components/Navbar';
 import MyRecipes from './components/pages/MyRecipes'
+import Recipe from './components/pages/Recipe'
 import Footer from './components/Footer';
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
@@ -13,8 +14,8 @@ import Button from './components/Button'
 import ShoppingList from './components/ShoppingList'
 import CustomizedDialogs from './components/Popup'
 
-function App() {
 
+function App() {
     const { isLoggedIn } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [renderLogin, setRenderLogin] = useState(false)
@@ -34,26 +35,33 @@ function App() {
 
     //navigate to shopping list is Slnavigate
     return (
+      <div className="flex flex-col h-screen justify-between">
         <Router>
             {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
             <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
-            <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/recipes" element={<Recipes />} />
-                <Route exact path="/myrecipes" element={<MyRecipes />} />
-            </Routes>
-            <div className="relative" >
-                <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" clickHandler={() => {
-                    console.log(showShoppingList)
-                    setShowShoppingList(!showShoppingList)
-                }} />
-            </div>
+
+              <div className="mb-auto justify-self-start">
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                    <Route exact path="/recipes" element={<Recipes />} />
+                    <Route exact path="/myrecipes" element={<MyRecipes />} />
+                    <Route exact path="/recipe" element={<Recipe />} />
+                </Routes>
+              </div>
+              <div className="relative" >
+                  <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" clickHandler={() => {
+                      console.log(showShoppingList)
+                      setShowShoppingList(!showShoppingList)
+                  }} />
+              </div>
+
             <Footer />
             {
                 showShoppingList === true ? <ShoppingList /> : null
             }
 
         </Router>
+      </div>
     )
 }
 

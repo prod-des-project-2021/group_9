@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
@@ -23,16 +23,15 @@ const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle sx={{ m: 1, p: 3, width: "xl" }} {...other}>
       {children}
       {onClose ? (
         <IconButton
           aria-label="close"
-          onClick={onClose}
+          onClick={onClose}y
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
             color: (theme) => theme.palette.grey[500],
           }}
         >
@@ -63,15 +62,15 @@ export default function CustomizedDialogs({children}) {
       <Button variant="outlined" onClick={handleClickOpen}>
         Create new recipe
       </Button>
-      <BootstrapDialog
+      <BootstrapDialog 
+        maxWidth = "md"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          New recipe
         </BootstrapDialogTitle>
-        <DialogContent dividers>
+        <DialogContent>
         {children}
         </DialogContent>
       </BootstrapDialog>
