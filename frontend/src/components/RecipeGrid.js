@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
@@ -7,13 +7,20 @@ export const RecipeGrid = ({ recipes }) => {
     const [columnNumber, setColumnNumber] = useState(1);
 
     const screenSize = useWindowSize();
+
+    const navigate = useNavigate();
+
+    const onClickRecipe = (id) => () => {
+        navigate(`/recipe?id=${id}`);
+    }
+
     return (
-        <div className="flex space-x-4 px-6"> 
-            {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null 
-            ? null 
-            : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column => 
-            <Column key={column.id} recipes={column.recipes} />
-            )}
+        <div className="flex space-x-4 px-6 pb-16 pt-10 lg:mx-24">
+            {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null
+                ? null
+                : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column =>
+                    <Column key={column.id} recipes={column.recipes} onItemClickHandler={onClickRecipe} />
+                )}
         </div>
     );
 }
@@ -33,9 +40,9 @@ function calculateColumnNumber(width) {
             return 4;
 
         case (width <= 1536):
-            return 4;
+            return 5;
     }
-    return 4;
+    return 5;
 }
 
 function populateColumns(recipes, columnNumber) {
@@ -83,20 +90,29 @@ function useWindowSize() {
     return windowSize;
 }
 
-const RecipeListing = ({ text, clickHandler }) => {
+const RecipeListing = ({ recipe, clickHandler }) => {
     return (
-        <button
-            onClick={clickHandler}
-            className="bg-gray-50 hover:bg-yellow-200 p-6 border-gray-400 shadow-md w-full rounded-xl">
-            {text}
-        </button>
+        <div className='relative bg-gray-50 '>
+            <img src={recipe.url ? recipe.url : ""}
+                className="border-gray-400 shadow-md w-full rounded-t-xl"></img>
+
+            <div className="border-gray-400 shadow-md w-full p-4 rounded-b-xl">
+                {recipe.name}
+            </div>
+
+            <button
+                onClick={clickHandler}
+                className='absolute top-0 left-0 hover:bg-white hover:opacity-20 w-full h-full rounded-xl'>
+            </button>
+        </div>
     );
 }
 
-const Column = ({ recipes }) => {
+const Column = ({ recipes, onItemClickHandler }) => {
     return (
         <div className="w-full space-y-5">
-            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id} text={recipe.name} />)}
+            {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id}
+                recipe={recipe} clickHandler={onItemClickHandler(recipe.id)} />)}
         </div>
     )
 }

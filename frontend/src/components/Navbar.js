@@ -9,60 +9,58 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <div>
-            <nav className="bg-nav font-Mali">
+            <nav className="bg-nav font-Mali text-lg">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center">
+                    <div className="flex items-center justify-between  h-16">
+                        <div className="flex items-center ">
                             <div className="flex-shrink-0">
                                 {/* Logo tähän */}
                                 <img src={logo} alt="Logo" className="h-8" />
                             </div>
-                            <div className="hidden md:block">
+                            <div className="hidden md:block ">
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     <NavLink
                                         to="/"
-                                        className="hover:bg-nav-dark text-white px-3 py-1 rounded-md text-sm font-medium"
+                                        className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium"
                                     >
                                         Home
                                     </NavLink>
 
                                     <NavLink
                                         to="/recipes"
-                                        className="text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                                        className="text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md font-medium"
                                     >
                                         Recipes
                                     </NavLink>
 
                                     <NavLink
-                                        to="/login"
-                                        className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
-                                    >
-                                        Log in
-                                    </NavLink>
-                                    <NavLink
                                         to="/myrecipes"
-                                        className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md text-sm font-medium"
+                                        className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md font-medium"
                                     >
-                                        My Recipes
+                                        My recipes
                                     </NavLink>
                                 </div>
                             </div>
+                            
                         </div>
+                        <div className="flex items-center space-x-4" >
+                        <Search details={initialDetails}/>
                         {isLoggedIn ?
                             (
                                 <div>
-                                    <button onClick={handleLogout}>
-                                        LOGOUT
+                                    <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={handleLogout}>
+                                        Log out
                                     </button>
                                 </div>
                             ) :
                             (
                                 <div>
-                                    <button onClick={mountLogin}>
-                                        LOGIN
+                                    <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={mountLogin}>
+                                        Log in
                                     </button>
                                 </div>
                             )}
+                            </div>
                         {/* Compact navigation */}
                         <div className="-mr-2 flex md:hidden">
                             <button

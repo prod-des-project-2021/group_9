@@ -63,6 +63,13 @@ export default function CustomizedDialogs({children}) {
     setOpen(false);
   };
 
+  const childrenWithProps = React.Children.map(children, child => {
+      if (React.isValidElement(child)) {
+          return React.cloneElement(child, { handleClose })
+      }
+      return child
+  })
+
   return (
     <div>
       <Button 
@@ -85,7 +92,7 @@ export default function CustomizedDialogs({children}) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         </BootstrapDialogTitle>
         <DialogContent>
-        {children}
+            {childrenWithProps}
         </DialogContent>
       </BootstrapDialog>
     </div>

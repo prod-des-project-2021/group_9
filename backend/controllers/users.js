@@ -35,7 +35,7 @@ usersRouter.post('/login', async (req, res) => {
 // Get one user
 usersRouter.get('/:id', async (req, res) => {
     const id = req.params.id
-    const user = await User.findById(id)
+    const user = await User.findById(id).populate('recipes').populate('favorites')
     res.status(200).json(user)
 })
 

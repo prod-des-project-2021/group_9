@@ -30,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function Form() {
+
+
+function Form({ handleClose }) {
   const classes = useStyles()
 
   const [recipe, setRecipe] = useState({
@@ -48,6 +50,8 @@ function Form() {
   });
 
   const [image, setImage] = useState(null)
+  // set this to true when validation checks out!! should be defaulted to false!!!
+  const [buttonEnabled, setButtonEnabled] = useState(true)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,14 +60,26 @@ function Form() {
     formData.append("name", recipe.name)
     formData.append("ingredients", JSON.stringify(recipe.ingredients))
     formData.append("steps", JSON.stringify(recipe.steps))
+
     /* formData.append('recipe', recipe) */
 
     console.log(recipe);
 
+    setButtonEnabled(false)
+
     if (validate()) {
-      recipeService.create(formData).then()
+      recipeService.create(formData)
+        .then(() => {
+            // close the form window and reload the page?
+            handleClose()
+            window.location.reload()
+        })
+        .catch(() => {
+            // print error message as global notification window??
+        })
     }
   };
+
 
   function validate() {
     let isValid = true
@@ -264,6 +280,7 @@ function Form() {
           color="primary"
           type="submit"
           onClick={handleSubmit}
+          disabled={!buttonEnabled}
         >Save recipe</Button>
       </form>
     </Container>
