@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import recipeService from '../../services/recipes';
 import { useLocation } from "react-router-dom";
 
+import Form from '../Form'
+import ShoppingList from '../ShoppingList';
+
+import { setShoppingList } from '../../redux/actions/shoppinglist'
+import { useDispatch, useSelector } from 'react-redux'
+
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
@@ -49,20 +55,27 @@ const RecipeInfo = ({ recipe }) => {
 // Ingredients of the given recipe are listed.
 const IngredientList = ({ recipe }) => {
 
-    const clickHandler = (ingredient) => () => {
-        //send ingredient to shopping list
-        console.log(ingredient)
+    const dispatch = useDispatch()
 
+    const { isLoggedIn } = useSelector(state => state.auth)
+
+    const clickHandler = (ingredient) => () => {
+        if (isLoggedIn)
+            dispatch(setShoppingList(ingredient))
+
+        else {
+
+
+        }
     }
+
     return (
         <div className="md:w-1/2 shadow-t-md">
             <ModeButton text="Ingredients" />
             <table className="table-auto w-full">
                 <tbody className="divide-y">
-
                     {/* Map function is used to display a list of ingredients. */}
                     {recipe.ingredients.map(ingredient => <Ingredient key={ingredient.id} ingredient={ingredient} clickHandler={clickHandler} />)}
-
                 </tbody>
             </table>
         </div>
@@ -74,11 +87,12 @@ const Ingredient = ({ ingredient, clickHandler }) => {
 
 
     return (
-
         <tr>
             <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
             <td className="p-2">{ingredient.name}</td>
-            <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
+            <td>
+                <button onClick={clickHandler(ingredient)}> + </button>
+            </td>
 
         </tr>
     );
@@ -86,10 +100,10 @@ const Ingredient = ({ ingredient, clickHandler }) => {
 
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
-const Instructions = ({recipe}) => {
+const Instructions = ({ recipe }) => {
     if (!recipe.steps)
         return null;
-    
+
     return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
