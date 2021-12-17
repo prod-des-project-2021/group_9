@@ -5,9 +5,13 @@ import userService from '../../services/users';
 
 import Form from '../Form'
 import ShoppingList from '../ShoppingList';
+
 import RecipeGrid from '../RecipeGrid';
 
 import localUser from '../../utils/localUser';
+
+import { setShoppingList } from '../../redux/actions/shoppinglist'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const MyRecipes = () => {
@@ -22,7 +26,7 @@ const MyRecipes = () => {
             .getUser("61b73da37d055ccfc08be5a8")
             .then(initialUser => {
                 console.log(initialUser);
-                //setRecipes(initialUser.recipes);
+                setRecipes(initialUser.recipes);
             });
     }, []);
 
@@ -76,7 +80,6 @@ const MyRecipes = () => {
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
             </div> */}
-
         </div>
     );
 };
@@ -128,6 +131,7 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler }) => {
     if (recipe === null) { // If the given recipe is null, then show a placeholder box.
         return (
             <div className="bg-white w-full p-8 shadow-md">
+
                 NOTHING
             </div>
         );
@@ -159,12 +163,19 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler }) => {
 
 // Ingredients of the given recipe are listed.
 const IngredientList = ({ recipe }) => {
+    const dispatch = useDispatch()
+
+    const { isLoggedIn } = useSelector(state => state.auth)
 
     const clickHandler = (ingredient) => () => {
-        //send ingredient to shopping list
-        //console.log(ingredient)
+        if (isLoggedIn)
+            dispatch(setShoppingList(ingredient))
 
+        else {
+
+        }
     }
+
     return (
         <div className="md:w-1/2 shadow-t-md">
             <ModeButton text="Ingredients" />
@@ -186,7 +197,10 @@ const Ingredient = ({ ingredient, clickHandler }) => {
         <tr>
             <td className="w-24 p-2 text-right">{ingredient.amount} {ingredient.unit}</td>
             <td className="p-2">{ingredient.name}</td>
-            <td button type="submit" onClick={clickHandler(ingredient)}> + </td>
+            <td>
+                <button onClick={clickHandler(ingredient)}> + </button>
+            </td>
+
         </tr>
     );
 }

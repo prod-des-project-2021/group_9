@@ -10,12 +10,16 @@ import Footer from './components/Footer';
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'
+import Button from './components/Button'
+import ShoppingList from './components/ShoppingList'
+import CustomizedDialogs from './components/Popup'
 
 
 function App() {
     const { isLoggedIn } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [renderLogin, setRenderLogin] = useState(false)
+    const [showShoppingList, setShowShoppingList] = useState(false);
 
     const handleLogout = () => {
         handleRemoveWindow()
@@ -28,11 +32,14 @@ function App() {
         setRenderLogin(true)
     }
 
+
+    //navigate to shopping list is Slnavigate
     return (
       <div className="flex flex-col h-screen justify-between">
         <Router>
             {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
             <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
+
               <div className="mb-auto justify-self-start">
                 <Routes>
                     <Route exact path="/" element={<Home />} />
@@ -41,7 +48,18 @@ function App() {
                     <Route exact path="/recipe" element={<Recipe />} />
                 </Routes>
               </div>
+              <div className="relative" >
+                  <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" clickHandler={() => {
+                      console.log(showShoppingList)
+                      setShowShoppingList(!showShoppingList)
+                  }} />
+              </div>
+
             <Footer />
+            {
+                showShoppingList === true ? <ShoppingList /> : null
+            }
+
         </Router>
       </div>
     )
