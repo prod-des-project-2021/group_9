@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import store from './redux/store'
 import { logout } from './redux/actions/auth'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 function App() {
@@ -33,14 +35,15 @@ function App() {
         <Router>
             {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
             <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
-              <div className="mb-auto justify-self-start">
+            <div className="mb-auto justify-self-start">
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/recipes" element={<Recipes />} />
                     <Route exact path="/myrecipes" element={<MyRecipes />} />
                     <Route exact path="/recipe" element={<Recipe />} />
                 </Routes>
-              </div>
+            </div>
+            <ToastContainer/>
             <Footer />
         </Router>
       </div>
