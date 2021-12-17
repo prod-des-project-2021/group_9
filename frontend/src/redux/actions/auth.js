@@ -66,7 +66,7 @@ export const login = (username, password) => (dispatch) => {
                 type: LOGIN_FAIL
             })
             dispatch({
-                type: SET_MESSAGE,
+                type: SET_WARNING,
                 payload: message
             })
 

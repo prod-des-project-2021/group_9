@@ -11,6 +11,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import recipeService from '../services/recipes';
 import ImageUpload from './ImageUpload'
 
+import { useDispatch } from "react-redux";
+import { setMessage } from '../redux/actions/message'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Form() {
+function Form({ handleClose }) {
   const classes = useStyles()
 
   
@@ -35,6 +38,9 @@ function Form() {
   });
 
   const [image, setImage] = useState(null)
+  // set this to true when validation checks out!! should be defaulted to false!!!
+  const [buttonEnabled, setButtonEnabled] = useState(true)
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,13 +49,18 @@ function Form() {
     formData.append("name", recipe.name)
     formData.append("ingredients", JSON.stringify(recipe.ingredients))
     formData.append("steps", JSON.stringify(recipe.steps))
-    /* formData.append('recipe', recipe) */
-
-    console.log(recipe);
-    // add functionality inside 'then'
-    recipeService.create(formData).then()
-
-  };
+    setButtonEnabled(false)
+    recipeService.create(formData)
+        .then(() => {
+            handleClose()
+            // we shouldnt reload the window, insted just add the added recipe to the 'recipes' state
+            //window.location.reload()
+            dispatch(setMessage('Recipe added!', true))
+        })
+        .catch((err) => {
+            dispatch(setMessage(err))
+        })
+  }
 
   const handleChangeInput = (id, event) => {
     const newRecipe = {...recipe}
@@ -192,8 +203,8 @@ function Form() {
           variant="contained"
           color="primary"
           type="submit"
-          endIcon={<Icon>send</Icon>}
           onClick={handleSubmit}
+          disabled={!buttonEnabled}
         >Save recipe</Button>
       </form>
     </Container>

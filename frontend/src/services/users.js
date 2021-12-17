@@ -1,7 +1,7 @@
 import axios from 'axios';
 require("dotenv").config();
 
-const baseUrl = `${process.env.REACT_APP_PROXY}/api/recipes`;
+const baseUrl = `${process.env.REACT_APP_PROXY}/api/users`;
 
 const getUser = (id) => {
     const request = axios.get(`${baseUrl}/${id}`);
