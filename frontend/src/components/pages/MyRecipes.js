@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import CustomizedDialogs from '../Popup';
-import recipeService from './../../services/recipes';
+import recipeService from '../../services/recipes';
+import userService from '../../services/users';
 
 import Form from '../Form'
 import ShoppingList from '../ShoppingList';
 
 import RecipeGrid from '../RecipeGrid';
 
+import localUser from '../../utils/localUser';
+
 import { setShoppingList } from '../../redux/actions/shoppinglist'
 import { useDispatch, useSelector } from 'react-redux'
-
 
 
 const MyRecipes = () => {
@@ -18,14 +20,13 @@ const MyRecipes = () => {
     const [filter, setFilter] = useState("myRecipes");
     const [showShoppingList, setShowShoppingList] = useState(false);
 
-
-    // Use recipes.js service to fetch recipes from the database.
-    // Currently every recipe is returned from the database, only recipes of the current user should be returned in the future...
+    //const params = new URLSearchParams([['user', localUser.getUserId()]])
     useEffect(() => {
-        recipeService
-            .getAll()
-            .then(initialRecipes => {
-                setRecipes(initialRecipes);
+        userService
+            .getUser("61b73da37d055ccfc08be5a8")
+            .then(initialUser => {
+                console.log(initialUser);
+                setRecipes(initialUser.recipes);
             });
     }, []);
 
@@ -57,7 +58,7 @@ const MyRecipes = () => {
     }
 
     return (
-        <div className="bg-yellow-100 font-Mali">
+        <div className="font-Mali">
             {
                 showShoppingList === true ? <ShoppingList /> : null
             }
@@ -68,15 +69,17 @@ const MyRecipes = () => {
                 <FilterButton text="Shopping List" selectFilterHandler={openShoppingList} />
             </div>
 
-            <div className="md:flex py-3 mx-4 md:space-x-4">
+            <CustomizedDialogs>
+                <Form />
+            </CustomizedDialogs>
+
+            <RecipeGrid recipes={recipes} />
+            {/* <div className="md:flex py-3 mx-4 md:space-x-4">
                 <RecipeList recipes={recipes} selectRecipeHandler={selectRecipeHandler} />
                 <div className="w-full md:w-3/4">
                     <RecipeInfo recipe={selectedRecipe} deleteRecipeHandler={deleteRecipeHandler} />
                 </div>
-            </div>
-            <CustomizedDialogs>
-                <Form />
-            </CustomizedDialogs>
+            </div> */}
         </div>
     );
 };
@@ -115,10 +118,8 @@ const RecipeList = ({ recipes, selectRecipeHandler }) => {
 const RecipeButton = ({ text, selectRecipeHandler }) => {
     return (
         <button
-
-        onClick={selectRecipeHandler} // Call selectRecipeHandler when clicked.
-        className="bg-white hover:bg-yellow-200 p-6 rounded-lg shadow-md w-full text-left">
-
+            onClick={selectRecipeHandler} // Call selectRecipeHandler when clicked.
+            className="bg-white hover:bg-yellow-200 p-6 rounded-lg shadow-md w-full text-left">
             {text}
         </button>
     );
@@ -126,10 +127,9 @@ const RecipeButton = ({ text, selectRecipeHandler }) => {
 
 // A big box on the right side of the screen.
 // The name, Ingredints and instuctions of the given recipe are shown.
-
-const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
-    if(recipe === null) { // If the given recipe is null, then show a placeholder box.
-        return(
+const RecipeInfo = ({ recipe, deleteRecipeHandler }) => {
+    if (recipe === null) { // If the given recipe is null, then show a placeholder box.
+        return (
             <div className="bg-white w-full p-8 shadow-md">
 
                 NOTHING
@@ -137,10 +137,9 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
         );
     }
     else { // if the given recipe is NOT null, then show its info.
-
-        return(
+        return (
             <div className="relative bg-white w-full p-12 pb-24 shadow-md field">
-                
+
                 {/* The DELETE button. */}
                 <div className="flex absolute md:top-4 right-4 space-x-2">
                     <button
@@ -164,7 +163,6 @@ const RecipeInfo = ({recipe, deleteRecipeHandler}) => {
 
 // Ingredients of the given recipe are listed.
 const IngredientList = ({ recipe }) => {
-
     const dispatch = useDispatch()
 
     const { isLoggedIn } = useSelector(state => state.auth)
@@ -174,7 +172,6 @@ const IngredientList = ({ recipe }) => {
             dispatch(setShoppingList(ingredient))
 
         else {
-
 
         }
     }
@@ -210,11 +207,10 @@ const Ingredient = ({ ingredient, clickHandler }) => {
 
 // Instructions of the given recipe are listed.
 // WIP (recipes don't have instructions yet).
-
-const Instructions = ({recipe}) => {
+const Instructions = ({ recipe }) => {
     if (!recipe.steps)
         return null;
-    
+
     return (
         <div className="table-auto md:w-1/2 shadow-t-md">
             <ModeButton text="Instructions" />
