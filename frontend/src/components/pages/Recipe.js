@@ -36,10 +36,10 @@ const RecipeInfo = ({ recipe }) => {
         return (
             <div className="relative pb-24 field lg:mx-24">
                 <div className='pb-6 '>
-                    <div className='relative bg-gradient-to-r  flex items-end justify-center'>
+                    <div className='relative flex items-end justify-center'>
                         <img src={recipe.url ? recipe.url : ""}
-                            className="object-cover h-96 w-5/6 border-gray-400 bg-center shadow-md " />
-
+                            className="object-cover h-96 w-5/6 border-gray-400 bg-center shadow-md" />
+                        <div class="absolute bottom-0 h-40 w-5/6 bg-gradient-to-t from-black opacity-60"></div>
                         <div className='absolute text-center px-6 py-4 text-5xl text-white drop-shadow-xl text-center' >
                             <h1>{recipe.name}</h1>
                         </div>

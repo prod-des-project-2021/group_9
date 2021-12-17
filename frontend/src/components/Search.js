@@ -43,7 +43,7 @@ function Search() {
   const onClickSearch = () => {
     searchInputRef.current.blur();
     navigate(`/recipes?name=${searchField}`);
-
+    
   }
 
   const onFocusHandler = () => {
