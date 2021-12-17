@@ -17,10 +17,10 @@ const getRecipes = (params) => {
 const getRecipe = (id) => {
     const request = axios.get(`${baseUrl}/${id}`);
     return request.then(response => response.data);
-}  
+}
 
 const create = (recipeForm) => {
-    const config = { headers: user.authHeader() }
+    const config = { ...user.authHeader() }
     recipeForm.append('user', user.getUserId())
     const request = axios.post(baseUrl, recipeForm, config);
     return request.then(response => response.data);
