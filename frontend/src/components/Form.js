@@ -11,6 +11,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import recipeService from '../services/recipes';
 import ImageUpload from './ImageUpload'
 
+import { useDispatch } from "react-redux";
+import { setMessage } from '../redux/actions/message'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -37,6 +40,7 @@ function Form({ handleClose }) {
   const [image, setImage] = useState(null)
   // set this to true when validation checks out!! should be defaulted to false!!!
   const [buttonEnabled, setButtonEnabled] = useState(true)
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,12 +52,13 @@ function Form({ handleClose }) {
     setButtonEnabled(false)
     recipeService.create(formData)
         .then(() => {
-            // close the form window and reload the page?
             handleClose()
-            window.location.reload()
+            // we shouldnt reload the window, insted just add the added recipe to the 'recipes' state
+            //window.location.reload()
+            dispatch(setMessage('Recipe added!', true))
         })
-        .catch(() => {
-            // print error message as global notification window??
+        .catch((err) => {
+            dispatch(setMessage(err))
         })
   }
 
