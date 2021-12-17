@@ -13,27 +13,33 @@ import Typography from '@mui/material/Typography';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(3),
+    
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
+  
 }));
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 1, p: 3, width: "xl" }} {...other}>
+    <DialogTitle className ={{}} sx={{ m: 0, p: 1, width: "xl" ,}} {...other}>
       {children}
       {onClose ? (
         <IconButton
+        style={{
+          borderRadius: 20,
+          color: '#000000',
+          backgroundColor: "#F5D142",
+          padding: "1px 22px",
+          fontSize: "15px",
+          position: 'flex',
+          right:'-85%'
+      }}
           aria-label="close"
-          onClick={onClose}y
-          sx={{
-            position: 'absolute',
-            right: 0,
-            color: (theme) => theme.palette.grey[500],
-          }}
+          onClick={onClose}
         >
           <CloseIcon />
         </IconButton>
@@ -57,9 +63,24 @@ export default function CustomizedDialogs({children}) {
     setOpen(false);
   };
 
+  const childrenWithProps = React.Children.map(children, child => {
+      if (React.isValidElement(child)) {
+          return React.cloneElement(child, { handleClose })
+      }
+      return child
+  })
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button 
+      variant="outlined" onClick={handleClickOpen}
+      style={{
+        borderRadius: 20,
+        color: '#000000',
+        backgroundColor: "#F5D142",
+        padding: "1px 22px",
+        fontSize: "15px", 
+    }}>
         Create new recipe
       </Button>
       <BootstrapDialog 
@@ -71,7 +92,7 @@ export default function CustomizedDialogs({children}) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         </BootstrapDialogTitle>
         <DialogContent>
-        {children}
+            {childrenWithProps}
         </DialogContent>
       </BootstrapDialog>
     </div>

@@ -18,8 +18,6 @@ const LogIn = (props) => {
     const registerRef = useRef()
 
     const { isLoggedIn } = useSelector(state => state.auth)
-    const { message } = useSelector(state => state.message)
-
     const dispatch = useDispatch()
 
     const switchFormHandler = () => {
@@ -117,13 +115,6 @@ const LogIn = (props) => {
                             loading={loading}
                             registerRef={registerRef} />
                     }
-                    <div>
-                        {message && (
-                            <div role="alert">
-                                <p>{message}</p>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
         </div>
