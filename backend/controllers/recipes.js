@@ -10,8 +10,8 @@ const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer = require('multer')
 const jwtAuth = require('../middleware/jwt')
-const uuidv4 = require('uuid').v4;
-const images = require('../utils/images')
+/* const uuidv4 = require('uuid').v4;
+const images = require('../utils/images') */
 
 cloudinary.config(config.cloudinaryConfig)
 const storage = new CloudinaryStorage({
@@ -70,10 +70,9 @@ recipesRouter.post('/', [jwtAuth, upload.any()], async (req, res) => {
         steps: JSON.parse(body.steps),
         url
     })
-    const savedRecipe = await newRecipe.save().then(async () => {
-        // update users 'recipes' field
-        await User.findByIdAndUpdate(body.name, {$push: {"recipes": savedRecipe.id}})
-    })
+    const savedRecipe = await newRecipe.save()
+    // update users 'recipes' field
+    await User.findByIdAndUpdate(body.user, {$push: {"recipes": savedRecipe._id}})
 
     res.status(201).json(savedRecipe)
 })
@@ -125,6 +124,29 @@ recipesRouter.get('/create', jwtAuth, async (req, res) => {
         const url = images[Math.floor(Math.random() * images.length)]
         const updatedRecipe = { ...recipe, url }
         await Recipe.findByIdAndUpdate(recipe._id, updatedRecipe)
+    }
+    res.sendStatus(200)
+}) */
+
+/* const users = [
+    '619f688458c6bdc130a213ae',
+    '61af398af9eb363fb00daf4d',
+    '61b73da37d055ccfc08be5a8',
+    '61b9bc3ad15a45e141829423'
+]
+
+recipesRouter.post('/generateOwnership', async (req, res) => {
+    // get all recipes
+    const recipes = await Recipe.find({})
+    for (const recipeDoc of recipes) {
+        const recipe = recipeDoc._doc
+        // give them random owners from 'users' array
+        const user = users[Math.floor(Math.random() * users.length)]
+        const updatedRecipe = { ...recipe, user }
+        await Recipe.findByIdAndUpdate(recipe._id, updatedRecipe)
+
+        // after giving a recipe its new owner, UPDATE owner's 'recipes' array
+        await User.findByIdAndUpdate(user, {$push: {"recipes": recipe._id}})
     }
     res.sendStatus(200)
 }) */
