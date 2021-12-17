@@ -57,7 +57,7 @@ usersRouter.post('/', async (req, res) => {
 // Add a new favorite recipe to user
 usersRouter.post('/favorite', jwtAuth, async (req, res) => {
     const body = req.body
-    const result = User.findByIdAndUpdate(body.user, {$push: {"favorites": body.id}}, { new: true })
+    const result = User.findByIdAndUpdate(req.user, {$push: {"favorites": body.id}}, { new: true })
     res.status(201).json(result)
 })
 
