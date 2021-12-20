@@ -57,7 +57,7 @@
             "last 1 safari version"
         ]
     },
-    "homepage": "./linux193/",
+    "homepage": ".",
     "devDependencies": {
         "autoprefixer": "^9.8.8",
         "postcss": "^7.0.39",
