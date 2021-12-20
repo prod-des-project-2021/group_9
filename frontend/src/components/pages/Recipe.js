@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import recipeService from '../../services/recipes';
-import userService from '../../services/users';
 import { useLocation } from "react-router-dom";
-import Parallax from '../Parallax'
 
 import localUser from '../../utils/localUser';
 
@@ -10,10 +8,15 @@ import { setShoppingList } from '../../redux/actions/shoppinglist';
 import { updateFavorites } from '../../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useNavigate } from 'react-router-dom';
+
+import icon_delete from '../img/delete_white_24dp.svg';
+import icon_favorite from '../img/favorite_white_24dp.svg';
+import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
+
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
-    const dispatch = useDispatch()
 
     useEffect(() => {
         recipeService
@@ -23,34 +26,18 @@ const Recipe = () => {
             });
     }, [location]);
 
-
-    const deleteRecipeHandler = (recipe) => () => {
-        recipeService
-            .deleteRecipe(recipe.id)
-            .then(deletedRecipe => {
-                console.log(deletedRecipe);
-            });
-    }
-
-    const favoriteRecipeHandler = (recipe) => () => {
-        dispatch(updateFavorites(recipe.id))
-            .then(response => {
-                console.log(response);
-            })
-    }
-
     return (
         <div>
-            <RecipeInfo recipe={recipe} deleteRecipeHandler={deleteRecipeHandler} favoriteRecipeHandler={favoriteRecipeHandler} />
+            <RecipeInfo recipe={recipe} />
         </div>
     );
 }
 
-const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
+const RecipeInfo = ({ recipe }) => {
     if (recipe === null) { // If the given recipe is null, then show a placeholder box.
         return (
             <div className="p-8 lg:mx-24">
-                NOTHING
+                NOTHING HERE
             </div>
         );
     }
@@ -61,7 +48,7 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
                     <div className='relative flex items-end'>
                         <img src={recipe.url ? recipe.url : ""}
                             className="object-cover h-96 w-full bg-center shadow-md " />
-                        <div class="absolute bottom-0 h-40 w-full bg-gradient-to-t from-black opacity-60 "></div>
+                        <div className="absolute bottom-0 h-40 w-full bg-gradient-to-t from-black opacity-60 "></div>
                         <div className='absolute w-full text-center px-6 py-4 text-white drop-shadow-xl' >
                             <h1 className='text-4xl'>{recipe.name}</h1>
                             <div className="mb-2 text-2xl">by {recipe.user.username}</div>
@@ -71,27 +58,7 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
 
                     {/* Show ingredients and instructions side by side (for now). */}
                     <div className="relative md:flex md:mx-6  space-y-6 md:space-x-6 md:space-y-0 pt-4">
-                        <div className="flex absolute md:top-4 right-4 space-x-2">
-                            {!localUser.getUserFavorites().some(f => f.id === recipe.id)
-                                ? <button
-                                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                                    Favorite
-                                </button>
-                                : <button
-                                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                                    Unfavorite
-                                </button>}
-                            {recipe.user.id === localUser.getUserId()
-                                ?
-                                <button
-                                    onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
-                                    DELETE
-                                </button>
-                                : null}
-                        </div>
+                        <Options recipe={recipe} />
                         <IngredientList recipe={recipe} />
                         <Instructions recipe={recipe} />
                     </div>
@@ -99,6 +66,52 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
             </div>
         );
     }
+}
+
+const Options = ({ recipe }) => {
+    const { user, isLoggedIn } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    if (!isLoggedIn)
+        return null;
+
+    const deleteRecipeHandler = (recipe) => () => {
+        recipeService
+            .deleteRecipe(recipe.id)
+            .then(deletedRecipe => {
+                navigate(`/myRecipes`);
+            });
+    }
+
+    const favoriteRecipeHandler = (recipe) => () => {
+        dispatch(updateFavorites(recipe.id))
+    }
+
+    return (
+        <div className="flex absolute md:top-4 right-4 space-x-2">
+
+            <button
+                onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                className="bg-yellow-300 hover:bg-yellow-100 p-4 w-auto rounded-full">
+
+                {console.log(user.favorites)}
+
+                {!user.favorites.includes(recipe.id)
+                    ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
+                }
+            </button>
+
+            {recipe.user.id === localUser.getUserId()
+                ? <button
+                    onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                    className="bg-gray-500 hover:bg-red-400 p-4 w-auto rounded-full">
+                    <img src={icon_delete} />
+                </button>
+                : null
+            }
+        </div>
+    );
 }
 
 // Ingredients of the given recipe are listed.

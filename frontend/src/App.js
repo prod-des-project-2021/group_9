@@ -16,6 +16,8 @@ import CustomizedDialogs from './components/Popup'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import icon_shopping_cart from './components/img/shopping_cart_white_24dp.svg';
+
 
 function App() {
     const { isLoggedIn } = useSelector(state => state.auth)
@@ -37,32 +39,32 @@ function App() {
 
     //navigate to shopping list is Slnavigate
     return (
-      <div className="flex flex-col h-screen justify-between">
-        <Router>
-            {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
-            <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
-            <div className="mb-auto justify-self-start">
-              <Routes>
-                  <Route exact path="/" element={<Home />} />
-                  <Route exact path="/recipes" element={<Recipes />} />
-                  <Route exact path="/myrecipes" element={<MyRecipes />} />
-                  <Route exact path="/recipe" element={<Recipe />} />
-              </Routes>
-            </div>
-            <div className="relative" >
-                <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" clickHandler={() => {
-                    console.log(showShoppingList)
-                    setShowShoppingList(!showShoppingList)
-                }} />
-            </div>
-            <ToastContainer/>
-            <Footer />
-            {
-                showShoppingList === true ? <ShoppingList /> : null
-            }
+        <div className="flex flex-col h-screen justify-between">
+            <Router>
+                {!isLoggedIn && renderLogin && <LogIn dismiss={handleRemoveWindow} />}
+                <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} mountLogin={handleAddWindow} />
+                <div className="mb-auto justify-self-start">
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/recipes" element={<Recipes />} />
+                        <Route exact path="/myrecipes" element={<MyRecipes />} />
+                        <Route exact path="/recipe" element={<Recipe />} />
+                    </Routes>
+                </div>
+                <div className="relative" >
+                    <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" icon={icon_shopping_cart} clickHandler={() => {
+                        console.log(showShoppingList)
+                        setShowShoppingList(!showShoppingList)
+                    }} />
+                </div>
+                <ToastContainer />
+                <Footer />
+                {
+                    showShoppingList === true ? <ShoppingList /> : null
+                }
 
-        </Router>
-      </div>
+            </Router>
+        </div>
     )
 }
 

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import icon_favorite from './img/favorite_white_24dp.svg';
+import icon_favorite_border from './img/favorite_border_white_24dp.svg';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 export const RecipeGrid = ({ recipes }) => {
     const [columnList, setColumnList] = useState({ columns: [] });
 
@@ -9,6 +14,8 @@ export const RecipeGrid = ({ recipes }) => {
     const screenSize = useWindowSize();
 
     const navigate = useNavigate();
+
+    const auth = useSelector(state => state.auth);
 
     const onClickRecipe = (id) => () => {
         navigate(`/recipe?id=${id}`);
@@ -19,7 +26,7 @@ export const RecipeGrid = ({ recipes }) => {
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null
                 ? null
                 : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column =>
-                    <Column key={column.id} recipes={column.recipes} onItemClickHandler={onClickRecipe} />
+                    <Column key={column.id} recipes={column.recipes} onItemClickHandler={onClickRecipe} auth={auth} />
                 )}
         </div>
     );
@@ -86,11 +93,11 @@ function useWindowSize() {
     return windowSize;
 }
 
-const RecipeListing = ({ recipe, clickHandler }) => {
+const RecipeListing = ({ recipe, clickHandler, auth }) => {
     return (
         <div className='relative shadow-lg rounded-xl bg-gray-50'>
             <img src={recipe.url ? recipe.url : ""}
-                className="border-gray-400 w-full rounded-t-xl"></img>
+                className="border-gray-400 w-full rounded-t-xl" />
 
             <div className="border-gray-400  w-full p-4 rounded-b-xl">
                 {recipe.name}
@@ -100,15 +107,24 @@ const RecipeListing = ({ recipe, clickHandler }) => {
                 onClick={clickHandler}
                 className='absolute top-0 left-0 hover:bg-white rounded-xl hover:opacity-20 w-full h-full '>
             </button>
-        </div>
+
+            {auth.isLoggedIn
+                ? <div className="absolute top-2 right-2 w-8 h-8 p-1">
+                    {!auth.user.favorites.includes(recipe.id)
+                        ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
+                    }
+                </div>
+                : null
+            }
+        </div >
     );
 }
 
-const Column = ({ recipes, onItemClickHandler }) => {
+const Column = ({ recipes, onItemClickHandler, auth }) => {
     return (
         <div className="w-full space-y-5">
             {recipes === null ? null : recipes.map(recipe => <RecipeListing key={recipe.id}
-                recipe={recipe} clickHandler={onItemClickHandler(recipe.id)} />)}
+                recipe={recipe} clickHandler={onItemClickHandler(recipe.id)} auth={auth} />)}
         </div>
     )
 }

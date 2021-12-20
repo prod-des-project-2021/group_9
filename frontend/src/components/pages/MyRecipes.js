@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import CustomizedDialogs from '../Popup';
-import recipeService from '../../services/recipes';
 import userService from '../../services/users';
 
 import Form from '../Form'
@@ -14,8 +13,6 @@ const MyRecipes = () => {
     const [favorites, setFavorites] = useState(null);
     const [filter, setFilter] = useState(0); // 0 = myRecipes, 1 = favorites
 
-
-    //const params = new URLSearchParams([['user', localUser.getUserId()]])
     useEffect(() => {
         userService
             .getUser(localUser.getUserId())
@@ -27,9 +24,6 @@ const MyRecipes = () => {
             });
     }, []);
 
-
-    // This functions is called when on the filter buttons is pressed.
-    // WIP (doesn't do anything, since all of the recipes are currently fetched form the database).
     const selectFilterHandler = (filter) => () => {
         setFilter(filter);
     }
@@ -37,27 +31,37 @@ const MyRecipes = () => {
     return (
         <div className="font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
-                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler(0)} />
-                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} />
+                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler(0)} disabled={filter === 0} />
+                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} disabled={filter === 1} />
             </div>
 
-            <CustomizedDialogs>
-                <Form />
-            </CustomizedDialogs>
+            {filter === 0
+                ? <div className="w-full flex justify-center pt-4">
+                    <CustomizedDialogs>
+                        <Form />
+                    </CustomizedDialogs>
+                </div>
+                : null
+            }
 
             <RecipeGrid recipes={filter === 0 ? recipes : favorites} />
         </div>
     );
 };
 
-// A button used to select the filter.
-const FilterButton = ({ text, selectFilterHandler }) => {
+const FilterButton = ({ text, selectFilterHandler, disabled }) => {
     return (
-        <button
-            onClick={selectFilterHandler}
-            className="hover:bg-yellow-50 w-full h-16">
-            {text}
-        </button>
+        disabled
+            ? <button
+                disabled={true}
+                className="bg-yellow-300 w-full h-16 text-center">
+                {text}
+            </button>
+            : <button
+                onClick={selectFilterHandler}
+                className="hover:bg-yellow-50 w-full h-16">
+                {text}
+            </button>
     );
 }
 

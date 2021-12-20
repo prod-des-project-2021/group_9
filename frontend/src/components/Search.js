@@ -20,15 +20,15 @@ function Search() {
   }, []);
 
   const filteredRecipes = (searchField.length <= 0 || recipes === null) ? null : recipes.filter(
-      recipe => {
-        return (
-          recipe
-            .name
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-        );
-      }
-    ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+    recipe => {
+      return (
+        recipe
+          .name
+          .toLowerCase()
+          .includes(searchField.toLowerCase())
+      );
+    }
+  ).sort((a, b) => (a.name > b.name) ? 1 : -1);
 
   const handleChange = e => {
     setSearchField(e.target.value);
@@ -38,11 +38,11 @@ function Search() {
     searchInputRef.current.blur();
     navigate(`/recipe?id=${id}`);
   }
- 
+
   const onClickSearch = () => {
     searchInputRef.current.blur();
     navigate(`/recipes?name=${searchField}`);
-    
+
   }
 
   const onFocusHandler = () => {
@@ -66,7 +66,7 @@ function Search() {
             </svg>
           </button>
           <div className="w-fit relative">
-            <input ref={searchInputRef} type="text" class="px-2 py-1 w-full" placeholder="Search recipes" onChange={handleChange} onBlur={onBlurHandler} onFocus={onFocusHandler} />
+            <input ref={searchInputRef} type="text" className="px-2 py-1 w-full" placeholder="Search recipes" onChange={handleChange} onBlur={onBlurHandler} onFocus={onFocusHandler} />
             {showDropdown ? <SearchDropdown filteredRecipes={filteredRecipes} onItemClickHandler={onClickRecipe} /> : null}
           </div>
         </div>

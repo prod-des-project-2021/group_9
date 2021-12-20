@@ -6,5 +6,5 @@ import shoppingList from './shoppinglist'
 export default combineReducers({
     auth,
     message,
-    shoppingList
+    shoppingList,
 })
