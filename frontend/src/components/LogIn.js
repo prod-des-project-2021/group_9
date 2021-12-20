@@ -39,7 +39,7 @@ const LogIn = (props) => {
         setLoading(true)
         dispatch(login(username, password))
             .then(() => {
-                props.history.push("/profile");
+                props.history.push("/linux193/profile");
                 window.location.reload();
             })
             .catch(() => {
@@ -52,7 +52,7 @@ const LogIn = (props) => {
         if (validateForm()) {
             dispatch(register(username, email, password))
                 .then(() => {
-                    props.history.push("/home")
+                    props.history.push("/linux193/home")
                     window.location.reload()
                     setIsRegister(false)
                 })

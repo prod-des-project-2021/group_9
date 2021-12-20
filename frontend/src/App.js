@@ -46,9 +46,9 @@ function App() {
                 <div className="mb-auto justify-self-start">
                     <Routes>
                         <Route exact path="/" element={<Home />} />
-                        <Route exact path="/recipes" element={<Recipes />} />
-                        <Route exact path="/myrecipes" element={<MyRecipes />} />
-                        <Route exact path="/recipe" element={<Recipe />} />
+                        <Route exact path="/linux193/recipes" element={<Recipes />} />
+                        <Route exact path="/linux193/myrecipes" element={<MyRecipes />} />
+                        <Route exact path="/linux193/recipe" element={<Recipe />} />
                     </Routes>
                 </div>
                 <div className="relative" >
