@@ -14,21 +14,21 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
-                                <NavLink to="/">
+                                <NavLink to="/linux193/">
                                     <img src={logo} alt="Logo" className="h-8" />
                                 </NavLink>
                             </div>
                             <div className="hidden md:block ">
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     <NavLink
-                                        to="/"
+                                        to="/linux193/"
                                         className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium"
                                     >
                                         Home
                                     </NavLink>
 
                                     <NavLink
-                                        to="/recipes"
+                                        to="/linux193/recipes"
                                         className="text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md font-medium"
                                     >
                                         Recipes
@@ -36,7 +36,7 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
 
                                     {isLoggedIn ?
                                         <NavLink
-                                            to="/myRecipes"
+                                            to="/linux193/myRecipes"
                                             className="text-white hover:bg-nav-dark block px-3 py-2 rounded-md text-base font-medium"
                                         >
                                             My recipes
@@ -130,14 +130,14 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                         <div className="md:hidden" id="mobile-menu">
                             <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                                 <NavLink
-                                    to="/"
+                                    to="/linux193/"
                                     className="text-white block px-3 py-2 rounded-md text-base font-medium"
                                 >
                                     Home
                                 </NavLink>
 
                                 <NavLink
-                                    to="/recipes"
+                                    to="/linux193/recipes"
                                     className="text-white hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                                 >
                                     Recipes
@@ -145,7 +145,7 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
 
                                 {isLoggedIn ?
                                     <NavLink
-                                        to="/myRecipes"
+                                        to="/linux193/myRecipes"
                                         className="text-white hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                                     >
                                         My recipes
