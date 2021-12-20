@@ -4,8 +4,11 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 
-export const SET_MESSAGE = "SET_MESSAGE";
-export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
-
 export const SET_SHOPPINGLIST = "SET_SHOPPINGLIST";
 export const CLEAR_SHOPPINGLIST = "CLEAR_SHOPPINGLIST";
+
+export const UPDATE_FAVORITES = "UPDATE_FAVORITES";
+
+export const SET_MESSAGE = "SET_MESSAGE";
+export const SET_WARNING = "SET_WARNING";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

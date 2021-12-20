@@ -18,8 +18,6 @@ const LogIn = (props) => {
     const registerRef = useRef()
 
     const { isLoggedIn } = useSelector(state => state.auth)
-    const { message } = useSelector(state => state.message)
-
     const dispatch = useDispatch()
 
     const switchFormHandler = () => {
@@ -91,7 +89,7 @@ const LogIn = (props) => {
     }
 
     return (
-        <div className="fixed t-0 w-full h-screen bg-gray-800 bg-opacity-60">
+        <div className="fixed t-0 w-full h-screen bg-gray-800 bg-opacity-60 z-50">
             <div className="relative h-full grid place-items-center">
                 <div className="relative bg-gray-300 rounded-2xl w-72 md:w-96 h-auto pb-12 shadow-2xl">
                     <button
@@ -117,13 +115,6 @@ const LogIn = (props) => {
                             loading={loading}
                             registerRef={registerRef} />
                     }
-                    <div>
-                        {message && (
-                            <div role="alert">
-                                <p>{message}</p>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
         </div>

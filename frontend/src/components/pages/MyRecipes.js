@@ -5,26 +5,25 @@ import userService from '../../services/users';
 
 import Form from '../Form'
 
-
 import RecipeGrid from '../RecipeGrid';
 
 import localUser from '../../utils/localUser';
 
-
-
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState(null);
-    const [selectedRecipe, setSelectedRecipe] = useState(null);
-    const [filter, setFilter] = useState("myRecipes");
+    const [favorites, setFavorites] = useState(null);
+    const [filter, setFilter] = useState(0); // 0 = myRecipes, 1 = favorites
 
 
     //const params = new URLSearchParams([['user', localUser.getUserId()]])
     useEffect(() => {
         userService
-            .getUser(localUser.getUserId)
+            .getUser(localUser.getUserId())
             .then(user => {
-                console.log(user);
-                setRecipes(user.recipes);
+                if (user != null) {
+                    setRecipes(user.recipes);
+                    setFavorites(user.favorites);
+                }
             });
     }, []);
 
@@ -38,15 +37,15 @@ const MyRecipes = () => {
     return (
         <div className="font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
-                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler("myRecipes")} />
-                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler("favorites")} />
+                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler(0)} />
+                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} />
             </div>
 
             <CustomizedDialogs>
                 <Form />
             </CustomizedDialogs>
 
-            <RecipeGrid recipes={recipes} />
+            <RecipeGrid recipes={filter === 0 ? recipes : favorites} />
         </div>
     );
 };
@@ -61,7 +60,5 @@ const FilterButton = ({ text, selectFilterHandler }) => {
         </button>
     );
 }
-
-
 
 export default MyRecipes;

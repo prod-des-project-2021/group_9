@@ -5,6 +5,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
+    SET_WARNING
 } from './types'
 
 import AuthService from '../../services/auth'
@@ -34,7 +35,7 @@ export const register = (username, email, password) => (dispatch) => {
                 type: REGISTER_FAIL,
             })
             dispatch({
-                type: SET_MESSAGE,
+                type: SET_WARNING,
                 payload: message
             })
 
@@ -65,7 +66,7 @@ export const login = (username, password) => (dispatch) => {
                 type: LOGIN_FAIL
             })
             dispatch({
-                type: SET_MESSAGE,
+                type: SET_WARNING,
                 payload: message
             })
 
@@ -79,5 +80,9 @@ export const logout = () => (dispatch) => {
 
     dispatch({
         type: LOGOUT
+    })
+    dispatch({
+        type: SET_MESSAGE,
+        payload: 'Logged out'
     })
 }
