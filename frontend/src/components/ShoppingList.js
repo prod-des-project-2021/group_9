@@ -94,8 +94,8 @@ const ShoppingList = (props) => {
 
     return (
         <div>
-            <div className="transition-all ease-in-out delay-150 duration-300 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-9/12 h-auto bg-yellow-100 shadow-xl ">
-
+            <div className="transition-all ease-in-out delay-150 duration-300 fixed pt-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-9/12 h-auto bg-yellow-100 shadow-xl ">
+                <h1 className="w-full text-center">Shopping list</h1>
                 <table className="table-auto w-full">
                     <tbody className="divide-y">
                         {shopperList.map((ingredient) => (
@@ -113,7 +113,7 @@ const ShoppingList = (props) => {
 
                 </table>
 
-                <div className="flex flex-row justify-center space-y-2 px-6">
+                <div className="flex flex-row justify-center space-y-2 px-6 pt-4">
                     <form className="flex flex-row w-full justify-evenly text-right space-x-2 px-8" onSubmit={addToShoppingList} ref={formRef}>
 
                         <input className="w-1/4" type="text" placeholder="amount" />
