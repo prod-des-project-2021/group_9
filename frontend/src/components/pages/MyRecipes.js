@@ -54,12 +54,12 @@ const FilterButton = ({ text, selectFilterHandler, disabled }) => {
         disabled
             ? <button
                 disabled={true}
-                className="bg-yellow-300 w-full h-16 text-center">
+                className="bg-yellow-100 w-full h-16 text-center">
                 {text}
             </button>
             : <button
                 onClick={selectFilterHandler}
-                className="hover:bg-yellow-50 w-full h-16">
+                className="hover:bg-yellow-100 w-full h-16">
                 {text}
             </button>
     );
