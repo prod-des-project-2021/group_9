@@ -104,7 +104,7 @@ const Options = ({ recipe }) => {
                 ? <button
                     onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
                     className="bg-gray-500 hover:bg-red-400 p-4 w-auto rounded-full">
-                    <img src={icon_delete} />
+                    <img src="delete_white_24dp.svg" />
                 </button>
                 : null
             }
