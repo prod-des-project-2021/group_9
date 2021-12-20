@@ -39,7 +39,7 @@ const update = (id, newObject) => {
 }
 
 const deleteRecipe = (id) => {
-    const config = { headers: user.authHeader() }
+    const config = { ...user.authHeader() }
     return axios.delete(`${baseUrl}/${id}`, config);
 }
 
