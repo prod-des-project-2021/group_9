@@ -11,10 +11,17 @@ import { updateFavorites } from '../../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
+import favorites from '../../redux/reducers/user';
+
+import icon_delete from '../img/delete_white_24dp.svg';
+import icon_favorite from '../img/favorite_white_24dp.svg';
+import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
 
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
+    const user = useSelector(state => state.user)
+    //console.log(user);
 
     useEffect(() => {
         recipeService
@@ -88,25 +95,25 @@ const Options = ({ recipe }) => {
 
     return (
         <div className="flex absolute md:top-4 right-4 space-x-2">
-            {!localUser.getUserFavorites().some(f => f.id === recipe.id)
-                ? <button
-                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                    Favorite
-                </button>
-                : <button
-                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                    Unfavorite
-                </button>}
+
+            <button
+                onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                className="bg-yellow-300 hover:bg-yellow-100 p-4 w-auto rounded-full">
+
+                {localStorage.getItem("favorites") === null
+                    || !localStorage.getItem("favorites").some(f => f.id === recipe.id)
+                    ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
+                }
+            </button>
 
             {recipe.user.id === localUser.getUserId()
                 ? <button
                     onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                    className="bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
-                    DELETE
+                    className="bg-gray-500 hover:bg-red-400 p-4 w-auto rounded-full">
+                    <img src={icon_delete} />
                 </button>
-                : null}
+                : null
+            }
         </div>
     );
 }
