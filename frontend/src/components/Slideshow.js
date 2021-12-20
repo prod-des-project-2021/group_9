@@ -26,13 +26,13 @@ export function Slideshow() {
     return (
         <div className="App bg-white p-2 md:p-4 lg:p-8 ">
             <Carousel breakPoints={breakPoints}>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={one} alt="carouselPic1" />
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={two} alt="carouselPic2"/>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={three} alt="carouselPic3"/>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={fore} alt="carouselPic4"/>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={five} alt="carouselPic5"/>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={six} alt="carouselPic6"/>
-                <img className = "rounded-3xl w-full mx-4 sm:h-44 2xl:h-60 object-cover"  src={seven} alt="carouselPic7"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={one} alt="carouselPic1" />
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={two} alt="carouselPic2"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={three} alt="carouselPic3"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={fore} alt="carouselPic4"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={five} alt="carouselPic5"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={six} alt="carouselPic6"/>
+                <img className = "rounded-3xl w-full mx-4 h-40 sm:h-44 2xl:h-50 object-cover"  src={seven} alt="carouselPic7"/>
             </Carousel>
         </div>
     );
