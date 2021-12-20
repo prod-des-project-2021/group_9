@@ -34,6 +34,7 @@ mongoose.connect(config.MONGODB_URI)
     })
 app.use(cors({ origin: "*" }))
 app.use(express.static('build'))
+app.use('/linux193', express.static('/build/static/media'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
