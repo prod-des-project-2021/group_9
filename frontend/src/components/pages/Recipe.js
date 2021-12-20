@@ -12,7 +12,8 @@ import { useNavigate } from 'react-router-dom';
 
 import icon_delete from '../img/delete_white_24dp.svg';
 import icon_favorite from '../img/favorite_white_24dp.svg';
-import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
+import icon_favorite_border from '../img/shopping_cart_white_24dp.svg';
+//'../img/shopping_cart_white_24dp.svg''../img/favorite_border_white_24dp.svg'
 
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
