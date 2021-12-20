@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import CustomizedDialogs from '../Popup';
-import recipeService from '../../services/recipes';
 import userService from '../../services/users';
 
 import Form from '../Form'
@@ -55,7 +54,7 @@ const FilterButton = ({ text, selectFilterHandler, disabled }) => {
         disabled
             ? <button
                 disabled={true}
-                className="bg-gray-400 w-full h-16 text-center">
+                className="bg-yellow-300 w-full h-16 text-center">
                 {text}
             </button>
             : <button
