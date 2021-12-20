@@ -43,7 +43,7 @@ const RecipeInfo = ({ recipe }) => {
     }
     else { // if the given recipe is NOT null, then show its info.
         return (
-            <div className="relative pb-24 field  w-full flex justify-center">
+            <div className="relative pb-24 field w-full flex justify-center">
                 <div className='pb-6 w-full lg:w-5/6'>
                     <div className='relative flex items-end'>
                         <img src={recipe.url ? recipe.url : ""}
