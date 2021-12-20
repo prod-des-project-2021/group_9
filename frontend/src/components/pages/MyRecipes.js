@@ -14,8 +14,6 @@ const MyRecipes = () => {
     const [favorites, setFavorites] = useState(null);
     const [filter, setFilter] = useState(0); // 0 = myRecipes, 1 = favorites
 
-
-    //const params = new URLSearchParams([['user', localUser.getUserId()]])
     useEffect(() => {
         userService
             .getUser(localUser.getUserId())
@@ -27,9 +25,6 @@ const MyRecipes = () => {
             });
     }, []);
 
-
-    // This functions is called when on the filter buttons is pressed.
-    // WIP (doesn't do anything, since all of the recipes are currently fetched form the database).
     const selectFilterHandler = (filter) => () => {
         setFilter(filter);
     }
@@ -41,16 +36,20 @@ const MyRecipes = () => {
                 <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} />
             </div>
 
-            <CustomizedDialogs>
-                <Form />
-            </CustomizedDialogs>
+            {filter === 0
+                ? <div className="w-full flex justify-center pt-4">
+                    <CustomizedDialogs>
+                        <Form />
+                    </CustomizedDialogs>
+                </div>
+                : null
+            }
 
             <RecipeGrid recipes={filter === 0 ? recipes : favorites} />
         </div>
     );
 };
 
-// A button used to select the filter.
 const FilterButton = ({ text, selectFilterHandler }) => {
     return (
         <button
