@@ -89,6 +89,9 @@ recipesRouter.put('/:id', jwtAuth, async (req, res) => {
 recipesRouter.delete('/:id', jwtAuth, async (req, res) => {
     const id = req.params.id
     const result = await Recipe.findByIdAndRemove(id)
+
+    // remove from users 'owned recipes'
+    await User.findByIdAndUpdate(req.user.id, {$pull: { recipes: id }}, { new: true})
     res.status(200).json(result)
 })
 
