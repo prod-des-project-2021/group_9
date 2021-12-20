@@ -97,7 +97,7 @@ const Options = ({ recipe }) => {
 
                 {console.log(user.favorites)}
 
-                {!user.favorites.includes(recipe.id)
+                {!user.favorites || !user.favorites.includes(recipe.id)
                     ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
                 }
             </button>
