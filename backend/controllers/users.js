@@ -29,7 +29,9 @@ usersRouter.post('/login', async (req, res) => {
 
     const token = jwt.sign(userObjectForToken, process.env.SECRET, { expiresIn: 60 * 60 })
 
-    res.status(200).json({ token, ...userObjectForToken })
+    let result = await User.findById(user.id)
+    result = { ...result.toObject(), token }
+    res.status(200).json(result)
 })
 
 // Get one user

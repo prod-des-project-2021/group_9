@@ -50,4 +50,15 @@ userSchema.set('toJSON', {
     }
 })
 
+userSchema.set('toObject', {
+    transform: (document, res) => {
+        res.id = res._id.toString()
+        delete res._id
+        delete res.__v
+        delete res.updatedAt
+        delete res.passwordHash
+        delete res.email
+    }
+})
+
 module.exports = mongoose.model('User', userSchema)
