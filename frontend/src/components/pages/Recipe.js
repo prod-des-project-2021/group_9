@@ -12,8 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 import icon_delete from '../img/delete_white_24dp.svg';
 import icon_favorite from '../img/favorite_white_24dp.svg';
-import icon_favorite_border from '../img/shopping_cart_white_24dp.svg';
-//'../img/shopping_cart_white_24dp.svg''../img/favorite_border_white_24dp.svg'
+import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
 
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
@@ -95,8 +94,6 @@ const Options = ({ recipe }) => {
             <button
                 onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
                 className="bg-yellow-300 hover:bg-yellow-100 p-4 w-auto rounded-full">
-
-                {console.log(user.favorites)}
 
                 {!user.favorites || !user.favorites.includes(recipe.id)
                     ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
