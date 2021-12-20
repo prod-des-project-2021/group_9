@@ -10,10 +10,11 @@ import { setShoppingList } from '../../redux/actions/shoppinglist';
 import { updateFavorites } from '../../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useNavigate } from 'react-router-dom';
+
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
-    const dispatch = useDispatch()
 
     useEffect(() => {
         recipeService
@@ -23,34 +24,18 @@ const Recipe = () => {
             });
     }, [location]);
 
-
-    const deleteRecipeHandler = (recipe) => () => {
-        recipeService
-            .deleteRecipe(recipe.id)
-            .then(deletedRecipe => {
-                console.log(deletedRecipe);
-            });
-    }
-
-    const favoriteRecipeHandler = (recipe) => () => {
-        dispatch(updateFavorites(recipe.id))
-            .then(response => {
-                console.log(response);
-            })
-    }
-
     return (
         <div>
-            <RecipeInfo recipe={recipe} deleteRecipeHandler={deleteRecipeHandler} favoriteRecipeHandler={favoriteRecipeHandler} />
+            <RecipeInfo recipe={recipe} />
         </div>
     );
 }
 
-const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
+const RecipeInfo = ({ recipe }) => {
     if (recipe === null) { // If the given recipe is null, then show a placeholder box.
         return (
             <div className="p-8 lg:mx-24">
-                NOTHING
+                NOTHING HERE
             </div>
         );
     }
@@ -71,27 +56,7 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
 
                     {/* Show ingredients and instructions side by side (for now). */}
                     <div className="relative md:flex md:mx-6  space-y-6 md:space-x-6 md:space-y-0 pt-4">
-                        <div className="flex absolute md:top-4 right-4 space-x-2">
-                            {!localUser.getUserFavorites().some(f => f.id === recipe.id)
-                                ? <button
-                                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                                    Favorite
-                                </button>
-                                : <button
-                                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
-                                    Unfavorite
-                                </button>}
-                            {recipe.user.id === localUser.getUserId()
-                                ?
-                                <button
-                                    onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
-                                    className="bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
-                                    DELETE
-                                </button>
-                                : null}
-                        </div>
+                        <Options recipe={recipe} />
                         <IngredientList recipe={recipe} />
                         <Instructions recipe={recipe} />
                     </div>
@@ -99,6 +64,51 @@ const RecipeInfo = ({ recipe, deleteRecipeHandler, favoriteRecipeHandler }) => {
             </div>
         );
     }
+}
+
+const Options = ({ recipe }) => {
+    const { isLoggedIn } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    if (!isLoggedIn)
+        return null;
+
+    const deleteRecipeHandler = (recipe) => () => {
+        recipeService
+            .deleteRecipe(recipe.id)
+            .then(deletedRecipe => {
+                navigate(`/myRecipes`);
+            });
+    }
+
+    const favoriteRecipeHandler = (recipe) => () => {
+        dispatch(updateFavorites(recipe.id))
+    }
+
+    return (
+        <div className="flex absolute md:top-4 right-4 space-x-2">
+            {!localUser.getUserFavorites().some(f => f.id === recipe.id)
+                ? <button
+                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
+                    Favorite
+                </button>
+                : <button
+                    onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                    className="bg-yellow-300 hover:bg-yellow-100 p-4 shadow-md w-auto">
+                    Unfavorite
+                </button>}
+
+            {recipe.user.id === localUser.getUserId()
+                ? <button
+                    onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
+                    className="bg-gray-500 hover:bg-red-400 p-4 shadow-md w-auto">
+                    DELETE
+                </button>
+                : null}
+        </div>
+    );
 }
 
 // Ingredients of the given recipe are listed.
