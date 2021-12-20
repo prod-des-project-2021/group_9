@@ -10,10 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
 
-import icon_delete from '../img/delete_white_24dp.svg';
-import icon_favorite from '../img/favorite_white_24dp.svg';
-import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
-
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
@@ -96,7 +92,7 @@ const Options = ({ recipe }) => {
                 className="bg-yellow-300 hover:bg-yellow-100 p-4 w-auto rounded-full">
 
                 {!user.favorites || !user.favorites.includes(recipe.id)
-                    ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
+                    ? <img src="/favorite_border_white_24dp.svg" /> : <img src="/favorite_white_24dp.svg" />
                 }
             </button>
 
@@ -104,7 +100,7 @@ const Options = ({ recipe }) => {
                 ? <button
                     onClick={deleteRecipeHandler(recipe)} // Call deleteHandler when clicked.
                     className="bg-gray-500 hover:bg-red-400 p-4 w-auto rounded-full">
-                    <img src="delete_white_24dp.svg" />
+                    <img src="/delete_white_24dp.svg" />
                 </button>
                 : null
             }
