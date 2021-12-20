@@ -32,8 +32,8 @@ const MyRecipes = () => {
     return (
         <div className="font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
-                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler(0)} />
-                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} />
+                <FilterButton text="My Recipes" selectFilterHandler={selectFilterHandler(0)} disabled={filter === 0} />
+                <FilterButton text="Favorites" selectFilterHandler={selectFilterHandler(1)} disabled={filter === 1} />
             </div>
 
             {filter === 0
@@ -50,13 +50,19 @@ const MyRecipes = () => {
     );
 };
 
-const FilterButton = ({ text, selectFilterHandler }) => {
+const FilterButton = ({ text, selectFilterHandler, disabled }) => {
     return (
-        <button
-            onClick={selectFilterHandler}
-            className="hover:bg-yellow-50 w-full h-16">
-            {text}
-        </button>
+        disabled
+            ? <button
+                disabled={true}
+                className="bg-gray-400 w-full h-16 text-center">
+                {text}
+            </button>
+            : <button
+                onClick={selectFilterHandler}
+                className="hover:bg-yellow-50 w-full h-16">
+                {text}
+            </button>
     );
 }
 
