@@ -103,11 +103,6 @@ const RecipeListing = ({ recipe, clickHandler, auth }) => {
                 {recipe.name}
             </div>
 
-            <button
-                onClick={clickHandler}
-                className='absolute top-0 left-0 hover:bg-white rounded-xl hover:opacity-20 w-full h-full '>
-            </button>
-
             {auth.isLoggedIn
                 ? <div className="absolute top-2 right-2 w-8 h-8 p-1">
                     {!auth.user.favorites.includes(recipe.id)
@@ -116,6 +111,11 @@ const RecipeListing = ({ recipe, clickHandler, auth }) => {
                 </div>
                 : null
             }
+
+            <button
+                onClick={clickHandler}
+                className='absolute top-0 left-0 hover:bg-white rounded-xl hover:opacity-20 w-full h-full '>
+            </button>
         </div >
     );
 }
