@@ -106,7 +106,7 @@ const RecipeListing = ({ recipe, clickHandler, auth }) => {
             {auth.isLoggedIn
                 ? <div className="absolute top-2 right-2 w-8 h-8 p-1">
                     {!auth.user.favorites || !auth.user.favorites.includes(recipe.id)
-                        ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
+                        ? <img src="/favorite_border_white_24dp.svg" /> : <img src="/favorite_white_24dp.svg" />
                     }
                 </div>
                 : null

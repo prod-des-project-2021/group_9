@@ -15,9 +15,6 @@ import ShoppingList from './components/ShoppingList'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import icon_shopping_cart from './components/img/shopping_cart_white_24dp.svg';
-
-
 function App() {
     const { isLoggedIn } = useSelector(state => state.auth)
     const dispatch = useDispatch()
@@ -51,7 +48,7 @@ function App() {
                     </Routes>
                 </div>
                 <div className="relative" >
-                    <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" icon={icon_shopping_cart} clickHandler={() => {
+                    <Button className="fixed bottom-16 right-8 rounded-full h-16 w-16 bg-yellow-200" icon="/shopping_cart_white_24dp.svg" clickHandler={() => {
                         console.log(showShoppingList)
                         setShowShoppingList(!showShoppingList)
                     }} />
