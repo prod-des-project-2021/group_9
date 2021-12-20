@@ -10,12 +10,13 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
     return (
         <div>
             <nav className="bg-nav font-Mali text-lg">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between  h-16">
-                        <div className="flex items-center ">
+                <div className=" mx-auto px-4 sm:mx-6 lg:mx-24">
+                    <div className="flex items-center justify-between h-16">
+                        <div className="flex items-center">
                             <div className="flex-shrink-0">
-                                {/* Logo tähän */}
-                                <img src={logo} alt="Logo" className="h-8" />
+                                <NavLink to="/">
+                                    <img src={logo} alt="Logo" className="h-8" />
+                                </NavLink>
                             </div>
                             <div className="hidden md:block ">
                                 <div className="ml-10 flex items-baseline space-x-4">
@@ -33,34 +34,41 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                                         Recipes
                                     </NavLink>
 
-                                    <NavLink
-                                        to="/myrecipes"
-                                        className="text-right items-end text-white hover:bg-nav-dark hover:text-white px-3 py-1 rounded-md font-medium"
-                                    >
-                                        My recipes
-                                    </NavLink>
+                                    {isLoggedIn ?
+                                        <NavLink
+                                            to="/myRecipes"
+                                            className="text-white hover:bg-nav-dark block px-3 py-2 rounded-md text-base font-medium"
+                                        >
+                                            My recipes
+                                        </NavLink>
+                                        : null
+                                    }
                                 </div>
                             </div>
-                            
                         </div>
-                        <div className="flex items-center space-x-4" >
-                        <Search details={initialDetails}/>
-                        {isLoggedIn ?
-                            (
-                                <div>
-                                    <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={handleLogout}>
-                                        Log out
-                                    </button>
-                                </div>
-                            ) :
-                            (
-                                <div>
-                                    <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={mountLogin}>
-                                        Log in
-                                    </button>
-                                </div>
-                            )}
+                        <div className="flex items-center space-x-4 flex justify-end" >
+                            <div className="hidden lg:block">
+                                <Search details={initialDetails} />
                             </div>
+                            <div className="hidden md:block">
+                                {isLoggedIn ?
+                                    (
+                                        <div>
+                                            <button className="hover:bg-nav-dark text-white px-3 py-2 rounded-md font-medium" onClick={handleLogout}>
+                                                Log out
+                                            </button>
+                                        </div>
+                                    ) :
+                                    (
+                                        <div>
+                                            <button className="hover:bg-nav-dark text-white px-3 py-2 rounded-md font-medium" onClick={mountLogin}>
+                                                Log in
+                                            </button>
+                                        </div>
+                                    )}
+                            </div>
+
+                        </div>
                         {/* Compact navigation */}
                         <div className="-mr-2 flex md:hidden">
                             <button
@@ -109,7 +117,6 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                     </div>
                 </div>
 
-
                 <Transition
                     show={isOpen}
                     enter="transition ease-out duration-300 transform"
@@ -124,29 +131,51 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                             <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                                 <NavLink
                                     to="/"
-                                    className="hover:bg-nav-dark text-white block px-3 py-2 rounded-md text-base font-medium"
+                                    className="text-white block px-3 py-2 rounded-md text-base font-medium"
                                 >
                                     Home
                                 </NavLink>
 
                                 <NavLink
                                     to="/recipes"
-                                    className="text-white hover:bg-nav-dark hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                    className="text-white hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                                 >
                                     Recipes
                                 </NavLink>
 
-                                <NavLink
-                                    to="/login"
-                                    className="text-white hover:bg-nav-dark hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                                >
-                                    Log in
-                                </NavLink>
+                                {isLoggedIn ?
+                                    <NavLink
+                                        to="/myRecipes"
+                                        className="text-white hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                    >
+                                        My recipes
+                                    </NavLink>
+                                    : null
+                                }
+
+                                {isLoggedIn ?
+                                    (
+                                        <div>
+                                            <button className="text-white px-3 py-1 rounded-md font-medium" onClick={handleLogout}>
+                                                Log out
+                                            </button>
+                                        </div>
+                                    ) :
+                                    (
+                                        <div>
+                                            <button className="text-white px-3 py-1 rounded-md font-medium" onClick={mountLogin}>
+                                                Log in
+                                            </button>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     )}
                 </Transition>
             </nav>
+            <div className="bg-nav-light px-4 flex justify-center sm:justify-end md:pr-6 p-2 lg:hidden" >
+                <Search details={initialDetails} />
+            </div>
         </div>
     );
 }
