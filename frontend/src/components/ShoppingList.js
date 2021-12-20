@@ -113,17 +113,18 @@ const ShoppingList = (props) => {
 
                 </table>
 
-                <div className="flex-row justify-center space-y-2 px-6">
-                    <form className="flex-row text-right" onSubmit={addToShoppingList} ref={formRef}>
+                <div className="flex flex-row justify-center space-y-2 px-6">
+                    <form className="flex flex-row w-full justify-evenly text-right space-x-2 px-8" onSubmit={addToShoppingList} ref={formRef}>
 
-                        <input type="text" placeholder="amount" />
-                        <input type="text" placeholder="unit" />
-                        <input type="text" placeholder="name" />
-                        <button className="w-1/5"> + </button>
+                        <input className="w-1/4" type="text" placeholder="amount" />
+                        <input className="w-1/4" type="text" placeholder="unit" />
+                        <input className="w-1/4" type="text" placeholder="name" />
+                        <button className="text-center w-1/4 bg-white"> + </button>
                     </form>
                 </div>
-
-                <button className="w-1/2" onClick={clearShoppingList}> Clear </button>
+                <div className="w-full flex justify-center p-4">
+                    <button className="w-1/5 rounded-lg bg-white px-1 py-1 hover:bg-gray-200" onClick={clearShoppingList}> Clear </button>
+                </div>
             </div>
         </div>
     );
