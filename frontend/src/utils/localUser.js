@@ -14,14 +14,26 @@ const getUserId = () => {
     } else return ''
 }
 
+const getUserFavorites = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if (user && user.favorites) {
+        return user.favorites
+    } else return []
+}
+
 const authHeader = () => {
     const user = JSON.parse(localStorage.getItem('user'))
 
     if (user && user.token) {
-        return { Authorization: 'Bearer ' + user.token }
+        return {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        }
     } else {
         return {}
     }
 }
 
-export default { getUsername, getUserId, authHeader }
+export default { getUsername, getUserId, getUserFavorites, authHeader }

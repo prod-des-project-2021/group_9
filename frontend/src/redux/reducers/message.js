@@ -1,4 +1,5 @@
-import { SET_MESSAGE, CLEAR_MESSAGE } from '../actions/types'
+import { SET_MESSAGE, SET_WARNING, CLEAR_MESSAGE } from '../actions/types'
+import { toast } from 'react-toastify'
 
 const initialState = {}
 
@@ -7,6 +8,11 @@ const message = (state = initialState, action) => {
 
     switch (type) {
         case SET_MESSAGE:
+            toast.success(payload)
+            return { message: payload }
+
+        case SET_WARNING:
+            toast.warning(payload)
             return { message: payload }
 
         case CLEAR_MESSAGE:
