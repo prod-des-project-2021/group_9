@@ -7,24 +7,29 @@ module.exports = {
 
         ...theme('colors'),
 
-        'nav': '#F5D142',
+        'nav': '#f2c40d',
 
         'nav-dark' : '#dab10b',
+
+        'nav-light' : '#f7d85e',
 
         'nav2': '#FBEDB6',
 
         'bg1': '#FFFFE6'
       }),
 
-      fontFamily: {
+      blur: {        
+        xs: '2px',
+      },
 
+      fontFamily: {
         'Mali' : ['Mali', 'cursive']
       },
-    }
+    },
   },
 
   variants: {
   extend: { },
 },
 plugins: []
-  }
+}
