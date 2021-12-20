@@ -1,15 +1,11 @@
 import axios from 'axios';
+import user from '../utils/localUser'
 require("dotenv").config();
 
-const baseUrl = `${process.env.REACT_APP_PROXY}/api/recipes`;
+const baseUrl = `${process.env.REACT_APP_PROXY}/api/users`;
 
-const getAll = () => {
-    const request = axios.get(baseUrl);
-    return request.then(response => response.data);
-}
-
-const get = (params) => {
-    const request = axios.get(baseUrl, {params});
+const getUser = (id) => {
+    const request = axios.get(`${baseUrl}/${id}`);
     return request.then(response => response.data);
 }
 
@@ -23,8 +19,14 @@ const update = (id, newObject) => {
     return request.then(response => response.data);
 }
 
+const updateFavorites = (id) => {
+    const config = { ...user.authHeader() }
+    const request = axios.post(`${baseUrl}/favorite`, id, config);
+    return request.then(response => response.data);
+}
+
 const deleteUser = (id) => {
     return axios.delete(`${baseUrl}/${id}`);
 }
 
-export default { getAll, create, update, deleteUser }
+export default { getUser, create, update, updateFavorites, deleteUser }
