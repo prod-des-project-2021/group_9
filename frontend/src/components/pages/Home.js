@@ -3,6 +3,7 @@ import recipeService from '../../services/recipes';
 import Slideshow from '../Slideshow';
 import Parallax from '../Parallax';
 import RecipeGrid from '../RecipeGrid';
+import Header from '../Header';
 
 const Home = () => {
     const [recipes, setRecipes] = useState(null);
@@ -12,15 +13,15 @@ const Home = () => {
             .getAll()
             .then(initialRecipes => {
                 setRecipes(initialRecipes);
-                console.log(initialRecipes);
             });
     }, []);
 
     return (
-        <div>          
+        <div className='bg-gray-800'>          
             <Slideshow />
             <Parallax text={"Welcome to ReseptiApp"} />
-            <RecipeGrid recipes={recipes} />
+            <Header header="Top picks"/>
+            <RecipeGrid recipes={recipes} header="Best picks"/>
         </div>
     );
 };

@@ -15,7 +15,7 @@ export const RecipeGrid = ({ recipes }) => {
     }
 
     return (
-        <div className="flex space-x-4 px-6 pb-16 pt-10 lg:mx-24">
+        <div className="flex space-x-4 px-6 pb-16 pt-4 lg:mx-24">
             {populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns === null
                 ? null
                 : populateColumns(recipes, calculateColumnNumber(screenSize.width)).columns.map(column =>
@@ -57,10 +57,6 @@ function populateColumns(recipes, columnNumber) {
             copy.columns[i % columnNumber].recipes.push(recipes[i]);
         }
 
-    } else {
-        for (let i = 0; i < columnNumber; i++) {
-            copy.columns[i].recipes.push({ name: "testi" });
-        }
     }
 
     return copy;
@@ -92,17 +88,17 @@ function useWindowSize() {
 
 const RecipeListing = ({ recipe, clickHandler }) => {
     return (
-        <div className='relative bg-gray-50 '>
+        <div className='relative shadow-lg rounded-xl bg-gray-50'>
             <img src={recipe.url ? recipe.url : ""}
-                className="border-gray-400 shadow-md w-full rounded-t-xl"></img>
+                className="border-gray-400 w-full rounded-t-xl"></img>
 
-            <div className="border-gray-400 shadow-md w-full p-4 rounded-b-xl">
+            <div className="border-gray-400  w-full p-4 rounded-b-xl">
                 {recipe.name}
             </div>
 
             <button
                 onClick={clickHandler}
-                className='absolute top-0 left-0 hover:bg-white hover:opacity-20 w-full h-full rounded-xl'>
+                className='absolute top-0 left-0 hover:bg-white rounded-xl hover:opacity-20 w-full h-full '>
             </button>
         </div>
     );
