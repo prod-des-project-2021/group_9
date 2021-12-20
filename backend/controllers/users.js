@@ -58,7 +58,12 @@ usersRouter.post('/', async (req, res) => {
 usersRouter.post('/favorite', jwtAuth, async (req, res) => {
     const body = req.body
     // CHECK IF IS ALREADY FAVORITED, IF SO, REMOVE FAVORITE
-    const result = await User.findByIdAndUpdate(req.user.id, {$push: {"favorites": body.recipeId}}, { new: true })
+    const user = await User.findById(req.user.id)
+    let data = {}
+    if (user.favorites.includes(body.recipeId)) data = {$pull: { favorites: body.recipeId }}
+    else data = {$push: { favorites: body.recipeId }}
+
+    const result = await User.findByIdAndUpdate(req.user.id, data, { new: true })
     res.status(201).json(result)
 })
 
