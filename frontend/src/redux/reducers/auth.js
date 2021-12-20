@@ -4,6 +4,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
+    UPDATE_FAVORITES,
 } from '../actions/types'
 
 const user = JSON.parse(localStorage.getItem('user'))
@@ -45,6 +46,32 @@ const auth = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: false,
                 user: null
+            }
+
+        case UPDATE_FAVORITES:
+            let favorites = state.user.favorites;
+            const newFavorite = payload;
+
+            console.log(`current: ${favorites}`);
+
+            if (favorites.includes(newFavorite)) {
+                favorites = favorites.filter(id => id !== newFavorite);
+                console.log(`after remove: ${favorites}`);
+            }
+            else {
+                favorites = favorites.concat(newFavorite);
+                console.log(`after add: ${favorites}`);
+            }
+
+            const user = { ...state.user, favorites };
+
+            //Object.assign(state.auth.user, user);
+
+            console.log(user);
+
+            return {
+                ...state,
+                user
             }
 
         default:
