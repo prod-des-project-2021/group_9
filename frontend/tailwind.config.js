@@ -11,6 +11,8 @@ module.exports = {
 
         'nav-dark' : '#dab10b',
 
+        'nav-light' : '#f7d85e',
+
         'nav2': '#FBEDB6',
 
         'bg1': '#FFFFE6'

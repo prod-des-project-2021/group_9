@@ -13,7 +13,6 @@ const Home = () => {
             .getAll()
             .then(initialRecipes => {
                 setRecipes(initialRecipes);
-                console.log(initialRecipes);
             });
     }, []);
 

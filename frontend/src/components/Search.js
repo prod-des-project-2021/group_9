@@ -16,7 +16,6 @@ function Search() {
       .getAll()
       .then(initialRecipes => {
         setRecipes(initialRecipes);
-        console.log(initialRecipes);
       });
   }, []);
 
@@ -58,7 +57,7 @@ function Search() {
     <section>
       <div className="container flex mx-auto">
         <div className="flex border-2 border-white rounded shadow-sm">
-          <button className="flex items-center justify-center px-4 border-r" onClick={onClickSearch} >
+          <button className="flex items-center rounded-l justify-center px-4 border-r hover:bg-nav-dark" onClick={onClickSearch} >
             <svg className="w-6 h-6" fill="white" xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24">
               <path
@@ -67,7 +66,7 @@ function Search() {
             </svg>
           </button>
           <div className="w-fit relative">
-            <input ref={searchInputRef} type="text" class="px-4 py-2 w-full" placeholder="Search recipes" onChange={handleChange} onBlur={onBlurHandler} onFocus={onFocusHandler} />
+            <input ref={searchInputRef} type="text" class="px-2 py-1 w-full" placeholder="Search recipes" onChange={handleChange} onBlur={onBlurHandler} onFocus={onFocusHandler} />
             {showDropdown ? <SearchDropdown filteredRecipes={filteredRecipes} onItemClickHandler={onClickRecipe} /> : null}
           </div>
         </div>

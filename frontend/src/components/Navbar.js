@@ -37,7 +37,7 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                                     {isLoggedIn ?
                                         <NavLink
                                             to="/myRecipes"
-                                            className="text-white hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                            className="text-white hover:bg-nav-dark block px-3 py-2 rounded-md text-base font-medium"
                                         >
                                             My recipes
                                         </NavLink>
@@ -54,14 +54,14 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                                 {isLoggedIn ?
                                     (
                                         <div>
-                                            <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={handleLogout}>
+                                            <button className="hover:bg-nav-dark text-white px-3 py-2 rounded-md font-medium" onClick={handleLogout}>
                                                 Log out
                                             </button>
                                         </div>
                                     ) :
                                     (
                                         <div>
-                                            <button className="hover:bg-nav-dark text-white px-3 py-1 rounded-md font-medium" onClick={mountLogin}>
+                                            <button className="hover:bg-nav-dark text-white px-3 py-2 rounded-md font-medium" onClick={mountLogin}>
                                                 Log in
                                             </button>
                                         </div>
@@ -173,7 +173,7 @@ export const Nav = ({ handleLogout, isLoggedIn, mountLogin }) => {
                     )}
                 </Transition>
             </nav>
-            <div className="bg-gray-300 px-4 flex justify-center sm:justify-end md:pr-6 p-2 lg:hidden" >
+            <div className="bg-nav-light px-4 flex justify-center sm:justify-end md:pr-6 p-2 lg:hidden" >
                 <Search details={initialDetails} />
             </div>
         </div>

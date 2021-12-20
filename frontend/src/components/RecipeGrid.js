@@ -57,10 +57,6 @@ function populateColumns(recipes, columnNumber) {
             copy.columns[i % columnNumber].recipes.push(recipes[i]);
         }
 
-    } else {
-        for (let i = 0; i < columnNumber; i++) {
-            copy.columns[i].recipes.push({ name: "testi" });
-        }
     }
 
     return copy;
