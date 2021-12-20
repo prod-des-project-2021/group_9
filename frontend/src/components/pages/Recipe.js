@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import recipeService from '../../services/recipes';
-import userService from '../../services/users';
 import { useLocation } from "react-router-dom";
-import Parallax from '../Parallax'
 
 import localUser from '../../utils/localUser';
 
@@ -11,7 +9,6 @@ import { updateFavorites } from '../../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
-import favorites from '../../redux/reducers/user';
 
 import icon_delete from '../img/delete_white_24dp.svg';
 import icon_favorite from '../img/favorite_white_24dp.svg';
@@ -20,8 +17,6 @@ import icon_favorite_border from '../img/favorite_border_white_24dp.svg';
 const Recipe = () => {
     const [recipe, setRecipe] = useState(null);
     const location = useLocation();
-    const user = useSelector(state => state.user)
-    //console.log(user);
 
     useEffect(() => {
         recipeService
@@ -53,7 +48,7 @@ const RecipeInfo = ({ recipe }) => {
                     <div className='relative flex items-end'>
                         <img src={recipe.url ? recipe.url : ""}
                             className="object-cover h-96 w-full bg-center shadow-md " />
-                        <div class="absolute bottom-0 h-40 w-full bg-gradient-to-t from-black opacity-60 "></div>
+                        <div className="absolute bottom-0 h-40 w-full bg-gradient-to-t from-black opacity-60 "></div>
                         <div className='absolute w-full text-center px-6 py-4 text-white drop-shadow-xl' >
                             <h1 className='text-4xl'>{recipe.name}</h1>
                             <div className="mb-2 text-2xl">by {recipe.user.username}</div>
@@ -74,7 +69,7 @@ const RecipeInfo = ({ recipe }) => {
 }
 
 const Options = ({ recipe }) => {
-    const { isLoggedIn } = useSelector(state => state.auth);
+    const { user, isLoggedIn } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -100,8 +95,9 @@ const Options = ({ recipe }) => {
                 onClick={favoriteRecipeHandler(recipe)} // Call deleteHandler when clicked.
                 className="bg-yellow-300 hover:bg-yellow-100 p-4 w-auto rounded-full">
 
-                {localStorage.getItem("favorites") === null
-                    || !localStorage.getItem("favorites").some(f => f.id === recipe.id)
+                {console.log(user.favorites)}
+
+                {!user.favorites.includes(recipe.id)
                     ? <img src={icon_favorite_border} /> : <img src={icon_favorite} />
                 }
             </button>
