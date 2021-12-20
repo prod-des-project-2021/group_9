@@ -28,6 +28,10 @@ const MyRecipes = () => {
         setFilter(filter);
     }
 
+    function addRecipe(recipe) {
+        setRecipes(recipes.concat(recipe));
+    }
+
     return (
         <div className="font-Mali">
             <div className="bg-yellow-200 flex items-center h-16">
@@ -38,7 +42,7 @@ const MyRecipes = () => {
             {filter === 0
                 ? <div className="w-full flex justify-center pt-4">
                     <CustomizedDialogs>
-                        <Form />
+                        <Form handleAddRecipe={addRecipe} />
                     </CustomizedDialogs>
                 </div>
                 : null

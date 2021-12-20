@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Form({ handleClose }) {
+function Form({ handleClose, handleAddRecipe }) {
   const classes = useStyles()
 
   const [recipe, setRecipe] = useState({
@@ -65,22 +65,17 @@ function Form({ handleClose }) {
     formData.append("ingredients", JSON.stringify(recipe.ingredients))
     formData.append("steps", JSON.stringify(recipe.steps))
 
-    /* formData.append('recipe', recipe) */
-
-    console.log(recipe);
-
     setButtonEnabled(false)
 
     if (validate()) {
       recipeService.create(formData)
-        .then(() => {
-            handleClose()
-            // we shouldnt reload the window, insted just add the added recipe to the 'recipes' state
-            //window.location.reload()
-            dispatch(setMessage('Recipe added!', true))
+        .then(data => {
+          handleAddRecipe(data);
+          handleClose()
+          dispatch(setMessage('Recipe added!', true))
         })
         .catch((err) => {
-            dispatch(setMessage(err))
+          dispatch(setMessage(err))
         })
     }
   };
@@ -196,11 +191,11 @@ function Form({ handleClose }) {
 
   return (
     <Container
-    style={{
-      borderRadius: 20,
-      color: '#000000',
-      backgroundColor: "#F5D142",
-  }}>
+      style={{
+        borderRadius: 20,
+        color: '#000000',
+        backgroundColor: "#F5D142",
+      }}>
       <form className={classes.root} onSubmit={handleSubmit}>
         <div>
           <h1>Add name</h1>
